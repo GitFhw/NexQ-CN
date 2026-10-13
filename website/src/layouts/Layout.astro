@@ -1,28 +1,33 @@
 ---
 import '../styles/global.css';
+import { t, type WebsiteLocale } from '../i18n';
 
 interface Props {
   title?: string;
   description?: string;
+  locale?: WebsiteLocale;
 }
 
-const {
-  title = 'NexQ — AI Meeting Assistant & Real-Time Interview Copilot',
-  description = 'Free, open-source AI meeting assistant. 10 STT providers, 8 LLM providers, local RAG pipeline. 100% local processing — no bots join your calls.',
-} = Astro.props;
+const { title, description, locale = 'en' } = Astro.props;
+const pageTitle = title ?? (locale === 'zh-CN'
+  ? 'NexQ — AI 会议助手与实时面试助手'
+  : 'NexQ — AI Meeting Assistant & Real-Time Interview Copilot');
+const pageDescription = description ?? (locale === 'zh-CN'
+  ? '免费开源的 AI 会议助手，支持 10 种语音识别服务、8 种大语言模型和本地 RAG 知识库。100% 本地处理，无机器人加入通话。'
+  : 'Free, open-source AI meeting assistant. 10 STT providers, 8 LLM providers, local RAG pipeline. 100% local processing — no bots join your calls.');
 ---
 
 <!doctype html>
-<html lang="en" class="bg-surface text-text-primary">
+<html lang={locale} class="bg-surface text-text-primary">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#0c0c14" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:image" content="/NexQ/og-image.jpeg" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -38,7 +43,7 @@ const {
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/NexQ/nexq-logo.png" />
 
-    <title>{title}</title>
+    <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen bg-surface text-text-primary antialiased">
     <slot />

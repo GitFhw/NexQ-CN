@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useToastStore } from "../stores/toastStore";
 import type { Toast as ToastData } from "../stores/toastStore";
@@ -80,14 +81,14 @@ function ToastItem({ toast, onDismiss }: { toast: ToastData; onDismiss: () => vo
 
       {/* Message */}
       <p className="flex-1 min-w-0 pt-[3px] text-sm font-medium leading-snug text-foreground/90">
-        {toast.message}
+        {t(toast.message)}
       </p>
 
       {/* Dismiss button — visible on hover or always on touch */}
       <button
         onClick={handleDismiss}
         className="shrink-0 rounded-lg p-1 text-muted-foreground/30 transition-all duration-150 hover:bg-accent hover:text-foreground/70 group-hover:text-muted-foreground/60"
-        aria-label="Dismiss notification"
+        aria-label={t("Dismiss notification")}
       >
         <X className="h-3.5 w-3.5" />
       </button>
@@ -113,7 +114,7 @@ export function ToastContainer() {
   return (
     <div
       className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2.5"
-      aria-label="Notifications"
+      aria-label={t("Notifications")}
     >
       {toasts.map((toast) => (
         <ToastItem

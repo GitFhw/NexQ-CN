@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import type { OpenRouterModel } from "../../lib/types";
 import { useConfigStore } from "../../stores/configStore";
@@ -155,25 +156,18 @@ export function OpenRouterModelCatalog({ models }: OpenRouterModelCatalogProps) 
 
       {/* All Models */}
       <div>
-        <h4 className="text-[11px] uppercase tracking-wider text-muted-foreground/40 mb-1 pl-0.5">
-          All Models
-        </h4>
+        <h4 className="text-[11px] uppercase tracking-wider text-muted-foreground/40 mb-1 pl-0.5">{t("All Models")}</h4>
         <p className="text-[11px] text-muted-foreground/30 mb-2 pl-0.5">
-          {filtered.length} models
-          {activeFilters.length > 0 && ` · filtered: ${activeFilters.join(", ")}`}
+          {filtered.length} {t("models\r\n          ")}{activeFilters.length > 0 && ` · filtered: ${activeFilters.join(", ")}`}
         </p>
 
         {filtered.length === 0 ? (
           <div className="rounded-lg border border-border/20 bg-accent/10 px-4 py-6 text-center">
-            <p className="text-sm text-muted-foreground/50">
-              No models match your filters
-            </p>
+            <p className="text-sm text-muted-foreground/50">{t("No models match your filters")}</p>
             <button
               onClick={resetFilters}
               className="mt-2 text-xs text-primary hover:underline cursor-pointer"
-            >
-              Reset filters
-            </button>
+            >{t("Reset filters")}</button>
           </div>
         ) : (
           <div className="flex flex-col gap-1.5 max-h-[520px] overflow-y-auto pr-1 scrollbar-thin">
@@ -192,8 +186,7 @@ export function OpenRouterModelCatalog({ models }: OpenRouterModelCatalogProps) 
                 onClick={() => setVisibleCount((c) => c + VISIBLE_BATCH)}
                 className="py-2 text-xs text-muted-foreground/40 hover:text-muted-foreground/60 cursor-pointer"
               >
-                Show more ({filtered.length - visibleCount} remaining)
-              </button>
+                {t("Show more (")}{filtered.length - visibleCount} {t("remaining)\r\n              ")}</button>
             )}
           </div>
         )}

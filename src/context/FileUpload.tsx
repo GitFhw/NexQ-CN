@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useCallback } from "react";
 import { CloudUpload, Loader2 } from "lucide-react";
 import { open } from "@tauri-apps/plugin-dialog";
@@ -109,7 +110,7 @@ export function FileUpload() {
         }}
         role="button"
         tabIndex={0}
-        aria-label="Drop files here or click to browse"
+        aria-label={t("Drop files here or click to browse")}
         className={`relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed transition-all duration-200 ${
           isDragOver
             ? "border-primary/60 bg-primary/5 scale-[1.01]"
@@ -119,9 +120,7 @@ export function FileUpload() {
         {isProcessing ? (
           <>
             <Loader2 className="mb-2 h-8 w-8 animate-spin text-primary/60" />
-            <p className="text-sm font-medium text-muted-foreground">
-              Processing file...
-            </p>
+            <p className="text-sm font-medium text-muted-foreground">{t("Processing file...")}</p>
           </>
         ) : (
           <>
@@ -131,17 +130,13 @@ export function FileUpload() {
               }`}
             />
             <p className="text-sm font-medium text-muted-foreground">
-              {isDragOver ? "Drop to upload" : "Drag files here"}
+              {isDragOver ? t("Drop to upload") : t("Drag files here")}
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              PDF, TXT, Markdown, or DOCX
-            </p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("PDF, TXT, Markdown, or DOCX")}</p>
             <button
               onClick={handleBrowse}
               className="mt-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10 hover:text-primary"
-            >
-              Browse Files
-            </button>
+            >{t("Browse Files")}</button>
           </>
         )}
       </div>

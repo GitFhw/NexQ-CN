@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import featuresData from '../data/features.json';
+import { t, type WebsiteLocale } from '../i18n';
 
 /* ─── Types ─── */
 
@@ -30,9 +31,11 @@ const springTransition = {
 function FeatureCard({
   feature,
   reducedMotion,
+  locale,
 }: {
   feature: Feature;
   reducedMotion: boolean;
+  locale: WebsiteLocale;
 }) {
   return (
     <motion.div
@@ -47,7 +50,7 @@ function FeatureCard({
       <div className="flex items-start justify-between">
         <span className="text-2xl">{feature.icon}</span>
         {feature.isNew ? (
-          <span className="badge-new">NEW</span>
+          <span className="badge-new">{t('NEW', locale)}</span>
         ) : (
           <span className="badge-version">{feature.version}</span>
         )}
@@ -55,12 +58,12 @@ function FeatureCard({
 
       {/* Name */}
       <p className="mt-3 text-sm font-semibold text-text-primary">
-        {feature.name}
+        {t(feature.name, locale)}
       </p>
 
       {/* Description */}
       <p className="mt-1 line-clamp-2 text-xs text-text-muted">
-        {feature.description}
+        {t(feature.description, locale)}
       </p>
     </motion.div>
   );
@@ -68,7 +71,7 @@ function FeatureCard({
 
 /* ─── Main Component ─── */
 
-export default function FeatureGrid() {
+export default function FeatureGrid({ locale }: { locale: WebsiteLocale }) {
   const prefersReduced = useReducedMotion();
   const reducedMotion = prefersReduced ?? false;
 
@@ -83,9 +86,9 @@ export default function FeatureGrid() {
     <div className="section-container">
       {/* Section Header */}
       <div className="mb-12 text-center">
-        <h2 className="section-title">Every feature, at a glance</h2>
+        <h2 className="section-title">{t('Every feature, at a glance', locale)}</h2>
         <p className="section-subtitle mx-auto">
-          20+ features across audio, AI, productivity, and privacy.
+          {t('20+ features across audio, AI, productivity, and privacy.', locale)}
         </p>
       </div>
 
@@ -103,7 +106,7 @@ export default function FeatureGrid() {
                   : 'border border-white/5 bg-surface-raised text-text-secondary hover:text-text-primary'
               }`}
             >
-              {cat}
+              {t(cat, locale)}
             </button>
           );
         })}
@@ -120,6 +123,7 @@ export default function FeatureGrid() {
               key={feature.name}
               feature={feature}
               reducedMotion={reducedMotion}
+              locale={locale}
             />
           ))}
         </motion.div>

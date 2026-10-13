@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 // SP2 Task 3: Standalone BookmarkToast — singleton interactive toast for bookmark creation.
 // Triggered via CustomEvent "bookmark-toast-show". One at a time — new bookmark replaces previous.
 // Step 1: Confirmation with auto-dismiss timer. Step 2: Optional note input with timer pause.
@@ -150,7 +151,7 @@ export function BookmarkToast() {
 
             {/* Label */}
             <span className="flex-1 text-sm font-medium text-foreground">
-              Bookmarked{" "}
+              {t("Bookmarked")}{" "}
               <span className="tabular-nums text-muted-foreground">{timeLabel}</span>
             </span>
 
@@ -160,15 +161,14 @@ export function BookmarkToast() {
                 onClick={() => setShowNoteInput(true)}
                 className="shrink-0 rounded-md px-2 py-0.5 text-xs font-medium text-emerald-500 transition-colors hover:bg-emerald-500/10"
               >
-                + Note
-              </button>
+                {t("+ Note\r\n              ")}</button>
             )}
 
             {/* Dismiss X */}
             <button
               onClick={dismiss}
               className="shrink-0 rounded-md p-0.5 text-muted-foreground/60 transition-colors hover:bg-accent hover:text-foreground"
-              aria-label="Dismiss"
+              aria-label={t("Dismiss")}
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -193,15 +193,13 @@ export function BookmarkToast() {
                     dismiss();
                   }
                 }}
-                placeholder="Add a note..."
+                placeholder={t("Add a note...")}
                 className="flex-1 rounded-md border border-border/60 bg-background px-2 py-1 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20"
               />
               <button
                 onClick={saveNote}
                 className="shrink-0 rounded-md bg-emerald-500/15 px-2.5 py-1 text-xs font-medium text-emerald-500 transition-colors hover:bg-emerald-500/25"
-              >
-                Save
-              </button>
+              >{t("Save")}</button>
             </div>
           )}
         </div>

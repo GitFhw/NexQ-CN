@@ -6,6 +6,7 @@
 // == AUDIO TYPES ==
 
 export type AudioSource = "Mic" | "System" | "Room";
+export type UILocale = "zh-CN" | "en";
 
 // == MEETING MODE TYPES ==
 

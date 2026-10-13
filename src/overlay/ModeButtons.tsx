@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useStreamStore } from "../stores/streamStore";
 import { useAIActionsStore } from "../stores/aiActionsStore";
@@ -91,7 +92,7 @@ export function ModeButtons() {
   const handleClick = useCallback(
     (mode: string) => {
       if (isStreaming) {
-        if (currentMode === mode) cancelGeneration().catch(() => showToast("Couldn't cancel generation", "error"));
+        if (currentMode === mode) cancelGeneration().catch(() => showToast(t("Couldn't cancel generation"), "error"));
         return;
       }
       // AskQuestion mode: toggle ask input instead of direct generation
@@ -99,7 +100,7 @@ export function ModeButtons() {
         setAskInputVisible((v) => !v);
         return;
       }
-      generateAssist(mode).catch((err) => showToast(err instanceof Error ? err.message : "Couldn't generate AI response", "error"));
+      generateAssist(mode).catch((err) => showToast(err instanceof Error ? err.message : t("Couldn't generate AI response"), "error"));
     },
     [isStreaming, currentMode]
   );
@@ -108,7 +109,7 @@ export function ModeButtons() {
     const text = askInputText.trim();
     if (!text || isStreaming) return;
     generateAssist("AskQuestion", text).catch((err) =>
-      showToast(err instanceof Error ? err.message : "Couldn't send question", "error")
+      showToast(err instanceof Error ? err.message : t("Couldn't send question"), "error")
     );
     setAskInputText("");
     setAskInputVisible(false);
@@ -120,12 +121,13 @@ export function ModeButtons() {
         {visibleModes.map(({ mode, label, shortcut, icon: Icon, isCustom }) => {
           const isActive = currentMode === mode && isStreaming;
           const isAskActive = mode === "AskQuestion" && askInputVisible && !isStreaming;
+          const displayLabel = isCustom ? label : t(label);
           return (
             <button
               key={mode}
               onClick={() => handleClick(mode)}
               disabled={isStreaming && !isActive}
-              aria-label={shortcut ? `${label} (${shortcut})` : label}
+              aria-label={shortcut ? `${displayLabel} (${shortcut})` : displayLabel}
               aria-pressed={isActive || isAskActive}
               className={`flex items-center gap-1 rounded-lg px-2 py-1 text-meta font-medium transition-all duration-150 cursor-pointer ${
                 isActive
@@ -138,7 +140,7 @@ export function ModeButtons() {
               } ${isStreaming && !isActive ? "opacity-40 cursor-not-allowed" : ""}`}
             >
               {isActive ? <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" /> : <Icon className="h-3 w-3" aria-hidden="true" />}
-              <span>{label}</span>
+              <span>{displayLabel}</span>
             </button>
           );
         })}
@@ -156,8 +158,8 @@ export function ModeButtons() {
               if (e.key === "Enter") { e.preventDefault(); handleAskSubmit(); }
               if (e.key === "Escape") { e.preventDefault(); setAskInputVisible(false); }
             }}
-            placeholder="Ask about the meeting..."
-            aria-label="Ask a question"
+            placeholder={t("Ask about the meeting...")}
+            aria-label={t("Ask a question")}
             autoFocus
             maxLength={2000}
             className="flex-1 min-w-0 bg-transparent text-xs text-foreground/90 placeholder:text-muted-foreground/50 outline-none"
@@ -166,14 +168,14 @@ export function ModeButtons() {
             onClick={handleAskSubmit}
             disabled={!askInputText.trim()}
             className="rounded-md p-1 text-info/60 hover:bg-info/10 hover:text-info disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-            aria-label="Send question"
+            aria-label={t("Send question")}
           >
             <Send className="h-3 w-3" aria-hidden="true" />
           </button>
           <button
             onClick={() => setAskInputVisible(false)}
             className="rounded-md p-1 text-muted-foreground/60 hover:bg-accent hover:text-muted-foreground transition-colors"
-            aria-label="Close question input"
+            aria-label={t("Close question input")}
           >
             <X className="h-3 w-3" aria-hidden="true" />
           </button>

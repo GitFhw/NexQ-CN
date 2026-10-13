@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useConfigStore } from "../stores/configStore";
 import { showToast } from "../stores/toastStore";
@@ -86,7 +87,10 @@ export function HotkeySettings() {
 
       if (conflictingAction) {
         setConflict(
-          `"${combo}" is already used by "${HOTKEY_LABELS[conflictingAction[0]]}"`
+          t('"{combo}" is already used by "{action}"', {
+            combo,
+            action: t(HOTKEY_LABELS[conflictingAction[0]]),
+          })
         );
         // Still set it -- user was warned, and they can fix the other one
       } else {
@@ -96,7 +100,7 @@ export function HotkeySettings() {
       const updated: HotkeyConfig = { ...hotkeys, [editingKey]: combo };
       setHotkeys(updated);
       setEditingKey(null);
-      showToast(`Hotkey updated: ${HOTKEY_LABELS[editingKey]} = ${combo}`, "success");
+      showToast(t("Hotkey updated: {key} = {combo}", { key: t(HOTKEY_LABELS[editingKey]), combo }), "success");
     };
 
     listenerRef.current = handler;
@@ -117,7 +121,7 @@ export function HotkeySettings() {
     setHotkeys(DEFAULT_HOTKEYS);
     setEditingKey(null);
     setConflict(null);
-    showToast("Hotkeys reset to defaults", "info");
+    showToast(t("Hotkeys reset to defaults"), "info");
   }, [setHotkeys]);
 
   const handleCancelEdit = useCallback(() => {
@@ -132,23 +136,17 @@ export function HotkeySettings() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Keyboard className="h-4 w-4 text-primary" />
-            <h3 className="text-sm font-semibold text-primary/80">
-              Keyboard Shortcuts
-            </h3>
+            <h3 className="text-sm font-semibold text-primary/80">{t("Keyboard Shortcuts")}</h3>
           </div>
           <button
             onClick={handleResetDefaults}
             className="flex items-center gap-1.5 rounded-lg border border-border/50 bg-secondary/30 px-3 py-2 text-xs font-medium text-muted-foreground transition-all duration-150 hover:bg-secondary hover:text-foreground hover:-translate-y-px active:translate-y-px active:scale-[0.97] cursor-pointer"
-            aria-label="Reset all hotkeys to defaults"
+            aria-label={t("Reset all hotkeys to defaults")}
           >
-            <RotateCcw className="h-3 w-3" />
-            Reset to Defaults
-          </button>
+            <RotateCcw className="h-3 w-3" />{t("Reset to Defaults")}</button>
         </div>
 
-        <p className="mt-2 text-xs text-muted-foreground">
-          Click on any binding to change it, then press your desired key combination.
-        </p>
+        <p className="mt-2 text-xs text-muted-foreground">{t("Click on any binding to change it, then press your desired key combination.")}</p>
       </div>
 
       {/* Conflict warning */}
@@ -163,12 +161,8 @@ export function HotkeySettings() {
         <table className="w-full text-xs">
           <thead>
             <tr className="border-b border-border/20 bg-secondary/20">
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                Action
-              </th>
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                Binding
-              </th>
+              <th className="px-4 py-3 text-left font-medium text-muted-foreground">{t("Action")}</th>
+              <th className="px-4 py-3 text-left font-medium text-muted-foreground">{t("Binding")}</th>
             </tr>
           </thead>
           <tbody>
@@ -188,7 +182,10 @@ export function HotkeySettings() {
                     }}
                     tabIndex={0}
                     role="button"
-                    aria-label={`Change hotkey for ${HOTKEY_LABELS[action]}, currently ${binding}`}
+                    aria-label={t("Change hotkey for {action}, currently {binding}", {
+                      action: t(HOTKEY_LABELS[action]),
+                      binding,
+                    })}
                     className={`cursor-pointer transition-colors duration-100 ${
                       isEditing
                         ? "bg-primary/10"
@@ -196,23 +193,19 @@ export function HotkeySettings() {
                     } ${idx < arr.length - 1 ? "border-b border-border/20" : ""}`}
                   >
                     <td className="px-4 py-2.5 text-foreground/80">
-                      {HOTKEY_LABELS[action]}
+                      {t(HOTKEY_LABELS[action])}
                     </td>
                     <td className="px-4 py-2.5">
                       {isEditing ? (
                         <span className="inline-flex items-center gap-2">
-                          <span className="animate-pulse rounded-lg bg-primary/20 px-2.5 py-1 font-mono text-primary">
-                            Press a key...
-                          </span>
+                          <span className="animate-pulse rounded-lg bg-primary/20 px-2.5 py-1 font-mono text-primary">{t("Press a key...")}</span>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               handleCancelEdit();
                             }}
                             className="rounded-lg px-2 py-1 text-meta text-muted-foreground hover:bg-accent hover:text-foreground"
-                          >
-                            Cancel
-                          </button>
+                          >{t("Cancel")}</button>
                         </span>
                       ) : (
                         <kbd className="rounded-lg bg-secondary/60 px-2 py-1 font-mono text-xs text-foreground">
@@ -229,9 +222,7 @@ export function HotkeySettings() {
       </div>
 
       {/* Info */}
-      <p className="text-xs text-muted-foreground/70">
-        Changes are saved automatically. Global shortcuts require Ctrl or Cmd modifier.
-      </p>
+      <p className="text-xs text-muted-foreground/70">{t("Changes are saved automatically. Global shortcuts require Ctrl or Cmd modifier.")}</p>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import { useCallback } from "react";
 import type { Meeting } from "../../lib/types";
 import type { SummaryGenerationState } from "../../hooks/useSummaryGeneration";
@@ -109,8 +110,8 @@ export function SummaryView({ meeting, generation, onExport }: SummaryViewProps)
     if (text) {
       try {
         await navigator.clipboard.writeText(stripThinkTags(text));
-        showToast("Copied to clipboard", "success");
-      } catch { showToast("Couldn't copy to clipboard", "error"); }
+        showToast(t("Copied to clipboard"), "success");
+      } catch { showToast(t("Couldn't copy to clipboard"), "error"); }
     }
   }, [meeting.summary, generation.streamedContent]);
 
@@ -122,15 +123,13 @@ export function SummaryView({ meeting, generation, onExport }: SummaryViewProps)
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-primary">
             <Loader2 className="h-4 w-4 animate-spin" />
-            <span className="font-medium">Generating summary...</span>
+            <span className="font-medium">{t("Generating summary...")}</span>
           </div>
           <button
             onClick={generation.cancel}
             className="flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs text-muted-foreground/50 hover:bg-secondary hover:text-foreground cursor-pointer"
           >
-            <X className="h-3.5 w-3.5" />
-            Cancel
-          </button>
+            <X className="h-3.5 w-3.5" />{t("Cancel")}</button>
         </div>
         <div>
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
@@ -152,9 +151,7 @@ export function SummaryView({ meeting, generation, onExport }: SummaryViewProps)
         <button
           onClick={generation.generate}
           className="rounded-xl bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/20 cursor-pointer"
-        >
-          Regenerate Summary
-        </button>
+        >{t("Regenerate Summary")}</button>
       </div>
     );
   }
@@ -167,23 +164,19 @@ export function SummaryView({ meeting, generation, onExport }: SummaryViewProps)
         <div className="flex items-center gap-2 px-5 py-2.5 border-b border-border/20">
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground/50">
             <Sparkles className="h-3 w-3" />
-            <span>AI Generated</span>
+            <span>{t("AI Generated")}</span>
           </div>
           <div className="flex-1" />
           <button
             onClick={handleCopy}
             className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground/60 hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
           >
-            <Copy className="h-3.5 w-3.5" />
-            Copy
-          </button>
+            <Copy className="h-3.5 w-3.5" />{t("Copy")}</button>
           <button
             onClick={onExport}
             className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground/60 hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
           >
-            <Download className="h-3.5 w-3.5" />
-            Export
-          </button>
+            <Download className="h-3.5 w-3.5" />{t("Export")}</button>
         </div>
         <div className="flex-1 overflow-y-auto px-5 py-4">
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
@@ -198,16 +191,14 @@ export function SummaryView({ meeting, generation, onExport }: SummaryViewProps)
   return (
     <div className="flex flex-col items-center justify-center py-16">
       <Sparkles className="mb-4 h-8 w-8 text-primary/20" />
-      <p className="mb-1 text-sm font-semibold text-muted-foreground/50">No summary yet</p>
-      <p className="mb-5 text-xs text-muted-foreground/40">Generate an AI summary from the transcript</p>
+      <p className="mb-1 text-sm font-semibold text-muted-foreground/50">{t("No summary yet")}</p>
+      <p className="mb-5 text-xs text-muted-foreground/40">{t("Generate an AI summary from the transcript")}</p>
       <button
         onClick={generation.generate}
         disabled={isOtherStreaming || meeting.transcript.length === 0}
         className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/10 transition-all duration-200 hover:shadow-lg hover:shadow-primary/20 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
       >
-        <Sparkles className="h-4 w-4" />
-        Generate Summary
-      </button>
+        <Sparkles className="h-4 w-4" />{t("Generate Summary")}</button>
     </div>
   );
 }

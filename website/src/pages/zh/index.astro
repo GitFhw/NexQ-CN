@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Hero from '../../components/Hero.tsx';
+import FeatureScroller from '../../components/FeatureScroller.tsx';
+import UseCases from '../../components/UseCases.tsx';
+import FeatureGrid from '../../components/FeatureGrid.tsx';
+import Comparison from '../../components/Comparison.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import SettingsShowcase from '../../components/SettingsShowcase.tsx';
+import TechStack from '../../components/TechStack.astro';
+import OpenSource from '../../components/OpenSource.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import Footer from '../../components/Footer.astro';
+import type { WebsiteLocale } from '../../i18n';
+
+const locale: WebsiteLocale = 'zh-CN';
+---
+
+<Layout locale={locale}>
+  <Navbar locale={locale} />
+  <main class="pt-16">
+    <Hero locale={locale} client:load />
+    <section id="features">
+      <FeatureScroller locale={locale} client:visible />
+    </section>
+    <section id="use-cases">
+      <UseCases locale={locale} client:visible />
+    </section>
+    <FeatureGrid locale={locale} client:visible />
+    <SettingsShowcase locale={locale} client:visible />
+
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+    </div>
+
+    <section id="compare">
+      <Comparison locale={locale} />
+    </section>
+    <section id="docs">
+      <HowItWorks locale={locale} />
+    </section>
+
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+    </div>
+
+    <TechStack locale={locale} />
+
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+    </div>
+
+    <OpenSource locale={locale} />
+    <FinalCTA locale={locale} />
+  </main>
+  <Footer locale={locale} />
+</Layout>

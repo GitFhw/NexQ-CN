@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import type { OpenRouterModel } from "../../lib/types";
 import { Star } from "lucide-react";
 
@@ -92,35 +93,23 @@ export function ModelCard({
           {model.provider_name}
         </span>
         {isNew(model.created) && (
-          <span className="text-[9px] px-1.5 py-px rounded bg-emerald-500/12 text-emerald-500 shrink-0">
-            NEW
-          </span>
+          <span className="text-[9px] px-1.5 py-px rounded bg-emerald-500/12 text-emerald-500 shrink-0">{t("NEW")}</span>
         )}
         {model.is_free && (
-          <span className="text-[9px] px-1.5 py-px rounded bg-green-500/15 text-green-500 font-semibold shrink-0">
-            FREE
-          </span>
+          <span className="text-[9px] px-1.5 py-px rounded bg-green-500/15 text-green-500 font-semibold shrink-0">{t("FREE")}</span>
         )}
         {goodForMeetings && (
-          <span className="text-[9px] px-1.5 py-px rounded bg-primary/12 text-primary shrink-0">
-            Good for meetings
-          </span>
+          <span className="text-[9px] px-1.5 py-px rounded bg-primary/12 text-primary shrink-0">{t("Good for meetings")}</span>
         )}
         <div className="ml-auto flex gap-1 shrink-0">
           {model.supports_tools && (
-            <span className="text-[9px] px-1.5 py-px rounded bg-yellow-500/12 text-yellow-500">
-              tools
-            </span>
+            <span className="text-[9px] px-1.5 py-px rounded bg-yellow-500/12 text-yellow-500">{t("tools")}</span>
           )}
           {model.supports_reasoning && (
-            <span className="text-[9px] px-1.5 py-px rounded bg-emerald-500/12 text-emerald-500">
-              reasoning
-            </span>
+            <span className="text-[9px] px-1.5 py-px rounded bg-emerald-500/12 text-emerald-500">{t("reasoning")}</span>
           )}
           {model.supports_web_search && (
-            <span className="text-[9px] px-1.5 py-px rounded bg-pink-500/12 text-pink-500">
-              web
-            </span>
+            <span className="text-[9px] px-1.5 py-px rounded bg-pink-500/12 text-pink-500">{t("web")}</span>
           )}
         </div>
       </div>
@@ -133,38 +122,37 @@ export function ModelCard({
       {/* Row 3: Stats */}
       <div className="flex items-center gap-3.5 text-[11px] text-muted-foreground/65">
         {model.is_free ? (
-          <span className="text-green-500 font-semibold">Free</span>
+          <span className="text-green-500 font-semibold">{t("Free")}</span>
         ) : (
           <>
             <span>
               <b className="font-semibold">{formatPrice(model.pricing.prompt)}</b>
-              <span className="opacity-50">/M in</span>
+              <span className="opacity-50">{t("/M in")}</span>
             </span>
             <span>
               <b className="font-semibold">{formatPrice(model.pricing.completion)}</b>
-              <span className="opacity-50">/M out</span>
+              <span className="opacity-50">{t("/M out")}</span>
             </span>
           </>
         )}
         <span>
           <b className="font-semibold">{formatContext(model.context_length)}</b>
-          <span className="opacity-50"> ctx</span>
+          <span className="opacity-50">{t("ctx")}</span>
         </span>
         {model.max_completion_tokens && (
           <span>
             <b className="font-semibold">
               {formatContext(model.max_completion_tokens)}
             </b>
-            <span className="opacity-50"> max</span>
+            <span className="opacity-50">{t("max")}</span>
           </span>
         )}
         <span className="ml-auto text-[10px]">
           {model.is_free ? (
-            <span className="text-green-500 font-medium">Free / meeting</span>
+            <span className="text-green-500 font-medium">{t("Free / meeting")}</span>
           ) : (
             <span className="text-primary font-medium">
-              ~${meetingCost < 0.01 ? meetingCost.toFixed(4) : meetingCost.toFixed(2)} / meeting
-            </span>
+              ~${meetingCost < 0.01 ? meetingCost.toFixed(4) : meetingCost.toFixed(2)} {t("/ meeting\r\n            ")}</span>
           )}
         </span>
       </div>

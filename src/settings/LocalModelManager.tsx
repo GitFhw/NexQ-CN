@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 // Model download/management UI for local STT engines.
 // Tracks active model, auto-activates on first download, supports Set Active.
 
@@ -70,7 +71,7 @@ export function LocalModelManager({ compact, engineFilter }: LocalModelManagerPr
               if (engine.engine === "whisper_cpp") {
                 setActiveWhisperModel(firstDownloaded.id);
               }
-              showToast(`Model "${firstDownloaded.name}" activated for ${engine.name}`, "success");
+              showToast(t('Model "{name}" activated for {engine}', { name: firstDownloaded.name, engine: t(engine.name) }), "success");
             }
           }
         }
@@ -81,9 +82,7 @@ export function LocalModelManager({ compact, engineFilter }: LocalModelManagerPr
   if (loading) {
     return (
       <div className="flex items-center gap-2 py-4 text-xs text-muted-foreground">
-        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-        Loading local models...
-      </div>
+        <Loader2 className="h-3.5 w-3.5 animate-spin" />{t("Loading local models...")}</div>
     );
   }
 
@@ -102,7 +101,7 @@ export function LocalModelManager({ compact, engineFilter }: LocalModelManagerPr
                 {engine.name}
               </h4>
               <p className="text-meta text-muted-foreground mt-0.5">
-                {engine.description}
+                {t(engine.description)}
               </p>
             </div>
           )}
@@ -135,17 +134,17 @@ export function LocalModelManager({ compact, engineFilter }: LocalModelManagerPr
                         setActiveModelForEngine(model.engine, null);
                         if (model.engine === "whisper_cpp") setActiveWhisperModel(null);
                       }
-                      showToast(`Deleted ${model.name}`, "success");
+                      showToast(t("Deleted {name}", { name: model.name }), "success");
                       loadEngines();
                     } catch (err) {
-                      showToast(`Failed to delete: ${err}`, "error");
+                      showToast(t("Failed to delete: {error}", { error: String(err) }), "error");
                     }
                   }}
                   onSetActive={() => {
                     setActiveModelForEngine(model.engine, model.id);
                     // Keep legacy field in sync for whisper_cpp
                     if (model.engine === "whisper_cpp") setActiveWhisperModel(model.id);
-                    showToast(`Activated "${model.name}" for ${engine.name}`, "success");
+                    showToast(t('Activated "{name}" for {engine}', { name: model.name, engine: t(engine.name) }), "success");
                   }}
                 />
               );
@@ -263,9 +262,7 @@ function ModelRow({
               {compact ? model.id : model.name}
             </span>
             {isActive && (
-              <span className="shrink-0 rounded bg-primary/20 px-1.5 py-0.5 text-meta font-semibold text-primary">
-                Active
-              </span>
+              <span className="shrink-0 rounded bg-primary/20 px-1.5 py-0.5 text-meta font-semibold text-primary">{t("Active")}</span>
             )}
           </div>
           {!compact && (
@@ -273,8 +270,8 @@ function ModelRow({
               <span className="text-meta text-muted-foreground">
                 {sizeLabel}
               </span>
-              <RatingBadge label="Accuracy" value={model.accuracy_rating} max={5} />
-              <RatingBadge label="Speed" value={model.speed_rating} max={5} />
+              <RatingBadge label={t("Accuracy")} value={model.accuracy_rating} max={5} />
+              <RatingBadge label={t("Speed")} value={model.speed_rating} max={5} />
             </div>
           )}
         </div>
@@ -285,7 +282,7 @@ function ModelRow({
             <button
               onClick={onCancel}
               className="rounded-md p-1.5 text-muted-foreground hover:text-red-500 hover:bg-red-500/10"
-              title="Cancel download"
+              title={t("Cancel download")}
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -295,10 +292,10 @@ function ModelRow({
                 <button
                   onClick={onSetActive}
                   className="inline-flex items-center gap-1 rounded-md bg-accent px-2 py-1 text-meta font-medium text-foreground hover:bg-primary/10 hover:text-primary"
-                  title="Set as active model"
+                  title={t("Set as active model")}
                 >
                   <CircleDot className="h-3 w-3" />
-                  {compact ? "" : "Activate"}
+                  {compact ? "" : t("Activate")}
                 </button>
               )}
               {isActive && (
@@ -307,7 +304,7 @@ function ModelRow({
               <button
                 onClick={onDelete}
                 className="rounded-md p-1.5 text-muted-foreground hover:text-red-500 hover:bg-red-500/10"
-                title="Delete model"
+                title={t("Delete model")}
               >
                 <Trash2 className="h-3 w-3" />
               </button>
@@ -318,7 +315,7 @@ function ModelRow({
               className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-1 text-meta font-medium text-primary hover:bg-primary/20"
             >
               <Download className="h-3 w-3" />
-              {compact ? "" : "Download"}
+              {compact ? "" : t("Download")}
             </button>
           )}
         </div>
@@ -336,9 +333,9 @@ function ModelRow({
           <div className="mt-0.5 flex items-center justify-between text-meta text-muted-foreground">
             <span>
               {progress.status === "extracting"
-                ? "Extracting..."
+                ? t("Extracting...")
                 : progress.status === "verifying"
-                  ? "Verifying..."
+                  ? t("Verifying...")
                   : `${formatSize(progress.downloaded_bytes)} / ${formatSize(progress.total_bytes)}`}
             </span>
             <span>{Math.round(progress.percent)}%</span>

@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import type { TranslationResult } from "../lib/types";
 import { Copy, X } from "lucide-react";
 
@@ -32,9 +33,7 @@ export function TranslationPopup({ result, onClose }: TranslationPopupProps) {
           onClick={handleCopy}
           className="ml-auto flex items-center gap-1 text-primary/50 hover:text-primary transition-colors"
         >
-          <Copy className="h-3 w-3" />
-          Copy
-        </button>
+          <Copy className="h-3 w-3" />{t("Copy")}</button>
       </div>
     </div>
   );

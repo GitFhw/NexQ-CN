@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDevLogStore } from "../stores/devLogStore";
 import { Copy, ExternalLink, Trash2, X } from "lucide-react";
@@ -16,7 +17,7 @@ async function openDetachedDevLog() {
     const devUrl = `${window.location.origin}${window.location.pathname}?view=devlog`;
     new WebviewWindow("devlog", {
       url: devUrl,
-      title: "NexQ Dev Log",
+      title: t("NexQ Dev Log"),
       width: 700,
       height: 450,
       resizable: true,
@@ -75,7 +76,7 @@ export function DevLogPanel({
         onMouseDown={onMouseDown}
         className="h-1.5 shrink-0 cursor-ns-resize hover:bg-primary/20 transition-colors flex items-center justify-center"
         role="separator"
-        aria-label="Resize dev log panel"
+        aria-label={t("Resize dev log panel")}
       >
         <div className="h-0.5 w-8 rounded-full bg-border/30" />
       </div>
@@ -157,9 +158,7 @@ function DevLogContent({
     <>
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b border-border/20 px-3 py-1.5">
-        <span className="text-meta font-semibold uppercase tracking-wider text-muted-foreground/70">
-          Dev Log
-        </span>
+        <span className="text-meta font-semibold uppercase tracking-wider text-muted-foreground/70">{t("Dev Log")}</span>
         <div className="flex items-center gap-1.5">
           {/* Category filter buttons */}
           {FILTER_CATEGORIES.map((cat) => (
@@ -181,14 +180,14 @@ function DevLogContent({
           <button
             onClick={handleCopyAll}
             className="rounded p-1 text-muted-foreground/60 hover:bg-accent/50 hover:text-foreground"
-            aria-label="Copy all"
+            aria-label={t("Copy all" )}
           >
             <Copy className="h-3 w-3" />
           </button>
           <button
             onClick={clear}
             className="rounded p-1 text-muted-foreground/60 hover:bg-accent/50 hover:text-foreground"
-            aria-label="Clear"
+            aria-label={t("Clear")}
           >
             <Trash2 className="h-3 w-3" />
           </button>
@@ -196,7 +195,7 @@ function DevLogContent({
             <button
               onClick={onDetach}
               className="rounded p-1 text-muted-foreground/60 hover:bg-accent/50 hover:text-foreground"
-              aria-label="Open in separate window"
+              aria-label={t("Open in separate window")}
             >
               <ExternalLink className="h-3 w-3" />
             </button>
@@ -205,7 +204,7 @@ function DevLogContent({
             <button
               onClick={onClose}
               className="rounded p-1 text-muted-foreground/60 hover:bg-accent/50 hover:text-foreground"
-              aria-label="Close (Esc)"
+              aria-label={t("Close (Esc)")}
             >
               <X className="h-3 w-3" />
             </button>
@@ -221,7 +220,7 @@ function DevLogContent({
       >
         {filteredEntries.length === 0 ? (
           <div className="flex h-full min-h-[60px] items-center justify-center text-muted-foreground/60">
-            {entries.length === 0 ? "Waiting for speech events..." : `No ${filterCategory} entries`}
+            {entries.length === 0 ? t("Waiting for speech events...") : `No ${filterCategory} entries`}
           </div>
         ) : (
           filteredEntries.map((entry) => (

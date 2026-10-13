@@ -1,20 +1,27 @@
 ---
+import { t, type WebsiteLocale } from '../i18n';
+
+interface Props {
+  locale: WebsiteLocale;
+}
+
+const { locale } = Astro.props;
 const techs = [
-  { icon: '🖥️', name: 'Tauri 2', role: 'Desktop Framework', delay: 0 },
-  { icon: '🦀', name: 'Rust', role: 'Backend & Audio', delay: 50 },
-  { icon: '⚛️', name: 'React 18', role: 'User Interface', delay: 100 },
-  { icon: '🔷', name: 'TypeScript', role: 'Type Safety', delay: 150 },
-  { icon: '🎨', name: 'Tailwind CSS', role: 'Styling', delay: 200 },
-  { icon: '🗃️', name: 'SQLite', role: 'Local Database', delay: 250 },
-  { icon: '🎙️', name: 'WASAPI', role: 'Audio Capture', delay: 300 },
+  { icon: '🖥️', name: 'Tauri 2', role: t('Desktop Framework', locale), delay: 0 },
+  { icon: '🦀', name: 'Rust', role: t('Backend & Audio', locale), delay: 50 },
+  { icon: '⚛️', name: 'React 18', role: t('User Interface', locale), delay: 100 },
+  { icon: '🔷', name: 'TypeScript', role: t('Type Safety', locale), delay: 150 },
+  { icon: '🎨', name: 'Tailwind CSS', role: t('Styling', locale), delay: 200 },
+  { icon: '🗃️', name: 'SQLite', role: t('Local Database', locale), delay: 250 },
+  { icon: '🎙️', name: 'WASAPI', role: t('Audio Capture', locale), delay: 300 },
 ];
 ---
 
 <section class="section-container">
   <div class="text-center">
-    <h2 class="section-title">Built with Rust for speed and safety</h2>
+    <h2 class="section-title">{t('Built with Rust for speed and safety', locale)}</h2>
     <p class="section-subtitle mx-auto text-center">
-      Native performance meets modern web technology.
+      {t('Native performance meets modern web technology.', locale)}
     </p>
   </div>
 

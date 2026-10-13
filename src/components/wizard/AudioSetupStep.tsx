@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 // Wizard Step 2: Audio Setup — two-party device selection with smart suggestion.
 
 import { useEffect, useState, useRef, useCallback } from "react";
@@ -197,10 +198,8 @@ export function AudioSetupStep() {
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 shadow-md shadow-primary/10">
           <Mic className="h-7 w-7 text-primary" />
         </div>
-        <h2 className="text-2xl font-bold text-foreground">Audio Setup</h2>
-        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-          Choose audio sources for you and the other party.
-        </p>
+        <h2 className="text-2xl font-bold text-foreground">{t("Audio Setup")}</h2>
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{t("Choose audio sources for you and the other party.")}</p>
       </div>
 
       <div className="w-full max-w-lg space-y-5">
@@ -213,22 +212,18 @@ export function AudioSetupStep() {
           {isScanning ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              Scanning devices...
-            </>
+              {t("Scanning devices...\r\n            ")}</>
           ) : (
             <>
               <Wand2 className="h-4 w-4" />
-              Smart Detect Sources
-            </>
+              {t("Smart Detect Sources\r\n            ")}</>
           )}
         </button>
 
         {/* Scan Results */}
         {scanResults.length > 0 && (
           <div className="rounded-xl border border-border/40 bg-secondary/20 p-3.5 space-y-1.5">
-            <p className="text-meta font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">
-              Scan Results
-            </p>
+            <p className="text-meta font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">{t("Scan Results")}</p>
             {scanResults.map((r) => (
               <div
                 key={r.device.id}
@@ -244,10 +239,9 @@ export function AudioSetupStep() {
                 </span>
                 {r.hasAudio ? (
                   <span className="flex items-center gap-1 text-success">
-                    <CheckCircle className="h-3 w-3" /> Active
-                  </span>
+                    <CheckCircle className="h-3 w-3" />{t("Active")}</span>
                 ) : (
-                  <span className="text-muted-foreground/50">Silent</span>
+                  <span className="text-muted-foreground/50">{t("Silent")}</span>
                 )}
               </div>
             ))}
@@ -257,11 +251,8 @@ export function AudioSetupStep() {
         {/* YOUR Source */}
         <div className="space-y-2.5">
           <label className="flex items-center gap-2.5 text-sm font-medium text-foreground">
-            <span className="rounded-lg bg-primary/10 px-2 py-1 text-meta font-semibold uppercase tracking-wide text-primary">
-              You
-            </span>
-            Audio Source
-          </label>
+            <span className="rounded-lg bg-primary/10 px-2 py-1 text-meta font-semibold uppercase tracking-wide text-primary">{t("You")}</span>
+            {t("Audio Source\r\n          ")}</label>
           <select
             value={config.you.device_id}
             onChange={(e) => {
@@ -272,22 +263,22 @@ export function AudioSetupStep() {
             className="w-full rounded-xl border border-border/40 bg-background px-4 py-3 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
           >
             <option value="default">
-              {loadingDevices ? "Detecting devices..." : "Default microphone"}
+              {loadingDevices ? t("Detecting devices...") : t("Default microphone")}
             </option>
             {devices.inputs.length > 0 && (
-              <optgroup label="Microphones">
+              <optgroup label={t("Microphones")}>
                 {devices.inputs.map((d) => (
                   <option key={d.id} value={d.id}>
-                    {d.name}{d.is_default ? " (Default)" : ""}
+                    {d.name}{d.is_default ? t(" (Default)") : ""}
                   </option>
                 ))}
               </optgroup>
             )}
             {devices.outputs.length > 0 && (
-              <optgroup label="Speakers / Output">
+              <optgroup label={t("Speakers / Output")}>
                 {devices.outputs.map((d) => (
                   <option key={d.id} value={d.id}>
-                    {d.name}{d.is_default ? " (Default)" : ""}
+                    {d.name}{d.is_default ? t(" (Default)") : ""}
                   </option>
                 ))}
               </optgroup>
@@ -298,11 +289,8 @@ export function AudioSetupStep() {
         {/* THEIR Source */}
         <div className="space-y-2.5">
           <label className="flex items-center gap-2.5 text-sm font-medium text-foreground">
-            <span className="rounded-lg bg-muted px-2 py-1 text-meta font-semibold uppercase tracking-wide text-muted-foreground">
-              Them
-            </span>
-            Audio Source
-          </label>
+            <span className="rounded-lg bg-muted px-2 py-1 text-meta font-semibold uppercase tracking-wide text-muted-foreground">{t("Them")}</span>
+            {t("Audio Source\r\n          ")}</label>
           <select
             value={config.them.device_id}
             onChange={(e) => {
@@ -313,22 +301,22 @@ export function AudioSetupStep() {
             className="w-full rounded-xl border border-border/40 bg-background px-4 py-3 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
           >
             <option value="default">
-              {loadingDevices ? "Detecting devices..." : "Default output (loopback)"}
+              {loadingDevices ? t("Detecting devices...") : t("Default output (loopback)")}
             </option>
             {devices.outputs.length > 0 && (
-              <optgroup label="Speakers / Output">
+              <optgroup label={t("Speakers / Output")}>
                 {devices.outputs.map((d) => (
                   <option key={d.id} value={d.id}>
-                    {d.name}{d.is_default ? " (Default)" : ""}
+                    {d.name}{d.is_default ? t(" (Default)") : ""}
                   </option>
                 ))}
               </optgroup>
             )}
             {devices.inputs.length > 0 && (
-              <optgroup label="Microphones">
+              <optgroup label={t("Microphones")}>
                 {devices.inputs.map((d) => (
                   <option key={d.id} value={d.id}>
-                    {d.name}{d.is_default ? " (Default)" : ""}
+                    {d.name}{d.is_default ? t(" (Default)") : ""}
                   </option>
                 ))}
               </optgroup>
@@ -342,16 +330,12 @@ export function AudioSetupStep() {
           disabled={loadingDevices}
           className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
         >
-          <RefreshCw className={`h-3 w-3 ${loadingDevices ? "animate-spin" : ""}`} />
-          Refresh devices
-        </button>
+          <RefreshCw className={`h-3 w-3 ${loadingDevices ? "animate-spin" : ""}`} />{t("Refresh devices")}</button>
 
         {/* Live Audio Test */}
         <div className="rounded-xl border border-border/40 bg-secondary/20 p-5">
           <div className="mb-4 flex items-center justify-between">
-            <p className="text-sm font-semibold text-foreground">
-              Microphone Test
-            </p>
+            <p className="text-sm font-semibold text-foreground">{t("Microphone Test")}</p>
             <button
               onClick={handleLiveTest}
               disabled={!config.you.device_id}
@@ -364,10 +348,10 @@ export function AudioSetupStep() {
               {isTestingAudio ? (
                 <>
                   <div className="h-2 w-2 animate-pulse rounded-full bg-destructive" />
-                  Stop ({testCountdown}s)
+                  {t("Stop (")}{testCountdown}s)
                 </>
               ) : (
-                "Test Audio"
+                t("Test Audio")
               )}
             </button>
           </div>
@@ -375,11 +359,11 @@ export function AudioSetupStep() {
           {/* Level Meter */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="w-8 text-xs text-muted-foreground">Mic</span>
+              <span className="w-8 text-xs text-muted-foreground">{t("Mic")}</span>
               <div
                 className="relative h-4 flex-1 overflow-hidden rounded-full bg-muted"
                 role="meter"
-                aria-label="Microphone audio level"
+                aria-label={t("Microphone audio level")}
                 aria-valuenow={Math.round(micLevel * 100)}
                 aria-valuemin={0}
                 aria-valuemax={100}
@@ -408,8 +392,8 @@ export function AudioSetupStep() {
 
             <p className="text-center text-xs text-muted-foreground">
               {isTestingAudio
-                ? "Speak now to verify your microphone..."
-                : 'Click "Test Audio" and speak to check'}
+                ? t("Speak now to verify your microphone...")
+                : t("Click \"Test Audio\" and speak to check")}
             </p>
           </div>
         </div>

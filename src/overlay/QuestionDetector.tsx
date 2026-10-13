@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { HelpCircle, Sparkles, Check, Clock, X } from "lucide-react";
 import { onQuestionDetected } from "../lib/events";
@@ -69,7 +70,7 @@ export function QuestionDetector() {
   const previousQuestions = questions.slice(1, 4);
 
   return (
-    <div className="flex flex-col gap-2.5" role="region" aria-label="Detected questions">
+    <div className="flex flex-col gap-2.5" role="region" aria-label={t("Detected questions")}>
       {/* Latest question — prominent card */}
       <div
         className={`group flex items-start gap-3 rounded-lg transition-all duration-200 ${
@@ -99,9 +100,7 @@ export function QuestionDetector() {
               &ldquo;{latest.text}&rdquo;
             </p>
           ) : (
-            <p className="text-xs text-muted-foreground/50">
-              Listening for questions from the other party
-            </p>
+            <p className="text-xs text-muted-foreground/50">{t("Listening for questions from the other party")}</p>
           )}
         </div>
 
@@ -109,7 +108,7 @@ export function QuestionDetector() {
           <div className="flex shrink-0 items-center gap-1">
             <button
               onClick={(e) => { e.stopPropagation(); handleAssist(0); }}
-              aria-label={latest.assisted ? "Already answered" : "Get AI assistance for this question"}
+              aria-label={t(latest.assisted ? "Already answered" : "Get AI assistance for this question")}
               className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-150 cursor-pointer ${
                 latest.assisted
                   ? "bg-success/10 border border-success/20 text-success"
@@ -117,14 +116,14 @@ export function QuestionDetector() {
               }`}
             >
               {latest.assisted ? (
-                <><Check className="h-3.5 w-3.5" aria-hidden="true" />Answered</>
+                <><Check className="h-3.5 w-3.5" aria-hidden="true" />{t("Answered")}</>
               ) : (
-                <><Sparkles className="h-3.5 w-3.5" aria-hidden="true" />Assist</>
+                <><Sparkles className="h-3.5 w-3.5" aria-hidden="true" />{t("Assist")}</>
               )}
             </button>
             <button
               onClick={(e) => handleDismiss(0, e)}
-              aria-label="Dismiss question"
+              aria-label={t("Dismiss question")}
               className="rounded-lg p-1.5 text-muted-foreground/30 opacity-0 transition-all duration-150 hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100 cursor-pointer"
             >
               <X className="h-3.5 w-3.5" />
@@ -177,7 +176,7 @@ export function QuestionDetector() {
                 )}
                 <button
                   onClick={(e) => handleDismiss(realIdx, e)}
-                  aria-label="Dismiss question"
+                  aria-label={t("Dismiss question")}
                   className="rounded p-0.5 text-muted-foreground/0 opacity-0 transition-all duration-150 hover:bg-destructive/10 hover:text-destructive group-hover/q:opacity-100 group-hover/q:text-muted-foreground/30 cursor-pointer"
                 >
                   <X className="h-3 w-3" />

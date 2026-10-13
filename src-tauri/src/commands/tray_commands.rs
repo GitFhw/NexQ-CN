@@ -34,6 +34,7 @@ pub async fn set_tray_state(
         manager.meeting_start_time,
         manager.is_muted,
         manager.custom_tooltip.as_deref(),
+        &manager.locale,
     );
     if let Some(tray) = app.tray_by_id("main") {
         if let Err(e) = tray.set_tooltip(Some(&tooltip_text)) {
@@ -92,6 +93,7 @@ pub async fn set_tray_tooltip(
         manager.meeting_start_time,
         manager.is_muted,
         manager.custom_tooltip.as_deref(),
+        &manager.locale,
     );
     if let Some(tray) = app.tray_by_id("main") {
         tray.set_tooltip(Some(&tooltip_text)).map_err(|e| e.to_string())?;
@@ -143,6 +145,7 @@ pub async fn set_meeting_start_time(
                     m.meeting_start_time,
                     m.is_muted,
                     m.custom_tooltip.as_deref(),
+                    &m.locale,
                 );
                 if let Some(tray) = app_clone.tray_by_id("main") {
                     let _ = tray.set_tooltip(Some(&text));
@@ -164,11 +167,20 @@ pub async fn set_meeting_start_time(
 pub async fn rebuild_tray_menu(
     app: AppHandle,
     meeting_active: bool,
+    locale: String,
 ) -> Result<(), String> {
+    let locale = if locale == "en" { "en" } else { "zh-CN" };
+    {
+        let app_state = app.state::<AppState>();
+        let mut manager = app_state.tray_manager.lock().map_err(|e| e.to_string())?;
+        if let Some(manager) = manager.as_mut() {
+            manager.locale = locale.to_string();
+        }
+    }
     let menu = if meeting_active {
-        crate::tray::menu::build_meeting_menu(&app).map_err(|e| e.to_string())?
+        crate::tray::menu::build_meeting_menu(&app, locale).map_err(|e| e.to_string())?
     } else {
-        crate::tray::menu::build_idle_menu(&app).map_err(|e| e.to_string())?
+        crate::tray::menu::build_idle_menu(&app, locale).map_err(|e| e.to_string())?
     };
 
     if let Some(tray) = app.tray_by_id("main") {

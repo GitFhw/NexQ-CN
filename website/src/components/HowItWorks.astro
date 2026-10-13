@@ -1,28 +1,35 @@
 ---
+import { t, type WebsiteLocale } from '../i18n';
+
+interface Props {
+  locale: WebsiteLocale;
+}
+
+const { locale } = Astro.props;
 const steps = [
   {
     number: '1',
-    title: 'Download',
-    description: 'One-click Windows installer. No admin rights needed.',
+    title: t('Download', locale),
+    description: t('One-click Windows installer. No admin rights needed.', locale),
     delay: 0,
   },
   {
     number: '2',
-    title: 'Configure',
-    description: 'Add API keys for cloud providers, or use free local models like Whisper and Ollama.',
+    title: t('Configure', locale),
+    description: t('Add API keys for cloud providers, or use free local models like Whisper and Ollama.', locale),
     delay: 150,
   },
   {
     number: '3',
-    title: 'Start',
-    description: 'Join any meeting platform. NexQ captures system audio automatically.',
+    title: t('Start', locale),
+    description: t('Join any meeting platform. NexQ captures system audio automatically.', locale),
     delay: 300,
   },
 ];
 ---
 
 <section class="section-container">
-  <h2 class="section-title text-center">Get started in 30 seconds</h2>
+  <h2 class="section-title text-center">{t('Get started in 30 seconds', locale)}</h2>
 
   <div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
     {steps.map((step) => (

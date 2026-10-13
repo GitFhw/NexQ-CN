@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import type { MeetingSummary } from "../lib/types";
 import { getDateGroup } from "../lib/utils";
 import { MeetingCard } from "./MeetingCard";
@@ -58,12 +59,8 @@ export function RecentMeetings({
         <div className="mb-3 rounded-full bg-primary/10 p-3.5">
           <Mic className="h-4.5 w-4.5 text-primary/30" />
         </div>
-        <p className="text-xs font-medium text-muted-foreground/50">
-          No meetings yet
-        </p>
-        <p className="mt-1 text-meta text-muted-foreground/60">
-          Start a meeting to see it here
-        </p>
+        <p className="text-xs font-medium text-muted-foreground/50">{t("No meetings yet")}</p>
+        <p className="mt-1 text-meta text-muted-foreground/60">{t("Start a meeting to see it here")}</p>
       </div>
     );
   }

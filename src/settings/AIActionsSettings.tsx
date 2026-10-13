@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAIActionsStore } from "../stores/aiActionsStore";
 import type { ActionConfig, InstructionPresets } from "../lib/types";
@@ -160,7 +161,7 @@ function HelpButton({
           ? "border-primary/40 bg-primary/10 text-primary"
           : "border-border/40 text-muted-foreground/60 hover:border-border/60 hover:text-muted-foreground"
       } h-[18px] w-[18px]`}
-      title="Show explanation"
+      title={t("Show explanation")}
     >
       {isOpen ? <X className="h-2.5 w-2.5" /> : <HelpCircle className="h-2.5 w-2.5" />}
     </button>
@@ -379,16 +380,15 @@ export function AIActionsSettings() {
         <div className="rounded-xl border border-border/30 bg-card/50 p-4">
           <SectionHeader
             icon={MessageSquare}
-            title="Response Style"
-            subtitle="How the AI formats and phrases its answers"
+            title={t("Response Style")}
+            subtitle={t("How the AI formats and phrases its answers")}
           />
 
           <div className="space-y-4">
             {/* Tone */}
             <div>
               <label className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                Tone
-                <HelpButton id="tone" activeId={openHelp} onToggle={toggleHelp} />
+                {t("Tone\r\n                ")}<HelpButton id="tone" activeId={openHelp} onToggle={toggleHelp} />
               </label>
               {openHelp === "tone" && <HelpPanel id="tone" />}
               <div className="mt-2 flex flex-wrap gap-1.5">
@@ -402,7 +402,7 @@ export function AIActionsSettings() {
                         : "text-muted-foreground hover:bg-accent/50"
                     }`}
                   >
-                    {opt.label}
+                    {t(opt.label)}
                   </button>
                 ))}
               </div>
@@ -411,8 +411,7 @@ export function AIActionsSettings() {
             {/* Format */}
             <div>
               <label className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                Format
-                <HelpButton id="format" activeId={openHelp} onToggle={toggleHelp} />
+                {t("Format\r\n                ")}<HelpButton id="format" activeId={openHelp} onToggle={toggleHelp} />
               </label>
               {openHelp === "format" && <HelpPanel id="format" />}
               <div className="mt-2 flex flex-wrap gap-1.5">
@@ -426,7 +425,7 @@ export function AIActionsSettings() {
                         : "text-muted-foreground hover:bg-accent/50"
                     }`}
                   >
-                    {opt.label}
+                    {t(opt.label)}
                   </button>
                 ))}
               </div>
@@ -435,8 +434,7 @@ export function AIActionsSettings() {
             {/* Length */}
             <div>
               <label className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                Length
-                <HelpButton id="length" activeId={openHelp} onToggle={toggleHelp} />
+                {t("Length\r\n                ")}<HelpButton id="length" activeId={openHelp} onToggle={toggleHelp} />
               </label>
               {openHelp === "length" && <HelpPanel id="length" />}
               <div className="mt-2 flex flex-wrap gap-1.5">
@@ -450,7 +448,7 @@ export function AIActionsSettings() {
                         : "text-muted-foreground hover:bg-accent/50"
                     }`}
                   >
-                    {opt.label}
+                    {t(opt.label)}
                   </button>
                 ))}
               </div>
@@ -459,8 +457,7 @@ export function AIActionsSettings() {
             {/* Perspective */}
             <div>
               <label className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                Perspective
-                <HelpButton id="opinion" activeId={openHelp} onToggle={toggleHelp} />
+                {t("Perspective\r\n                ")}<HelpButton id="opinion" activeId={openHelp} onToggle={toggleHelp} />
               </label>
               {openHelp === "opinion" && <HelpPanel id="opinion" />}
               <div className="mt-2 flex flex-wrap gap-1.5">
@@ -474,7 +471,7 @@ export function AIActionsSettings() {
                         : "text-muted-foreground hover:bg-accent/50"
                     }`}
                   >
-                    {opt.label}
+                    {t(opt.label)}
                   </button>
                 ))}
               </div>
@@ -483,9 +480,7 @@ export function AIActionsSettings() {
             {/* Active preset summary */}
             {presetSummary && (
               <div className="rounded-lg border border-primary/10 bg-primary/5 px-3 py-2 flex items-center gap-2">
-                <span className="text-meta font-semibold text-primary/80 uppercase tracking-wider shrink-0">
-                  Active
-                </span>
+                <span className="text-meta font-semibold text-primary/80 uppercase tracking-wider shrink-0">{t("Active")}</span>
                 <span className="text-xs text-foreground/80">{presetSummary}</span>
               </div>
             )}
@@ -496,12 +491,11 @@ export function AIActionsSettings() {
             <div>
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                  Additional Instructions
-                  <HelpButton id="instructions" activeId={openHelp} onToggle={toggleHelp} />
+                  {t("Additional Instructions\r\n                  ")}<HelpButton id="instructions" activeId={openHelp} onToggle={toggleHelp} />
                 </label>
                 <div className="flex items-center gap-3 text-meta text-muted-foreground/70">
-                  <span>{configs.customInstructions.length} chars</span>
-                  <span>~{instructionTokens} tokens</span>
+                  <span>{configs.customInstructions.length} {t("chars")}</span>
+                  <span>~{instructionTokens} {t("tokens")}</span>
                 </div>
               </div>
               {openHelp === "instructions" && <HelpPanel id="instructions" />}
@@ -509,7 +503,7 @@ export function AIActionsSettings() {
                 rows={3}
                 value={configs.customInstructions}
                 onChange={(e) => handleCustomInstructionsChange(e.target.value)}
-                placeholder="Add extra instructions beyond the presets above..."
+                placeholder={t("Add extra instructions beyond the presets above...")}
                 className="mt-2 w-full resize-none rounded-lg border border-border/50 bg-secondary/30 px-3 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20"
               />
             </div>
@@ -522,8 +516,8 @@ export function AIActionsSettings() {
           <div className="rounded-xl border border-border/30 bg-card/50 p-4">
             <SectionHeader
               icon={Zap}
-              title="AI Behavior"
-              subtitle="Control automation and response characteristics"
+              title={t("AI Behavior")}
+              subtitle={t("Control automation and response characteristics")}
             />
 
             <div className="space-y-4">
@@ -531,13 +525,12 @@ export function AIActionsSettings() {
               <div>
                 <div className="flex items-center justify-between">
                   <label className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                    Auto-Trigger
-                    <HelpButton id="autoTrigger" activeId={openHelp} onToggle={toggleHelp} />
+                    {t("Auto-Trigger\r\n                    ")}<HelpButton id="autoTrigger" activeId={openHelp} onToggle={toggleHelp} />
                   </label>
                   <Toggle
                     checked={configs.globalDefaults.autoTrigger}
                     onChange={(v) => handleGlobalDefaultChange("autoTrigger", v)}
-                    label="Toggle auto-trigger"
+                    label={t("Toggle auto-trigger")}
                   />
                 </div>
                 {openHelp === "autoTrigger" && <HelpPanel id="autoTrigger" />}
@@ -549,8 +542,7 @@ export function AIActionsSettings() {
               <div>
                 <div className="flex items-center justify-between">
                   <label className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                    Temperature
-                    <HelpButton id="temperature" activeId={openHelp} onToggle={toggleHelp} />
+                    {t("Temperature\r\n                    ")}<HelpButton id="temperature" activeId={openHelp} onToggle={toggleHelp} />
                   </label>
                   <span className="rounded-md bg-secondary/50 px-2 py-0.5 text-xs font-medium tabular-nums text-foreground">
                     {configs.globalDefaults.temperature.toFixed(1)}
@@ -569,8 +561,8 @@ export function AIActionsSettings() {
                   className="mt-2 w-full cursor-pointer accent-primary"
                 />
                 <div className="mt-1 flex justify-between text-meta text-muted-foreground/70">
-                  <span>Precise 0.0</span>
-                  <span>Creative 1.0</span>
+                  <span>{t("Precise 0.0")}</span>
+                  <span>{t("Creative 1.0")}</span>
                 </div>
               </div>
             </div>
@@ -580,8 +572,8 @@ export function AIActionsSettings() {
           <div className="rounded-xl border border-border/30 bg-card/50 p-4">
             <SectionHeader
               icon={Layers}
-              title="Context Window"
-              subtitle="What data the AI considers when responding"
+              title={t("Context Window")}
+              subtitle={t("What data the AI considers when responding")}
             />
 
             <div className="space-y-4">
@@ -589,12 +581,10 @@ export function AIActionsSettings() {
               <div>
                 <div className="flex items-center justify-between">
                   <label className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                    Transcript Window
-                    <HelpButton id="transcriptWindow" activeId={openHelp} onToggle={toggleHelp} />
+                    {t("Transcript Window\r\n                    ")}<HelpButton id="transcriptWindow" activeId={openHelp} onToggle={toggleHelp} />
                   </label>
                   <span className="rounded-md bg-secondary/50 px-2 py-0.5 text-xs font-medium tabular-nums text-foreground">
-                    {globalWindowMin} min
-                  </span>
+                    {globalWindowMin} {t("min\r\n                  ")}</span>
                 </div>
                 {openHelp === "transcriptWindow" && <HelpPanel id="transcriptWindow" />}
                 <input
@@ -612,8 +602,8 @@ export function AIActionsSettings() {
                   className="mt-2 w-full cursor-pointer accent-primary"
                 />
                 <div className="mt-1 flex justify-between text-meta text-muted-foreground/70">
-                  <span>1 min</span>
-                  <span>30 min</span>
+                  <span>{t("1 min")}</span>
+                  <span>{t("30 min")}</span>
                 </div>
               </div>
 
@@ -622,16 +612,11 @@ export function AIActionsSettings() {
               {/* RAG Chunks — reference to Context Strategy */}
               <div>
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-medium text-muted-foreground">
-                    RAG Chunks
-                  </label>
-                  <span className="text-xs text-muted-foreground/60">
-                    Set in Context Strategy
-                  </span>
+                  <label className="text-xs font-medium text-muted-foreground">{t("RAG Chunks")}</label>
+                  <span className="text-xs text-muted-foreground/60">{t("Set in Context Strategy")}</span>
                 </div>
                 <p className="mt-1 text-meta text-muted-foreground/50">
-                  Document chunks per query are controlled by "Results to Retrieve (top-K)" in Context Strategy. Per-action overrides available in each action's Override Defaults.
-                </p>
+                  {t("Document chunks per query are controlled by \"Results to Retrieve (top-K)\" in Context Strategy. Per-action overrides available in each action's Override Defaults.\r\n                ")}</p>
               </div>
             </div>
           </div>
@@ -642,14 +627,14 @@ export function AIActionsSettings() {
       <div className="rounded-xl border border-border/30 bg-card/50 p-4">
         <SectionHeader
           icon={Sparkles}
-          title="Actions"
-          subtitle="Built-in and custom AI action modes"
+          title={t("Actions")}
+          subtitle={t("Built-in and custom AI action modes")}
         />
 
         {/* Built-in Actions */}
         <div>
           <h4 className="text-meta font-semibold uppercase tracking-wider text-muted-foreground/70 mb-2">
-            Built-in ({builtInActions.length})
+            {t("Built-in (")}{builtInActions.length})
           </h4>
           <div className="rounded-lg border border-border/20 divide-y divide-border/20 overflow-hidden">
             {builtInActions.map((action) => (
@@ -675,7 +660,7 @@ export function AIActionsSettings() {
         {/* Custom Actions */}
         <div className="mt-5">
           <h4 className="text-meta font-semibold uppercase tracking-wider text-muted-foreground/70 mb-2">
-            Custom ({customActions.length})
+            {t("Custom (")}{customActions.length})
           </h4>
 
           {customActions.length > 0 && (
@@ -701,9 +686,7 @@ export function AIActionsSettings() {
           )}
 
           {customActions.length === 0 && !showNewActionForm && (
-            <p className="py-2 text-center text-meta text-muted-foreground/60">
-              No custom actions yet
-            </p>
+            <p className="py-2 text-center text-meta text-muted-foreground/60">{t("No custom actions yet")}</p>
           )}
 
           {showNewActionForm && (
@@ -712,14 +695,14 @@ export function AIActionsSettings() {
                 type="text"
                 value={newActionName}
                 onChange={(e) => setNewActionName(e.target.value)}
-                placeholder="Action name"
+                placeholder={t("Action name")}
                 className="w-full rounded-lg border border-border/50 bg-secondary/30 px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20"
               />
               <textarea
                 rows={3}
                 value={newActionPrompt}
                 onChange={(e) => setNewActionPrompt(e.target.value)}
-                placeholder="System prompt for this action..."
+                placeholder={t("System prompt for this action...")}
                 className="w-full resize-none rounded-lg border border-border/50 bg-secondary/30 px-3 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/20"
               />
               <div className="flex gap-2">
@@ -728,9 +711,7 @@ export function AIActionsSettings() {
                   disabled={!newActionName.trim() || !newActionPrompt.trim()}
                   className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-colors duration-150 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Plus className="h-3 w-3" />
-                  Add
-                </button>
+                  <Plus className="h-3 w-3" />{t("Add")}</button>
                 <button
                   onClick={() => {
                     setShowNewActionForm(false);
@@ -738,9 +719,7 @@ export function AIActionsSettings() {
                     setNewActionPrompt("");
                   }}
                   className="rounded-lg border border-border/50 bg-secondary/30 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground"
-                >
-                  Cancel
-                </button>
+                >{t("Cancel")}</button>
               </div>
             </div>
           )}
@@ -750,9 +729,7 @@ export function AIActionsSettings() {
               onClick={() => setShowNewActionForm(true)}
               className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-border/50 py-2 text-xs font-medium text-muted-foreground cursor-pointer transition-colors duration-150 hover:border-primary/30 hover:text-primary"
             >
-              <Plus className="h-3.5 w-3.5" />
-              Add Custom Action
-            </button>
+              <Plus className="h-3.5 w-3.5" />{t("Add Custom Action")}</button>
           )}
         </div>
       </div>
@@ -862,18 +839,14 @@ function ActionCard({
           {/* System Prompt */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-medium text-muted-foreground">
-                System Prompt
-              </label>
+              <label className="text-xs font-medium text-muted-foreground">{t("System Prompt")}</label>
               {showReset && onResetPrompt && (
                 <button
                   onClick={onResetPrompt}
                   disabled={action.isDefaultPrompt}
                   className="flex items-center gap-1 text-meta font-medium text-muted-foreground transition-colors duration-150 hover:text-primary disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  <RotateCcw className="h-3 w-3" />
-                  Reset
-                </button>
+                  <RotateCcw className="h-3 w-3" />{t("Reset")}</button>
               )}
             </div>
             <textarea
@@ -886,9 +859,7 @@ function ActionCard({
 
           {/* Context Sources — two-column grid */}
           <div>
-            <label className="text-xs font-medium text-muted-foreground">
-              Context Sources
-            </label>
+            <label className="text-xs font-medium text-muted-foreground">{t("Context Sources")}</label>
             <div className="mt-1.5 grid grid-cols-2 gap-x-4 gap-y-1.5">
               {[
                 { key: "includeTranscript", label: "Transcript", checked: action.includeTranscript },
@@ -921,17 +892,14 @@ function ActionCard({
               ) : (
                 <ChevronRight className="h-3 w-3" />
               )}
-              Override Defaults
-            </button>
+              {t("Override Defaults\r\n            ")}</button>
 
             {isOverrideExpanded && (
               <div className="mt-2.5 space-y-3 rounded-lg border border-border/30 bg-secondary/10 p-3">
                 {/* Transcript Window Override */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-meta font-medium text-muted-foreground">
-                      Transcript Window
-                    </label>
+                    <label className="text-meta font-medium text-muted-foreground">{t("Transcript Window")}</label>
                     <span className="rounded bg-secondary/50 px-1.5 py-0.5 text-meta font-medium tabular-nums text-foreground">
                       {formatWindowDisplay(action.transcriptWindowSeconds)}
                     </span>
@@ -949,7 +917,7 @@ function ActionCard({
                         }
                         className="h-3 w-3 rounded border-border/50 accent-primary"
                       />
-                      <span className="text-meta text-muted-foreground">Override</span>
+                      <span className="text-meta text-muted-foreground">{t("Override")}</span>
                     </label>
                     {action.transcriptWindowSeconds !== null && (
                       <input
@@ -971,17 +939,15 @@ function ActionCard({
                   </div>
                   {action.transcriptWindowSeconds !== null && (
                     <div className="mt-1 flex justify-between text-meta text-muted-foreground/60">
-                      <span>All</span>
-                      <span>30 min</span>
+                      <span>{t("All")}</span>
+                      <span>{t("30 min")}</span>
                     </div>
                   )}
                 </div>
 
                 {/* RAG Top-K Override */}
                 <div className="flex items-center justify-between">
-                  <label className="text-meta font-medium text-muted-foreground">
-                    RAG Top-K
-                  </label>
+                  <label className="text-meta font-medium text-muted-foreground">{t("RAG Top-K")}</label>
                   <div className="flex items-center gap-2">
                     <label className="flex items-center gap-1.5 cursor-pointer">
                       <input
@@ -992,7 +958,7 @@ function ActionCard({
                         }
                         className="h-3 w-3 rounded border-border/50 accent-primary"
                       />
-                      <span className="text-meta text-muted-foreground">Override</span>
+                      <span className="text-meta text-muted-foreground">{t("Override")}</span>
                     </label>
                     {action.ragTopK !== null && (
                       <select
@@ -1015,12 +981,10 @@ function ActionCard({
                 {/* Temperature Override */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-meta font-medium text-muted-foreground">
-                      Temperature
-                    </label>
+                    <label className="text-meta font-medium text-muted-foreground">{t("Temperature")}</label>
                     <span className="rounded bg-secondary/50 px-1.5 py-0.5 text-meta font-medium tabular-nums text-foreground">
                       {action.temperature === null
-                        ? "Default"
+                        ? t("Default")
                         : action.temperature.toFixed(1)}
                     </span>
                   </div>
@@ -1034,7 +998,7 @@ function ActionCard({
                         }
                         className="h-3 w-3 rounded border-border/50 accent-primary"
                       />
-                      <span className="text-meta text-muted-foreground">Override</span>
+                      <span className="text-meta text-muted-foreground">{t("Override")}</span>
                     </label>
                     {action.temperature !== null && (
                       <input

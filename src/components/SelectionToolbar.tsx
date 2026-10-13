@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { t } from "../lib/i18n";
 import { useTranslationStore } from "../stores/translationStore";
 import { translateText } from "../lib/ipc";
 import type { TranslationResult } from "../lib/types";
@@ -102,7 +103,7 @@ export function SelectionToolbar() {
           className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors disabled:opacity-50"
         >
           <Languages className="h-3 w-3" />
-          {isTranslating ? "..." : "Translate"}
+          {isTranslating ? "..." : t("Translate")}
         </button>
         <button
           onClick={handleCopy}

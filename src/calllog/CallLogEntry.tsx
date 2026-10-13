@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useCallback } from "react";
 import { useCallLogStore } from "../stores/callLogStore";
 import { getModeLabel } from "../lib/utils";
@@ -77,9 +78,9 @@ export function CallLogEntry({ entry, isSelected }: Props) {
       {/* Mode badge */}
       <span
         className={`shrink-0 max-w-[100px] truncate rounded px-1.5 py-0.5 text-xs font-semibold ${colors.badge}`}
-        title={getModeLabel(entry.mode)}
+        title={t(getModeLabel(entry.mode))}
       >
-        {getModeLabel(entry.mode)}
+        {t(getModeLabel(entry.mode))}
       </span>
 
       {/* Context source badges */}
@@ -89,7 +90,7 @@ export function CallLogEntry({ entry, isSelected }: Props) {
             <span
               key={key}
               className={`rounded px-1 py-px text-meta font-bold ${color}`}
-              title={title}
+              title={t(title)}
             >
               {label}
             </span>
@@ -108,8 +109,7 @@ export function CallLogEntry({ entry, isSelected }: Props) {
       {/* Latency */}
       {entry.latencyMs != null && (
         <span className="shrink-0 text-xs tabular-nums text-muted-foreground/70">
-          {entry.latencyMs}ms
-        </span>
+          {entry.latencyMs}{t("ms\r\n        ")}</span>
       )}
 
       {/* Timestamp */}
@@ -121,7 +121,7 @@ export function CallLogEntry({ entry, isSelected }: Props) {
       {entry.temperature != null && (
         <span
           className="shrink-0 text-meta tabular-nums text-muted-foreground/50"
-          title={`Temperature: ${entry.temperature}`}
+          title={t("Temperature: {value}", { value: entry.temperature })}
         >
           {entry.temperature.toFixed(1)}&deg;
         </span>

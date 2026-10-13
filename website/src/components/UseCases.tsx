@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { t, type WebsiteLocale } from '../i18n';
 
 /* ─── Data ─── */
 
@@ -52,7 +53,7 @@ const springTransition = {
 
 /* ─── Component ─── */
 
-export default function UseCases() {
+export default function UseCases({ locale }: { locale: WebsiteLocale }) {
   const prefersReduced = useReducedMotion();
   const reducedMotion = prefersReduced ?? false;
 
@@ -65,9 +66,9 @@ export default function UseCases() {
     <div className="section-container">
       {/* Section Header */}
       <div className="mb-12 text-center">
-        <h2 className="section-title">Built for how you actually work</h2>
+        <h2 className="section-title">{t('Built for how you actually work', locale)}</h2>
         <p className="section-subtitle mx-auto">
-          Whether you're interviewing, studying, or collaborating — NexQ adapts.
+          {t("Whether you're interviewing, studying, or collaborating — NexQ adapts.", locale)}
         </p>
       </div>
 
@@ -86,7 +87,7 @@ export default function UseCases() {
               }`}
             >
               <span>{scenario.icon}</span>
-              <span>{scenario.label}</span>
+              <span>{t(scenario.label, locale)}</span>
             </button>
           );
         })}
@@ -105,7 +106,7 @@ export default function UseCases() {
           {/* Left: Description + Tags */}
           <div className="flex flex-col justify-center">
             <p className="text-base leading-relaxed text-text-secondary">
-              {activeScenario.description}
+              {t(activeScenario.description, locale)}
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               {activeScenario.tags.map((tag) => (
@@ -113,7 +114,7 @@ export default function UseCases() {
                   key={tag}
                   className="inline-flex rounded-full bg-accent-purple/10 px-2.5 py-1 text-xs text-accent-purple"
                 >
-                  {tag}
+                  {t(tag, locale)}
                 </span>
               ))}
             </div>
@@ -126,7 +127,7 @@ export default function UseCases() {
           >
             <img
               src={`${baseUrl}screenshots/${activeScenario.screenshot}`}
-              alt={`${activeScenario.label} screenshot`}
+              alt={`${t(activeScenario.label, locale)}${locale === 'zh-CN' ? '截图' : ' screenshot'}`}
               className="h-full w-full object-cover"
             />
           </div>

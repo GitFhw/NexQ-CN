@@ -1,3 +1,4 @@
+import { t } from "./lib/i18n";
 import { useEffect, useCallback, useState } from "react";
 import { useMeetingStore } from "./stores/meetingStore";
 import { useConfigStore } from "./stores/configStore";
@@ -35,8 +36,13 @@ function App() {
   const startMeetingFlow = useMeetingStore((s) => s.startMeetingFlow);
   const loadRecentMeetings = useMeetingStore((s) => s.loadRecentMeetings);
   const firstRunCompleted = useConfigStore((s) => s.firstRunCompleted);
+  const uiLocale = useConfigStore((s) => s.uiLocale);
   const configLoaded = useConfigStore((s) => s._loaded);
   const loadConfig = useConfigStore((s) => s.loadConfig);
+
+  useEffect(() => {
+    document.documentElement.lang = uiLocale;
+  }, [uiLocale]);
 
   // Wire up theme and global shortcuts
   useTheme();
@@ -285,7 +291,7 @@ function App() {
             <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center">
               <div className="h-3 w-3 rounded-full bg-primary/40 animate-pulse" />
             </div>
-            <div className="text-sm text-muted-foreground">Starting NexQ...</div>
+            <div className="text-sm text-muted-foreground">{t("Starting NexQ...")}</div>
           </div>
         )}
       </div>
@@ -301,9 +307,9 @@ function App() {
   if (isOverlayWindow) {
     return (
       <div className="h-screen w-screen overflow-hidden bg-transparent text-foreground">
-        <ErrorBoundary fallbackMessage="NexQ encountered an error">
+        <ErrorBoundary fallbackMessage={t("NexQ encountered an error")}>
           {currentView === "overlay" && (
-            <ErrorBoundary fallbackMessage="Failed to load overlay">
+            <ErrorBoundary fallbackMessage={t("Failed to load overlay")}>
               <div className="flex h-full">
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <OverlayView />
@@ -324,14 +330,14 @@ function App() {
 
   return (
     <div className={`h-screen w-screen overflow-hidden text-foreground ${resolvedView === "overlay" ? "bg-transparent" : "bg-background"}`}>
-      <ErrorBoundary fallbackMessage="NexQ encountered an error">
+      <ErrorBoundary fallbackMessage={t("NexQ encountered an error")}>
         {resolvedView === "launcher" && (
-          <ErrorBoundary fallbackMessage="Failed to load launcher">
+          <ErrorBoundary fallbackMessage={t("Failed to load launcher")}>
             <LauncherView />
           </ErrorBoundary>
         )}
         {resolvedView === "overlay" && (
-          <ErrorBoundary fallbackMessage="Failed to load overlay">
+          <ErrorBoundary fallbackMessage={t("Failed to load overlay")}>
             <div className="flex h-full">
               <div className="flex-1 min-w-0 overflow-hidden">
                 <OverlayView />
@@ -341,12 +347,12 @@ function App() {
           </ErrorBoundary>
         )}
         {resolvedView === "wizard" && (
-          <ErrorBoundary fallbackMessage="Failed to load setup wizard">
+          <ErrorBoundary fallbackMessage={t("Failed to load setup wizard")}>
             <FirstRunWizard />
           </ErrorBoundary>
         )}
         {resolvedView === "settings" && (
-          <ErrorBoundary fallbackMessage="Failed to load settings">
+          <ErrorBoundary fallbackMessage={t("Failed to load settings")}>
             <SettingsOverlay />
           </ErrorBoundary>
         )}

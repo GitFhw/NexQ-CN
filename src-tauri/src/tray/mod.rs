@@ -13,6 +13,7 @@ use tokio::task::JoinHandle;
 /// Manages tray icon state, icon swaps, tooltip updates, and animation timers.
 /// Accessed through AppState via Arc<Mutex<TrayManager>>.
 pub struct TrayManager {
+    pub locale: String,
     pub current_state: TrayState,
     pub icon_set: IconSet,
     pub meeting_start_time: Option<Instant>,
@@ -28,6 +29,7 @@ pub struct TrayManager {
 impl TrayManager {
     pub fn new(icon_set: IconSet) -> Self {
         Self {
+            locale: "zh-CN".to_string(),
             current_state: TrayState::Idle,
             icon_set,
             meeting_start_time: None,

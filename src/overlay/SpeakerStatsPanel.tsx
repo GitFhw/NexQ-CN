@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 // Speaker Stats Panel — scrollable, with inline rename
 // Shows per-speaker talk time %, word count, last spoke.
 
@@ -83,16 +84,14 @@ export function SpeakerStatsPanel({ isOpen }: SpeakerStatsPanelProps) {
     <div className="flex flex-col min-h-0">
       <div className="flex items-center gap-1.5 mb-1.5 px-1">
         <BarChart3 className="h-3.5 w-3.5 text-muted-foreground/60" />
-        <span className="text-meta font-semibold uppercase tracking-wider text-muted-foreground/60">
-          Speaker Stats
-        </span>
+        <span className="text-meta font-semibold uppercase tracking-wider text-muted-foreground/60">{t("Speaker Stats")}</span>
         <span className="ml-auto text-meta text-muted-foreground/40">
-          {speakers.length} speaker{speakers.length !== 1 ? "s" : ""}
+          {speakers.length} {t("speaker")}{speakers.length !== 1 ? "s" : ""}
         </span>
       </div>
 
       {speakers.length === 0 ? (
-        <p className="text-xs text-muted-foreground/50 py-1 px-1">No speakers tracked yet.</p>
+        <p className="text-xs text-muted-foreground/50 py-1 px-1">{t("No speakers tracked yet.")}</p>
       ) : (
         <div className="overflow-y-auto max-h-[200px] space-y-1 pr-1">
           {speakers.map((speaker) => {

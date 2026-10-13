@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useContextStore } from "../stores/contextStore";
 import { AlertTriangle } from "lucide-react";
 
@@ -32,9 +33,7 @@ export function TokenBudget() {
       {/* Header row */}
       <div className="mb-2.5 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-muted-foreground">
-            Token Budget
-          </span>
+          <span className="text-xs font-semibold text-muted-foreground">{t("Token Budget")}</span>
           {(isWarning || isCritical) && (
             <AlertTriangle
               className={`h-3.5 w-3.5 ${
@@ -44,8 +43,7 @@ export function TokenBudget() {
           )}
         </div>
         <span className="text-xs tabular-nums text-muted-foreground">
-          {formatNumber(usedTokens)} / {formatNumber(limit)} tokens used (
-          {usagePercent.toFixed(0)}%)
+          {formatNumber(usedTokens)} / {formatNumber(limit)} {t("tokens used (\r\n          ")}{usagePercent.toFixed(0)}%)
         </span>
       </div>
 
@@ -53,7 +51,7 @@ export function TokenBudget() {
       <div
         className="h-2.5 w-full overflow-hidden rounded-full bg-muted/40"
         role="meter"
-        aria-label="Token budget usage"
+        aria-label={t("Token budget usage")}
         aria-valuenow={usedTokens}
         aria-valuemin={0}
         aria-valuemax={limit}
@@ -71,7 +69,7 @@ export function TokenBudget() {
                   backgroundColor: segment.color,
                   minWidth: widthPercent > 0 ? "2px" : "0",
                 }}
-                title={`${segment.label}: ~${formatNumber(segment.tokens)} tokens`}
+                title={`${t(segment.label)}: ~${formatNumber(segment.tokens)} ${t("tokens")}`}
               />
             );
           })}
@@ -91,7 +89,7 @@ export function TokenBudget() {
                 style={{ backgroundColor: segment.color }}
               />
               <span className="text-meta tabular-nums text-muted-foreground">
-                {segment.label}: ~{formatNumber(segment.tokens)}
+                {t(segment.label)}: ~{formatNumber(segment.tokens)}
               </span>
             </div>
           ))}

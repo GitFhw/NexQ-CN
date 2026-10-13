@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { t, type WebsiteLocale } from '../i18n';
 
 /* ─── Data ─── */
 
@@ -101,11 +102,13 @@ const baseUrl = '/NexQ/';
 
 function Lightbox({
   feature,
+  locale,
   onClose,
   onPrev,
   onNext,
 }: {
   feature: HeroFeature;
+  locale: WebsiteLocale;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
@@ -157,7 +160,7 @@ function Lightbox({
           onClick={onClose}
           className="absolute -top-10 right-0 flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/20"
           style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#aaa' }}
-          aria-label="Close"
+          aria-label={t('Close', locale)}
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -170,7 +173,7 @@ function Lightbox({
           onClick={(e) => { e.stopPropagation(); onPrev(); }}
           className="absolute left-0 top-1/2 -translate-x-14 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-white/20"
           style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: '#aaa' }}
-          aria-label="Previous"
+          aria-label={t('Previous', locale)}
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -183,7 +186,7 @@ function Lightbox({
           onClick={(e) => { e.stopPropagation(); onNext(); }}
           className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-14 flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-white/20"
           style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: '#aaa' }}
-          aria-label="Next"
+          aria-label={t('Next', locale)}
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -195,7 +198,7 @@ function Lightbox({
           <motion.img
             key={feature.id}
             src={`${baseUrl}screenshots/${feature.screenshot}`}
-            alt={`${feature.name} screenshot`}
+            alt={`${t(feature.name, locale)}${locale === 'zh-CN' ? '截图' : ' screenshot'}`}
             className="max-h-[82vh] w-auto rounded-lg object-contain"
             style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.5)' }}
             initial={{ opacity: 0 }}
@@ -208,10 +211,10 @@ function Lightbox({
         {/* Caption + badges */}
         <div className="mt-4 flex items-center gap-2">
           <span className="text-sm font-medium" style={{ color: '#ccc' }}>
-            {feature.name}
+            {t(feature.name, locale)}
           </span>
           <span className="badge-version">{feature.version}</span>
-          {feature.isNew && <span className="badge-new">NEW</span>}
+          {feature.isNew && <span className="badge-new">{t('NEW', locale)}</span>}
         </div>
       </motion.div>
     </motion.div>
@@ -220,7 +223,7 @@ function Lightbox({
 
 /* ─── Main Component ─── */
 
-export default function FeatureScroller() {
+export default function FeatureScroller({ locale }: { locale: WebsiteLocale }) {
   const prefersReduced = useReducedMotion();
   const reducedMotion = prefersReduced ?? false;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -243,9 +246,9 @@ export default function FeatureScroller() {
     <div className="section-container">
       {/* Section Header */}
       <div className="mb-16 text-center">
-        <h2 className="section-title">Everything you need</h2>
+        <h2 className="section-title">{t('Everything you need', locale)}</h2>
         <p className="section-subtitle mx-auto">
-          Powerful features that run entirely on your machine.
+          {t('Powerful features that run entirely on your machine.', locale)}
         </p>
       </div>
 
@@ -274,10 +277,10 @@ export default function FeatureScroller() {
                       className="text-sm font-semibold"
                       style={{ color: isActive ? '#f0f0f5' : '#8888a0' }}
                     >
-                      {feature.name}
+                      {t(feature.name, locale)}
                     </span>
                     <span className="badge-version">{feature.version}</span>
-                    {feature.isNew && <span className="badge-new">NEW</span>}
+                    {feature.isNew && <span className="badge-new">{t('NEW', locale)}</span>}
                   </div>
 
                   <div
@@ -288,7 +291,7 @@ export default function FeatureScroller() {
                     }}
                   >
                     <p className="mt-2 text-sm" style={{ color: '#8888a0' }}>
-                      {feature.description}
+                      {t(feature.description, locale)}
                     </p>
                   </div>
                 </button>
@@ -316,7 +319,7 @@ export default function FeatureScroller() {
                 <motion.img
                   key={activeFeature.id}
                   src={`${baseUrl}screenshots/${activeFeature.screenshot}`}
-                  alt={`${activeFeature.name} screenshot`}
+                  alt={`${t(activeFeature.name, locale)}${locale === 'zh-CN' ? '截图' : ' screenshot'}`}
                   className="object-contain transition-transform duration-300 group-hover:scale-[1.01]"
                   style={{ maxWidth: '100%', maxHeight: '100%' }}
                   initial={reducedMotion ? false : { opacity: 0, scale: 0.97 }}
@@ -343,7 +346,7 @@ export default function FeatureScroller() {
               className="text-xs font-medium tracking-wide"
               style={{ color: '#555566', textTransform: 'uppercase', letterSpacing: '0.08em' }}
             >
-              {activeFeature.name}
+              {t(activeFeature.name, locale)}
             </span>
           </div>
         </div>
@@ -362,13 +365,13 @@ export default function FeatureScroller() {
           >
             <div className="flex items-center gap-2">
               <span className="text-sm font-semibold" style={{ color: '#f0f0f5' }}>
-                {feature.name}
+                {t(feature.name, locale)}
               </span>
               <span className="badge-version">{feature.version}</span>
-              {feature.isNew && <span className="badge-new">NEW</span>}
+              {feature.isNew && <span className="badge-new">{t('NEW', locale)}</span>}
             </div>
             <p className="mt-2 text-sm" style={{ color: '#8888a0' }}>
-              {feature.description}
+              {t(feature.description, locale)}
             </p>
             <button
               type="button"
@@ -378,7 +381,7 @@ export default function FeatureScroller() {
             >
               <img
                 src={`${baseUrl}screenshots/${feature.screenshot}`}
-                alt={`${feature.name} screenshot`}
+                alt={`${t(feature.name, locale)}${locale === 'zh-CN' ? '截图' : ' screenshot'}`}
                 className="w-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                 loading="lazy"
               />
@@ -392,6 +395,7 @@ export default function FeatureScroller() {
         {lightboxOpen && (
           <Lightbox
             feature={activeFeature}
+            locale={locale}
             onClose={closeLightbox}
             onPrev={goPrev}
             onNext={goNext}

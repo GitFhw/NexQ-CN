@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 // AI Scenario settings — manage built-in & custom scenarios with prompt editing.
 
 import { useState, useCallback } from "react";
@@ -85,21 +86,19 @@ function PromptCard({
           </span>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-foreground">{label}</span>
+              <span className="text-xs font-medium text-foreground">{t(label)}</span>
               {isModified && (
-                <span className="rounded px-1.5 py-0.5 text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                  Modified
-                </span>
+                <span className="rounded px-1.5 py-0.5 text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">{t("Modified")}</span>
               )}
             </div>
-            <p className="mt-0.5 text-meta text-muted-foreground/60">{description}</p>
+            <p className="mt-0.5 text-meta text-muted-foreground/60">{t(description)}</p>
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-1 ml-2" onClick={(e) => e.stopPropagation()}>
           {isModified && defaultValue !== undefined && (
             <button
               onClick={handleReset}
-              title="Reset to default"
+              title={t("Reset to default")}
               className="rounded p-1.5 text-muted-foreground/60 hover:text-foreground hover:bg-accent/40 transition-colors duration-150 cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5" />
@@ -107,7 +106,7 @@ function PromptCard({
           )}
           <button
             onClick={handleEdit}
-            title="Edit prompt"
+            title={t("Edit prompt")}
             className="rounded p-1.5 text-muted-foreground/60 hover:text-foreground hover:bg-accent/40 transition-colors duration-150 cursor-pointer"
           >
             <Edit2 className="h-3.5 w-3.5" />
@@ -132,16 +131,12 @@ function PromptCard({
                   onClick={handleCancel}
                   className="flex items-center gap-1.5 rounded-lg border border-border/40 bg-secondary/30 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors duration-150 cursor-pointer"
                 >
-                  <X className="h-3 w-3" />
-                  Cancel
-                </button>
+                  <X className="h-3 w-3" />{t("Cancel")}</button>
                 <button
                   onClick={handleSave}
                   className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors duration-150 cursor-pointer shadow-sm shadow-primary/20"
                 >
-                  <Check className="h-3 w-3" />
-                  Save
-                </button>
+                  <Check className="h-3 w-3" />{t("Save")}</button>
               </div>
             </div>
           ) : (
@@ -172,12 +167,12 @@ function CreateScenarioDialog({
   return (
     <div className="rounded-xl border border-border/30 bg-card/60 p-4 shadow-lg">
       <p className="mb-3 text-xs font-medium text-foreground">
-        {mode === "clone" ? "Clone scenario as:" : "New scenario name:"}
+        {mode === "clone" ? t("Clone scenario as:") : t("New scenario name:")}
       </p>
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="e.g. Sales Call, 1:1 Meeting"
+        placeholder={t("e.g. Sales Call, 1:1 Meeting")}
         className="w-full rounded-lg border border-border/40 bg-background/60 px-3 py-2 text-xs text-foreground placeholder-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 mb-3"
         autoFocus
         onKeyDown={(e) => {
@@ -189,15 +184,13 @@ function CreateScenarioDialog({
         <button
           onClick={onCancel}
           className="rounded-lg border border-border/40 bg-secondary/30 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors duration-150 cursor-pointer"
-        >
-          Cancel
-        </button>
+        >{t("Cancel")}</button>
         <button
           onClick={() => name.trim() && onConfirm(name.trim())}
           disabled={!name.trim()}
           className="rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer shadow-sm shadow-primary/20"
         >
-          {mode === "clone" ? "Clone" : "Create"}
+          {mode === "clone" ? t("Clone") : t("Create")}
         </button>
       </div>
     </div>
@@ -282,29 +275,23 @@ export function ScenarioSettings() {
       <div className="rounded-xl border border-border/30 bg-card/50 p-5">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <label className="text-sm font-medium text-foreground">Active Scenario</label>
-            <p className="mt-0.5 text-xs text-muted-foreground">
-              Shapes how the AI interprets the meeting context
-            </p>
+            <label className="text-sm font-medium text-foreground">{t("Active Scenario")}</label>
+            <p className="mt-0.5 text-xs text-muted-foreground">{t("Shapes how the AI interprets the meeting context")}</p>
           </div>
           <div className="flex items-center gap-2">
             {/* Clone button */}
             <button
               onClick={() => { setCloneSourceId(activeScenarioId); setShowCreate(false); }}
-              title="Clone this scenario"
+              title={t("Clone this scenario")}
               className="flex items-center gap-1.5 rounded-lg border border-border/40 bg-secondary/30 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors duration-150 cursor-pointer"
             >
-              <Copy className="h-3.5 w-3.5" />
-              Clone
-            </button>
+              <Copy className="h-3.5 w-3.5" />{t("Clone")}</button>
             {/* New custom */}
             <button
               onClick={() => { setShowCreate(true); setCloneSourceId(null); }}
               className="flex items-center gap-1.5 rounded-lg bg-primary/10 border border-primary/30 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors duration-150 cursor-pointer"
             >
-              <Plus className="h-3.5 w-3.5" />
-              Create Custom
-            </button>
+              <Plus className="h-3.5 w-3.5" />{t("Create Custom")}</button>
           </div>
         </div>
 
@@ -320,9 +307,9 @@ export function ScenarioSettings() {
                   : "border-border/30 text-muted-foreground/70 hover:border-border/60 hover:bg-accent/40 hover:text-foreground"
               }`}
             >
-              {scenario.name}
+              {scenario.is_custom ? scenario.name : t(scenario.name)}
               {scenario.is_custom && (
-                <span className="ml-1.5 text-[10px] text-muted-foreground/50">custom</span>
+                <span className="ml-1.5 text-[10px] text-muted-foreground/50">{t("custom")}</span>
               )}
             </button>
           ))}
@@ -332,25 +319,21 @@ export function ScenarioSettings() {
         <div className="rounded-lg border border-border/20 bg-background/40 px-3 py-2.5">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="text-xs font-medium text-foreground">{currentTemplate.name}</p>
-              <p className="mt-0.5 text-xs text-muted-foreground/70">{currentTemplate.description}</p>
+              <p className="text-xs font-medium text-foreground">{currentTemplate.is_custom ? currentTemplate.name : t(currentTemplate.name)}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground/70">{t(currentTemplate.description)}</p>
             </div>
             <div className="flex shrink-0 items-center gap-1.5">
               {hasAnyOverride && !currentTemplate.is_custom && (
-                <span className="rounded px-1.5 py-0.5 text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                  Modified
-                </span>
+                <span className="rounded px-1.5 py-0.5 text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">{t("Modified")}</span>
               )}
               {currentTemplate.is_custom && (
                 <>
-                  <span className="rounded px-1.5 py-0.5 text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                    Custom
-                  </span>
+                  <span className="rounded px-1.5 py-0.5 text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">{t("Custom")}</span>
                   <button
                     onClick={() => {
                       deleteCustomScenario(activeScenarioId);
                     }}
-                    title="Delete this custom scenario"
+                    title={t("Delete this custom scenario")}
                     className="rounded p-1 text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 transition-colors duration-150 cursor-pointer"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -360,12 +343,10 @@ export function ScenarioSettings() {
               {hasAnyOverride && !currentTemplate.is_custom && (
                 <button
                   onClick={() => resetScenarioOverrides(activeScenarioId)}
-                  title="Reset all overrides to default"
+                  title={t("Reset all overrides to default")}
                   className="flex items-center gap-1 rounded-lg border border-border/30 bg-secondary/30 px-2 py-1 text-[10px] text-muted-foreground/60 hover:text-foreground transition-colors duration-150 cursor-pointer"
                 >
-                  <RotateCcw className="h-3 w-3" />
-                  Reset all
-                </button>
+                  <RotateCcw className="h-3 w-3" />{t("Reset all")}</button>
               )}
             </div>
           </div>
@@ -396,9 +377,7 @@ export function ScenarioSettings() {
 
       {/* ── Prompt Editing ── */}
       <div className="space-y-2">
-        <h3 className="px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
-          Prompts
-        </h3>
+        <h3 className="px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">{t("Prompts")}</h3>
         {PROMPT_FIELDS.map((field) => (
           <PromptCard
             key={field.key}

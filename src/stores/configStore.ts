@@ -12,6 +12,7 @@ import type {
   GroqConfig,
   AudioMode,
   AIScenario,
+  UILocale,
 } from "../lib/types";
 
 const DEFAULT_DEEPGRAM_CONFIG: DeepgramConfig = {
@@ -78,6 +79,9 @@ async function persistValue(key: string, value: unknown): Promise<void> {
 }
 
 interface ConfigState {
+  // User interface language, independent from speech recognition and translation languages.
+  uiLocale: UILocale;
+
   // Appearance
   theme: ThemeMode;
 
@@ -183,6 +187,7 @@ interface ConfigState {
 
   // Actions
   setTheme: (theme: ThemeMode) => void;
+  setUiLocale: (locale: UILocale) => void;
   setContextStrategy: (strategy: ContextStrategy) => void;
   setSTTProvider: (provider: STTProviderType) => void;
   setSTTLanguage: (language: string) => void;
@@ -239,6 +244,7 @@ interface ConfigState {
 }
 
 export const useConfigStore = create<ConfigState>((set) => ({
+  uiLocale: "zh-CN",
   theme: "dark",
   sttProvider: "windows_native",
   sttLanguage: "en-US",
@@ -315,6 +321,10 @@ export const useConfigStore = create<ConfigState>((set) => ({
   setTheme: (theme) => {
     set({ theme });
     persistValue("theme", theme);
+  },
+  setUiLocale: (uiLocale) => {
+    set({ uiLocale });
+    persistValue("uiLocale", uiLocale);
   },
   setSTTProvider: (provider) => {
     set({ sttProvider: provider });
@@ -644,6 +654,8 @@ export const useConfigStore = create<ConfigState>((set) => ({
       const store = await getStore();
 
       const theme = await store.get<ThemeMode>("theme");
+      const savedLocale = await store.get<UILocale>("uiLocale");
+      const uiLocale: UILocale = savedLocale === "en" ? "en" : "zh-CN";
       const sttProvider = await store.get<STTProviderType>("sttProvider");
       const sttLanguage = await store.get<string>("sttLanguage");
       const llmProvider = await store.get<LLMProviderType>("llmProvider");
@@ -792,6 +804,7 @@ export const useConfigStore = create<ConfigState>((set) => ({
       set((state) => ({
         ...state,
         _loaded: true,
+        uiLocale,
         ...(theme != null && { theme }),
         ...(sttProvider != null && { sttProvider }),
         ...(sttLanguage != null && { sttLanguage }),
@@ -874,6 +887,9 @@ export const useConfigStore = create<ConfigState>((set) => ({
       // update this window's Zustand state automatically.
       store.onKeyChange<MeetingAudioConfig>("meetingAudioConfig", (val) => {
         if (val != null) set({ meetingAudioConfig: val });
+      });
+      store.onKeyChange<UILocale>("uiLocale", (val) => {
+        if (val === "zh-CN" || val === "en") set({ uiLocale: val });
       });
       store.onKeyChange<string>("activeWhisperModel", (val) => {
         if (val !== undefined) set({ activeWhisperModel: val ?? null });

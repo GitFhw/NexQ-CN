@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useStreamStore } from "../stores/streamStore";
 import { useConfigStore } from "../stores/configStore";
 import { useMeetingStore } from "../stores/meetingStore";
@@ -67,7 +68,7 @@ export function StatusBar() {
   const handleEndMeeting = useCallback(async () => {
     try {
       await endMeetingFlow();
-      showToast("Meeting ended", "info");
+      showToast(t("Meeting ended"), "info");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Failed to end meeting";
       showToast(msg, "error");
@@ -116,7 +117,7 @@ export function StatusBar() {
               <span className="text-border/30">|</span>
               <span className="tabular-nums">
                 {isStreaming ? (
-                  <span className="animate-pulse text-primary/80">streaming</span>
+                  <span className="animate-pulse text-primary/80">{t("streaming")}</span>
                 ) : (
                   `${latencyMs}ms`
                 )}
@@ -129,27 +130,25 @@ export function StatusBar() {
           <button
             onClick={() => useCallLogStore.getState().toggleOpen()}
             className="rounded-lg p-1.5 transition-colors duration-150 hover:bg-accent hover:text-foreground"
-            title="AI Call Log"
-            aria-label="Toggle AI call log"
+            title={t("AI Call Log" )}
+            aria-label={t("Toggle AI call log")}
           >
             <Activity className="h-3 w-3" />
           </button>
           <button
             onClick={() => setCurrentView("settings")}
             className="rounded-lg p-1.5 transition-colors duration-150 hover:bg-accent hover:text-foreground"
-            title="Settings"
-            aria-label="Open settings"
+            title={t("Settings")}
+            aria-label={t("Open settings")}
           >
             <Settings className="h-3 w-3" />
           </button>
           <button
             onClick={handleEndMeeting}
             className="flex items-center gap-1 rounded-lg bg-destructive/10 px-2.5 py-1 font-medium text-destructive/70 transition-all duration-150 hover:bg-destructive/20 hover:text-destructive active:scale-95"
-            aria-label="End meeting"
+            aria-label={t("End meeting")}
           >
-            <Square className="h-2.5 w-2.5 fill-current" aria-hidden="true" />
-            End
-          </button>
+            <Square className="h-2.5 w-2.5 fill-current" aria-hidden="true" />{t("End")}</button>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useCallback } from "react";
 import type { Meeting, AIInteraction, TranscriptSegment } from "../lib/types";
 import { getMeeting } from "../lib/ipc";
@@ -44,7 +45,7 @@ export function MeetingDetails({ meetingId, onBack }: MeetingDetailsProps) {
       const data = await getMeeting(meetingId);
       setMeeting(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load meeting");
+      setError(err instanceof Error ? err.message : t("Failed to load meeting"));
     } finally {
       setLoading(false);
     }
@@ -75,7 +76,7 @@ export function MeetingDetails({ meetingId, onBack }: MeetingDetailsProps) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
-        <p className="text-sm text-muted-foreground">Loading meeting...</p>
+        <p className="text-sm text-muted-foreground">{t("Loading meeting...")}</p>
       </div>
     );
   }
@@ -83,13 +84,11 @@ export function MeetingDetails({ meetingId, onBack }: MeetingDetailsProps) {
   if (error || !meeting) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3">
-        <p className="text-sm text-destructive">{error || "Meeting not found"}</p>
+        <p className="text-sm text-destructive">{error || t("Meeting not found")}</p>
         <button
           onClick={onBack}
           className="text-sm text-primary hover:underline"
-        >
-          Go back
-        </button>
+        >{t("Go back")}</button>
       </div>
     );
   }
@@ -105,7 +104,7 @@ export function MeetingDetails({ meetingId, onBack }: MeetingDetailsProps) {
         <button
           onClick={onBack}
           className="rounded-xl p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          aria-label="Go back"
+          aria-label={t("Go back" )}
         >
           <ArrowLeft className="h-5 w-5" aria-hidden="true" />
         </button>
@@ -118,7 +117,7 @@ export function MeetingDetails({ meetingId, onBack }: MeetingDetailsProps) {
             <span className="text-muted-foreground/60">&middot;</span>
             <span>{durationDisplay}</span>
             <span className="text-muted-foreground/60">&middot;</span>
-            <span>{meeting.transcript.length} segments</span>
+            <span>{meeting.transcript.length} {t("segments")}</span>
           </div>
         </div>
       </div>
@@ -129,21 +128,21 @@ export function MeetingDetails({ meetingId, onBack }: MeetingDetailsProps) {
           active={activeTab === "transcript"}
           onClick={() => setActiveTab("transcript")}
           icon={<FileText className="h-3.5 w-3.5" />}
-          label="Transcript"
+          label={t("Transcript")}
           count={meeting.transcript.length}
         />
         <TabButton
           active={activeTab === "ai"}
           onClick={() => setActiveTab("ai")}
           icon={<MessageSquare className="h-3.5 w-3.5" />}
-          label="AI Log"
+          label={t("AI Log")}
           count={meeting.ai_interactions.length}
         />
         <TabButton
           active={activeTab === "summary"}
           onClick={() => setActiveTab("summary")}
           icon={<Sparkles className="h-3.5 w-3.5" />}
-          label="Summary"
+          label={t("Summary")}
         />
       </div>
 
@@ -213,7 +212,7 @@ function TranscriptView({ segments }: { segments: TranscriptSegment[] }) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-muted-foreground/60">
         <FileText className="mb-4 h-7 w-7" />
-        <p className="text-sm font-medium">No transcript segments</p>
+        <p className="text-sm font-medium">{t("No transcript segments")}</p>
       </div>
     );
   }
@@ -252,7 +251,7 @@ function AIInteractionLog({
     return (
       <div className="flex flex-col items-center justify-center py-20 text-muted-foreground/60">
         <MessageSquare className="mb-4 h-7 w-7" />
-        <p className="text-sm font-medium">No AI interactions recorded</p>
+        <p className="text-sm font-medium">{t("No AI interactions recorded")}</p>
       </div>
     );
   }
@@ -281,8 +280,7 @@ function AIInteractionLog({
               </div>
               <div className="flex items-center gap-2.5">
                 <span className="text-meta tabular-nums text-muted-foreground/60">
-                  {interaction.latency_ms}ms
-                </span>
+                  {interaction.latency_ms}{t("ms\r\n                ")}</span>
                 {isExpanded ? (
                   <ChevronUp className="h-3.5 w-3.5 text-muted-foreground/60" />
                 ) : (
@@ -316,10 +314,8 @@ function SummaryView({ summary }: { summary: string | null }) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-muted-foreground/60">
         <Sparkles className="mb-4 h-7 w-7" />
-        <p className="text-sm font-medium">No summary available</p>
-        <p className="mt-1.5 text-xs text-muted-foreground/60">
-          Summaries are generated when meetings end
-        </p>
+        <p className="text-sm font-medium">{t("No summary available")}</p>
+        <p className="mt-1.5 text-xs text-muted-foreground/60">{t("Summaries are generated when meetings end")}</p>
       </div>
     );
   }

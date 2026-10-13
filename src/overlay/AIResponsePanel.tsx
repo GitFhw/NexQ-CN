@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useStreamStore } from "../stores/streamStore";
 import {
@@ -127,9 +128,9 @@ export function AIResponsePanel() {
     <div className="flex flex-1 min-h-0 flex-col">
       {/* Tabs row */}
       {hasTabs && (
-        <div className="mb-2 flex shrink-0 items-center gap-1.5 overflow-x-auto pb-1.5" role="tablist" aria-label="AI response tabs">
+        <div className="mb-2 flex shrink-0 items-center gap-1.5 overflow-x-auto pb-1.5" role="tablist" aria-label={t("AI response tabs")}>
           <TabButton
-            label="Current"
+            label={t("Current")}
             active={activeTab === "current"}
             onClick={() => setActiveTab("current")}
           />
@@ -156,14 +157,14 @@ export function AIResponsePanel() {
 
       {/* Content area */}
       <div className="relative flex-1 min-h-0">
-      <div ref={scrollRef} className="absolute inset-0 overflow-y-auto" role="tabpanel" aria-label="AI response content">
+      <div ref={scrollRef} className="absolute inset-0 overflow-y-auto" role="tabpanel" aria-label={t("AI response content")}>
         {/* Active streaming state */}
         {activeTab === "current" && isStreaming && (
           <div className="space-y-2.5" aria-live="polite" aria-atomic="false">
             <div className="flex items-center gap-2">
               <Loader2 className="h-3 w-3 animate-spin text-primary/50" />
               <span className="text-meta font-medium text-primary">
-                {currentMode ? getModeLabel(currentMode) : "Generating"}...
+                {currentMode ? getModeLabel(currentMode) : t("Generating")}...
               </span>
             </div>
             <div className="prose prose-sm prose-invert max-w-none leading-relaxed" style={proseStyle}>
@@ -186,7 +187,7 @@ export function AIResponsePanel() {
                 <div className="flex items-center gap-1">
                   <ActionButton
                     icon={copiedId === "current" ? Check : Copy}
-                    title="Copy to clipboard"
+                    title={t("Copy to clipboard" )}
                     onClick={() => handleCopy(currentContent, "current")}
                     active={copiedId === "current"}
                   />
@@ -203,8 +204,8 @@ export function AIResponsePanel() {
                         pinnedResponses.some(
                           (r) => r.id === responseHistory[0].id
                         )
-                          ? "Unpin"
-                          : "Pin response"
+                          ? t("Unpin")
+                          : t("Pin response")
                       }
                       onClick={() => handlePin(responseHistory[0].id)}
                     />
@@ -231,7 +232,7 @@ export function AIResponsePanel() {
               <div className="flex items-center gap-1">
                 <ActionButton
                   icon={copiedId === displayResponse.id ? Check : Copy}
-                  title="Copy to clipboard"
+                  title={t("Copy to clipboard" )}
                   onClick={() =>
                     handleCopy(displayContent!, displayResponse!.id)
                   }
@@ -245,8 +246,8 @@ export function AIResponsePanel() {
                   }
                   title={
                     pinnedResponses.some((r) => r.id === displayResponse!.id)
-                      ? "Unpin"
-                      : "Pin response"
+                      ? t("Unpin")
+                      : t("Pin response")
                   }
                   onClick={() => handlePin(displayResponse!.id)}
                 />
@@ -266,7 +267,7 @@ export function AIResponsePanel() {
           <div className="flex h-full flex-col items-center justify-center gap-2">
             <Sparkles className="h-5 w-5 text-primary/30" />
             <p className="text-xs text-muted-foreground/50">
-              Press <kbd className="mx-0.5 rounded border border-border/30 bg-secondary/30 px-1.5 py-0.5 font-mono text-meta text-foreground/70">Space</kbd> for AI assistance
+              {t("Press")} <kbd className="mx-0.5 rounded border border-border/30 bg-secondary/30 px-1.5 py-0.5 font-mono text-meta text-foreground/70">{t("Space")}</kbd> {t("for AI assistance")}
             </p>
           </div>
         )}
@@ -277,29 +278,29 @@ export function AIResponsePanel() {
       <div className="flex shrink-0 flex-col gap-1 border-t border-border/10 px-1 pt-1.5">
         {/* Row 1: font size + color */}
         <div className="flex items-center gap-3">
-          <span className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/40 font-medium">AI Text</span>
+          <span className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/40 font-medium">{t("AI Text")}</span>
           <div className="flex items-center gap-1">
-            <button onClick={() => setAiResponseFontSize(Math.max(8, aiResponseFontSize - 1))} className="h-5 w-5 flex items-center justify-center rounded text-[0.6rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title="Smaller">A</button>
+            <button onClick={() => setAiResponseFontSize(Math.max(8, aiResponseFontSize - 1))} className="h-5 w-5 flex items-center justify-center rounded text-[0.6rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title={t("Smaller")}>A</button>
             <span className="text-[0.6rem] tabular-nums text-muted-foreground/50 w-6 text-center">{aiResponseFontSize}</span>
-            <button onClick={() => setAiResponseFontSize(Math.min(32, aiResponseFontSize + 1))} className="h-5 w-5 flex items-center justify-center rounded text-[0.75rem] font-medium text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title="Larger">A</button>
+            <button onClick={() => setAiResponseFontSize(Math.min(32, aiResponseFontSize + 1))} className="h-5 w-5 flex items-center justify-center rounded text-[0.75rem] font-medium text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title={t("Larger")}>A</button>
           </div>
-          <ColorPickerButton value={aiResponseTextColor} onChange={setAiResponseTextColor} label="AI text color" />
+          <ColorPickerButton value={aiResponseTextColor} onChange={setAiResponseTextColor} label={t("AI text color")} />
         </div>
         {/* Row 2: line height + horizontal padding + text align */}
         <div className="flex items-center gap-3">
           {/* Line height */}
           <div className="flex items-center gap-1">
-            <span className="text-[0.6rem] text-muted-foreground/40">LH</span>
-            <button onClick={() => setAiResponseLineHeight(Math.max(1.0, parseFloat((aiResponseLineHeight - 0.1).toFixed(1))))} className="h-5 w-5 flex items-center justify-center rounded text-[0.65rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title="Decrease line height">−</button>
+            <span className="text-[0.6rem] text-muted-foreground/40">{t("LH")}</span>
+            <button onClick={() => setAiResponseLineHeight(Math.max(1.0, parseFloat((aiResponseLineHeight - 0.1).toFixed(1))))} className="h-5 w-5 flex items-center justify-center rounded text-[0.65rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title={t("Decrease line height")}>−</button>
             <span className="text-[0.6rem] tabular-nums text-muted-foreground/50 w-6 text-center">{aiResponseLineHeight.toFixed(1)}</span>
-            <button onClick={() => setAiResponseLineHeight(Math.min(3.0, parseFloat((aiResponseLineHeight + 0.1).toFixed(1))))} className="h-5 w-5 flex items-center justify-center rounded text-[0.65rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title="Increase line height">+</button>
+            <button onClick={() => setAiResponseLineHeight(Math.min(3.0, parseFloat((aiResponseLineHeight + 0.1).toFixed(1))))} className="h-5 w-5 flex items-center justify-center rounded text-[0.65rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title={t("Increase line height")}>+</button>
           </div>
           {/* Horizontal padding */}
           <div className="flex items-center gap-1">
             <span className="text-[0.6rem] text-muted-foreground/40">↔</span>
-            <button onClick={() => setAiResponseHPad(Math.max(0, aiResponseHPad - 4))} className="h-5 w-5 flex items-center justify-center rounded text-[0.65rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title="Decrease margin">−</button>
+            <button onClick={() => setAiResponseHPad(Math.max(0, aiResponseHPad - 4))} className="h-5 w-5 flex items-center justify-center rounded text-[0.65rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title={t("Decrease margin")}>−</button>
             <span className="text-[0.6rem] tabular-nums text-muted-foreground/50 w-6 text-center">{aiResponseHPad}</span>
-            <button onClick={() => setAiResponseHPad(Math.min(80, aiResponseHPad + 4))} className="h-5 w-5 flex items-center justify-center rounded text-[0.65rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title="Increase margin">+</button>
+            <button onClick={() => setAiResponseHPad(Math.min(80, aiResponseHPad + 4))} className="h-5 w-5 flex items-center justify-center rounded text-[0.65rem] text-muted-foreground/50 hover:bg-accent/40 hover:text-foreground/70 transition-colors" title={t("Increase margin")}>+</button>
           </div>
           {/* Text align */}
           <div className="flex items-center gap-0.5 rounded border border-border/20 overflow-hidden">

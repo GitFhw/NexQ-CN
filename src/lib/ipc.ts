@@ -656,8 +656,8 @@ export async function setMeetingStartTime(started: boolean): Promise<void> {
   return invoke("set_meeting_start_time", { started });
 }
 
-export async function rebuildTrayMenu(meetingActive: boolean): Promise<void> {
-  return invoke("rebuild_tray_menu", { meetingActive });
+export async function rebuildTrayMenu(meetingActive: boolean, locale: "zh-CN" | "en"): Promise<void> {
+  return invoke("rebuild_tray_menu", { meetingActive, locale });
 }
 
 export async function setStealthMode(enabled: boolean): Promise<void> {

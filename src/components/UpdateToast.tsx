@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { Download, CheckCircle, RotateCcw } from "lucide-react";
 
 // == Download progress toast ================================================
@@ -43,7 +44,7 @@ export function UpdateDownloadToast({
         {/* Content */}
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-foreground/90">
-            Downloading v{version}
+            {t("Downloading v")}{version}
           </p>
           <div className="mt-0.5 flex items-baseline gap-2">
             <span className="text-xs text-muted-foreground">{sizeLabel}</span>
@@ -89,12 +90,9 @@ export function UpdateReadyToast({ version, onRestart }: ReadyToastProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-foreground/90">
-            Update ready
-          </p>
+          <p className="text-sm font-medium text-foreground/90">{t("Update ready")}</p>
           <p className="mt-0.5 text-xs text-muted-foreground">
-            v{version} will apply on restart
-          </p>
+            v{version} {t("will apply on restart\r\n          ")}</p>
         </div>
 
         {/* Restart button */}
@@ -102,9 +100,7 @@ export function UpdateReadyToast({ version, onRestart }: ReadyToastProps) {
           onClick={onRestart}
           className="shrink-0 flex items-center gap-1.5 rounded-lg bg-emerald-500/15 px-3 py-1.5 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/25"
         >
-          <RotateCcw className="h-3 w-3" />
-          Restart
-        </button>
+          <RotateCcw className="h-3 w-3" />{t("Restart")}</button>
       </div>
     </div>
   );

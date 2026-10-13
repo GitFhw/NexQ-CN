@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 // Sub-PRD 4 / Task 13: Individual transcript line component
 // Displays timestamp, speaker label, and text for a single transcript segment.
 // Speaker color is dynamic via speakerStore; confidence underline when enabled.
@@ -268,7 +269,7 @@ export function TranscriptLine({ segment, searchQuery }: TranscriptLineProps) {
           className={`mt-[3px] shrink-0 text-[0.6875rem] font-semibold tracking-tight ${canRename ? "cursor-pointer hover:underline" : ""} ${isPending ? "animate-pulse" : ""}`}
           style={{ color: speakerHex }}
           onClick={startEditing}
-          title={canRename ? "Click to rename" : undefined}
+          title={canRename ? t("Click to rename") : undefined}
         >
           {speakerLabel}
         </span>
@@ -300,7 +301,7 @@ export function TranscriptLine({ segment, searchQuery }: TranscriptLineProps) {
         {displayMode === "inline" && (
           <div className="mt-1 leading-[1.5]" style={{ fontSize: `${translationFontSize}px`, color: translationTextColor }}>
             {isTranslating ? (
-              <span className="text-muted-foreground/40 animate-pulse">Translating...</span>
+              <span className="text-muted-foreground/40 animate-pulse">{t("Translating...")}</span>
             ) : translation ? (
               translation.translated_text
             ) : null}
@@ -351,7 +352,7 @@ export function TranscriptLine({ segment, searchQuery }: TranscriptLineProps) {
         <button
           onClick={handleToggleBookmark}
           className="rounded p-0.5 hover:bg-accent/50 transition-colors"
-          title={isBookmarked ? "Remove bookmark" : "Bookmark this line"}
+          title={isBookmarked ? t("Remove bookmark") : t("Bookmark this line")}
         >
           <BookmarkIcon className={`h-3 w-3 ${isBookmarked ? "fill-primary text-primary" : "text-muted-foreground/40"}`} />
         </button>

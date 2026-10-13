@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import { useState, useCallback, useRef, useEffect } from "react";
 import type { Meeting } from "../../lib/types";
 import type { MeetingStats } from "../../hooks/useMeetingStats";
@@ -96,7 +97,7 @@ export function MeetingHeader({
         <button
           onClick={onBack}
           className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground cursor-pointer"
-          aria-label="Go back"
+          aria-label={t("Go back" )}
         >
           <ArrowLeft className="h-4.5 w-4.5" aria-hidden="true" />
         </button>
@@ -115,10 +116,10 @@ export function MeetingHeader({
                 maxLength={200}
                 className="flex-1 rounded-lg border border-primary/30 bg-background px-3 py-1 text-sm font-semibold text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary/20"
               />
-              <button onClick={handleSaveEdit} disabled={isSaving} className="rounded-md p-1.5 text-success hover:bg-success/10 disabled:opacity-50 cursor-pointer" aria-label="Save title">
+              <button onClick={handleSaveEdit} disabled={isSaving} className="rounded-md p-1.5 text-success hover:bg-success/10 disabled:opacity-50 cursor-pointer" aria-label={t("Save title" )}>
                 <Check className="h-4 w-4" aria-hidden="true" />
               </button>
-              <button onClick={handleCancelEdit} className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary cursor-pointer" aria-label="Cancel editing">
+              <button onClick={handleCancelEdit} className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary cursor-pointer" aria-label={t("Cancel editing")}>
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
@@ -133,7 +134,7 @@ export function MeetingHeader({
             <span>&middot;</span>
             <span>{durationDisplay}</span>
             <span>&middot;</span>
-            <span>{meeting.transcript.length} segments</span>
+            <span>{meeting.transcript.length} {t("segments")}</span>
           </div>
         </div>
 
@@ -141,10 +142,10 @@ export function MeetingHeader({
 
       {/* Row 2: Stats bar */}
       <div className="flex items-center gap-3 px-5 pb-2.5 overflow-x-auto">
-        <Stat icon={<Clock className="h-3.5 w-3.5" />} label="Duration" value={stats.durationDisplay} />
-        <Stat icon={<AlignLeft className="h-3.5 w-3.5" />} label="Words" value={stats.wordCount.toLocaleString()} />
+        <Stat icon={<Clock className="h-3.5 w-3.5" />} label={t("Duration")} value={stats.durationDisplay} />
+        <Stat icon={<AlignLeft className="h-3.5 w-3.5" />} label={t("Words")} value={stats.wordCount.toLocaleString()} />
         {stats.wordsPerMinute > 0 && (
-          <Stat icon={<Zap className="h-3.5 w-3.5" />} label="Pace" value={`${stats.wordsPerMinute}/min`} />
+          <Stat icon={<Zap className="h-3.5 w-3.5" />} label={t("Pace")} value={`${stats.wordsPerMinute}/min`} />
         )}
         {stats.speakerBreakdown.map((s) => {
           const Icon = s.speaker === "User" || s.speaker === "Interviewer" ? Mic : Volume2;
@@ -155,7 +156,7 @@ export function MeetingHeader({
           <Stat icon={<Brain className="h-3.5 w-3.5" />} label="AI" value={String(stats.aiCount)} />
         )}
         {stats.avgLatencyMs !== null && (
-          <Stat icon={<Timer className="h-3.5 w-3.5" />} label="Latency" value={`${stats.avgLatencyMs}ms`} />
+          <Stat icon={<Timer className="h-3.5 w-3.5" />} label={t("Latency")} value={`${stats.avgLatencyMs}ms`} />
         )}
       </div>
     </div>

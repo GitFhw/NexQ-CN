@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import { useState, useRef, useEffect, useCallback } from "react";
 import type { Meeting } from "../../lib/types";
 import {
@@ -102,15 +103,14 @@ export function ExportDropdown({ meeting }: ExportDropdownProps) {
         className="flex items-center gap-1.5 rounded-lg border border-border/30 bg-secondary/30 px-3 py-1.5 text-xs font-medium text-foreground/70 transition-all duration-150 hover:bg-secondary/50 hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         aria-haspopup="true"
         aria-expanded={isOpen}
-        aria-label="Export meeting"
+        aria-label={t("Export meeting")}
       >
         {isLoading ? (
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
         ) : (
           <Download className="h-3.5 w-3.5" />
         )}
-        Export
-        <ChevronDown
+        {t("Export\r\n        ")}<ChevronDown
           className={`h-3 w-3 transition-transform duration-150 ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
@@ -119,12 +119,10 @@ export function ExportDropdown({ meeting }: ExportDropdownProps) {
         <div
           className="absolute right-0 top-full z-50 mt-1.5 w-52 overflow-hidden rounded-xl border border-border/30 bg-card shadow-xl shadow-black/20"
           role="menu"
-          aria-label="Export options"
+          aria-label={t("Export options")}
         >
           <div className="px-3 py-2 border-b border-border/20">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/40">
-              Export as
-            </p>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/40">{t("Export as")}</p>
           </div>
 
           {allOptions.map((opt, i) => {

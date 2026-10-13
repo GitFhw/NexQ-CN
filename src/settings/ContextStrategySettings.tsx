@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useCallback } from "react";
 import { useConfigStore } from "../stores/configStore";
 import { useRagStore } from "../stores/ragStore";
@@ -310,7 +311,7 @@ function HelpButton({
           ? "border-primary/40 bg-primary/10 text-primary"
           : "border-border/30 text-muted-foreground/60 hover:border-border/60 hover:text-muted-foreground"
       } h-[18px] w-[18px]`}
-      title="Show explanation"
+      title={t("Show explanation")}
     >
       {isOpen ? <X className="h-2.5 w-2.5" /> : <HelpCircle className="h-2.5 w-2.5" />}
     </button>
@@ -341,9 +342,7 @@ function SectionHelp({ id, activeId, onToggle }: { id: string; activeId: string 
 function RebuildBadge({ show }: { show: boolean }) {
   if (!show) return null;
   return (
-    <span className="rounded-full bg-amber-500/10 px-1.5 py-0.5 text-meta font-medium text-amber-500">
-      rebuild
-    </span>
+    <span className="rounded-full bg-amber-500/10 px-1.5 py-0.5 text-meta font-medium text-amber-500">{t("rebuild")}</span>
   );
 }
 
@@ -518,11 +517,9 @@ export function ContextStrategySettings() {
         >
           <div className="flex items-center gap-2">
             <Database className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-foreground">Local RAG</span>
+            <span className="text-sm font-medium text-foreground">{t("Local RAG")}</span>
           </div>
-          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-            Embed documents locally via Ollama, hybrid semantic+keyword search
-          </p>
+          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">{t("Embed documents locally via Ollama, hybrid semantic+keyword search")}</p>
         </button>
 
         <button
@@ -535,11 +532,9 @@ export function ContextStrategySettings() {
         >
           <div className="flex items-center gap-2">
             <Cloud className="h-4 w-4 text-orange-400" />
-            <span className="text-sm font-medium text-foreground">Gemini Context Cache</span>
+            <span className="text-sm font-medium text-foreground">{t("Gemini Context Cache")}</span>
           </div>
-          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-            Cache docs in Gemini once — skip local embedding entirely
-          </p>
+          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">{t("Cache docs in Gemini once — skip local embedding entirely")}</p>
         </button>
       </div>
 
@@ -548,10 +543,8 @@ export function ContextStrategySettings() {
           {/* ── Quick Presets ── */}
           <div className="rounded-xl border border-border/30 bg-card/50 p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-primary/80">Quick Presets</h3>
-              <p className="text-meta text-muted-foreground/60">
-                Expected search latency per query
-              </p>
+              <h3 className="text-sm font-semibold text-primary/80">{t("Quick Presets")}</h3>
+              <p className="text-meta text-muted-foreground/60">{t("Expected search latency per query")}</p>
             </div>
             <div className="grid grid-cols-5 gap-2">
               {PRESETS.map((preset) => {
@@ -560,7 +553,7 @@ export function ContextStrategySettings() {
                   <button
                     key={preset.id}
                     onClick={() => applyPreset(preset)}
-                    title={preset.description}
+                    title={t(preset.description)}
                     className={`flex flex-col items-center gap-1 rounded-lg border px-2 py-2.5 text-center transition-all ${
                       isActive
                         ? "border-primary bg-primary/10 ring-1 ring-primary/20"
@@ -568,7 +561,7 @@ export function ContextStrategySettings() {
                     }`}
                   >
                     <span className={`text-xs font-semibold ${isActive ? "text-primary" : "text-foreground"}`}>
-                      {preset.label}
+                      {t(preset.label)}
                     </span>
                     <span className={`rounded-full px-1.5 py-0.5 text-meta font-medium font-mono ${
                       isActive ? "bg-primary/20 text-primary" : "bg-muted/50 text-muted-foreground"
@@ -580,15 +573,13 @@ export function ContextStrategySettings() {
               })}
             </div>
             <p className="mt-2.5 text-meta text-muted-foreground/70 leading-relaxed">
-              Latency = query embedding + chunk search. Fastest uses keyword-only (no embedding).
-              Accurate presets produce smaller chunks and retrieve more — requires index rebuild.
-            </p>
+              {t("Latency = query embedding + chunk search. Fastest uses keyword-only (no embedding).\r\n              Accurate presets produce smaller chunks and retrieve more — requires index rebuild.\r\n            ")}</p>
           </div>
 
           {/* ── Connection ── */}
           <div className="rounded-xl border border-border/30 bg-card/50 p-5">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-primary/80">Connection</h3>
+              <h3 className="text-sm font-semibold text-primary/80">{t("Connection")}</h3>
             </div>
             <div className="space-y-4">
               {/* Ollama status */}
@@ -597,17 +588,17 @@ export function ContextStrategySettings() {
                   <>
                     <div className="h-2.5 w-2.5 rounded-full bg-success" />
                     <Wifi className="h-3.5 w-3.5 text-success" />
-                    <span className="text-xs text-success">Ollama Connected</span>
+                    <span className="text-xs text-success">{t("Ollama Connected")}</span>
                     <span className="text-meta text-muted-foreground">
-                      ({ollamaStatus.models.length} model{ollamaStatus.models.length !== 1 ? "s" : ""})
+                      ({ollamaStatus.models.length} {t("model")}{ollamaStatus.models.length !== 1 ? "s" : ""})
                     </span>
                   </>
                 ) : (
                   <>
                     <div className="h-2.5 w-2.5 rounded-full bg-red-500" />
                     <WifiOff className="h-3.5 w-3.5 text-red-500" />
-                    <span className="text-xs text-red-500">Ollama Disconnected</span>
-                    <span className="text-meta text-muted-foreground/60">— start Ollama to use embedding</span>
+                    <span className="text-xs text-red-500">{t("Ollama Disconnected")}</span>
+                    <span className="text-meta text-muted-foreground/60">{t("— start Ollama to use embedding")}</span>
                   </>
                 )}
               </div>
@@ -617,14 +608,13 @@ export function ContextStrategySettings() {
                   {selectedModelAvailable ? (
                     <>
                       <CheckCircle2 className="h-3.5 w-3.5 text-success" />
-                      <span className="text-success">{localConfig.embedding_model} available</span>
+                      <span className="text-success">{localConfig.embedding_model} {t("available")}</span>
                     </>
                   ) : (
                     <>
                       <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
                       <span className="text-amber-500">
-                        {localConfig.embedding_model} not found — pull it below
-                      </span>
+                        {localConfig.embedding_model} {t("not found — pull it below\r\n                      ")}</span>
                     </>
                   )}
                 </div>
@@ -634,8 +624,7 @@ export function ContextStrategySettings() {
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-medium text-foreground">
-                    Embedding Model
-                    <HelpButton id="embedding_model" activeId={openHelp} onToggle={toggleHelp} />
+                    {t("Embedding Model\r\n                    ")}<HelpButton id="embedding_model" activeId={openHelp} onToggle={toggleHelp} />
                   </label>
                   <RebuildBadge show={hasIndex && localConfig.embedding_model !== (ragConfig?.embedding_model ?? "nomic-embed-text")} />
                 </div>
@@ -659,15 +648,14 @@ export function ContextStrategySettings() {
                   className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isCheckingConnection ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Wifi className="h-3.5 w-3.5" />}
-                  Test Connection
-                </button>
+                  {t("Test Connection\r\n                ")}</button>
                 <button
                   onClick={() => pullModel(localConfig.embedding_model)}
                   disabled={isPullingModel}
                   className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isPullingModel ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
-                  {isPullingModel ? "Pulling..." : "Pull Model"}
+                  {isPullingModel ? t("Pulling...") : t("Pull Model")}
                 </button>
               </div>
 
@@ -676,7 +664,7 @@ export function ContextStrategySettings() {
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span className="flex items-center gap-1.5">
                       <Loader2 className="h-3 w-3 animate-spin text-primary" />
-                      {pullProgress?.status || "Connecting..."}
+                      {pullProgress?.status || t("Connecting...")}
                     </span>
                     {pullProgress && pullProgress.total > 0 && (
                       <span className="font-mono">
@@ -702,14 +690,12 @@ export function ContextStrategySettings() {
 
           {/* ── Search Settings ── */}
           <div className="rounded-xl border border-border/30 bg-card/50 p-5">
-            <h3 className="mb-3 text-sm font-semibold text-primary/80">Search Settings</h3>
+            <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("Search Settings")}</h3>
             <div className="grid grid-cols-2 gap-4">
               {/* top-K */}
               <div>
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <label className="text-xs font-medium text-foreground">
-                    Results to Retrieve (top-K)
-                  </label>
+                  <label className="text-xs font-medium text-foreground">{t("Results to Retrieve (top-K)")}</label>
                   <HelpButton id="top_k" activeId={openHelp} onToggle={toggleHelp} />
                 </div>
                 {openHelp === "top_k" && (
@@ -721,7 +707,7 @@ export function ContextStrategySettings() {
                   className="w-full rounded-lg border border-border/50 bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
                 >
                   {[3, 5, 7, 10, 15, 20].map((v) => (
-                    <option key={v} value={v}>{v} chunks</option>
+                    <option key={v} value={v}>{v} {t("chunks")}</option>
                   ))}
                 </select>
               </div>
@@ -729,7 +715,7 @@ export function ContextStrategySettings() {
               {/* Search mode */}
               <div>
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <label className="text-xs font-medium text-foreground">Search Mode</label>
+                  <label className="text-xs font-medium text-foreground">{t("Search Mode")}</label>
                   <HelpButton id="search_mode" activeId={openHelp} onToggle={toggleHelp} />
                 </div>
                 <select
@@ -737,9 +723,9 @@ export function ContextStrategySettings() {
                   onChange={(e) => handleSelectChange("search_mode", e.target.value)}
                   className="w-full rounded-lg border border-border/50 bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
                 >
-                  <option value="hybrid">Hybrid (recommended)</option>
-                  <option value="semantic">Semantic Only</option>
-                  <option value="keyword">Keyword Only (fastest)</option>
+                  <option value="hybrid">{t("Hybrid (recommended)")}</option>
+                  <option value="semantic">{t("Semantic Only")}</option>
+                  <option value="keyword">{t("Keyword Only (fastest)")}</option>
                 </select>
               </div>
             </div>
@@ -752,40 +738,38 @@ export function ContextStrategySettings() {
             indexStale ? "border-amber-500/40 ring-1 ring-amber-500/10" : "border-border/30"
           }`}>
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-primary/80">Index Status</h3>
+              <h3 className="text-sm font-semibold text-primary/80">{t("Index Status")}</h3>
               {indexStale && (
                 <div className="flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-meta font-medium text-amber-500">
-                  <AlertTriangle className="h-3 w-3" />
-                  Settings Changed — Rebuild Required
-                </div>
+                  <AlertTriangle className="h-3 w-3" />{t("Settings Changed — Rebuild Required")}</div>
               )}
             </div>
 
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div className="rounded-lg bg-accent/20 px-3 py-2.5">
-                <span className="text-muted-foreground">Files indexed</span>
+                <span className="text-muted-foreground">{t("Files indexed")}</span>
                 <p className="mt-0.5 text-sm font-medium text-foreground">
                   {indexStatus?.indexed_files ?? 0} / {indexStatus?.total_files ?? 0}
                 </p>
               </div>
               <div className="rounded-lg bg-accent/20 px-3 py-2.5">
-                <span className="text-muted-foreground">Total chunks</span>
+                <span className="text-muted-foreground">{t("Total chunks")}</span>
                 <p className="mt-0.5 text-sm font-medium text-foreground">
                   {indexStatus?.total_chunks ?? 0}
                 </p>
               </div>
               <div className="rounded-lg bg-accent/20 px-3 py-2.5">
-                <span className="text-muted-foreground">Total tokens</span>
+                <span className="text-muted-foreground">{t("Total tokens")}</span>
                 <p className="mt-0.5 text-sm font-medium text-foreground">
                   {indexStatus?.total_tokens ? `~${Math.round(indexStatus.total_tokens / 1000)}k` : "0"}
                 </p>
               </div>
               <div className="rounded-lg bg-accent/20 px-3 py-2.5">
-                <span className="text-muted-foreground">Last indexed</span>
+                <span className="text-muted-foreground">{t("Last indexed")}</span>
                 <p className="mt-0.5 text-sm font-medium text-foreground truncate">
                   {indexStatus?.last_indexed_at
                     ? new Date(indexStatus.last_indexed_at).toLocaleString()
-                    : "Never"}
+                    : t("Never")}
                 </p>
               </div>
             </div>
@@ -794,7 +778,7 @@ export function ContextStrategySettings() {
               <div className="mt-3 space-y-1.5">
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
                   <span>{indexProgress.status}</span>
-                  <span>{indexProgress.filesDone}/{indexProgress.filesTotal} files</span>
+                  <span>{indexProgress.filesDone}/{indexProgress.filesTotal} {t("files")}</span>
                 </div>
                 <div className="h-1.5 rounded-full bg-muted/40">
                   <div
@@ -820,7 +804,7 @@ export function ContextStrategySettings() {
                 }`}
               >
                 {isIndexing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
-                {confirmRebuild ? "Confirm Rebuild" : indexStale ? "Rebuild Required" : hasIndex ? "Rebuild Index" : "Build Index"}
+                {confirmRebuild ? t("Confirm Rebuild") : indexStale ? t("Rebuild Required") : hasIndex ? t("Rebuild Index") : t("Build Index")}
               </button>
               <button
                 onClick={handleClearIndex}
@@ -831,7 +815,7 @@ export function ContextStrategySettings() {
                 }`}
               >
                 <Trash2 className="h-3.5 w-3.5" />
-                {confirmClear ? "Confirm Clear" : "Clear Index"}
+                {confirmClear ? t("Confirm Clear") : t("Clear Index")}
               </button>
             </div>
           </div>
@@ -842,7 +826,7 @@ export function ContextStrategySettings() {
               onClick={() => setAdvancedOpen(!advancedOpen)}
               className="flex w-full items-center justify-between px-5 py-3.5 text-sm font-semibold text-primary/80 transition-colors hover:bg-accent/20"
             >
-              <span>Advanced Settings</span>
+              <span>{t("Advanced Settings")}</span>
               {advancedOpen
                 ? <ChevronDown className="h-4 w-4 text-muted-foreground" />
                 : <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -856,11 +840,10 @@ export function ContextStrategySettings() {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="text-xs font-medium text-foreground flex items-center gap-1.5">
-                      Chunk Size
-                      <HelpButton id="chunk_size" activeId={openHelp} onToggle={toggleHelp} />
+                      {t("Chunk Size\r\n                      ")}<HelpButton id="chunk_size" activeId={openHelp} onToggle={toggleHelp} />
                       <RebuildBadge show={hasIndex && localConfig.chunk_size !== (ragConfig?.chunk_size ?? 512)} />
                     </label>
-                    <span className="text-xs text-muted-foreground font-mono">{localConfig.chunk_size} tokens</span>
+                    <span className="text-xs text-muted-foreground font-mono">{localConfig.chunk_size} {t("tokens")}</span>
                   </div>
                   {openHelp === "chunk_size" && <HelpPanel id="chunk_size" />}
                   <input
@@ -871,7 +854,7 @@ export function ContextStrategySettings() {
                     className="w-full accent-primary mt-1.5"
                   />
                   <div className="flex justify-between text-meta text-muted-foreground/60">
-                    <span>128 — precise</span><span>2048 — broad</span>
+                    <span>{t("128 — precise")}</span><span>{t("2048 — broad")}</span>
                   </div>
                 </div>
 
@@ -879,11 +862,10 @@ export function ContextStrategySettings() {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="text-xs font-medium text-foreground flex items-center gap-1.5">
-                      Chunk Overlap
-                      <HelpButton id="chunk_overlap" activeId={openHelp} onToggle={toggleHelp} />
+                      {t("Chunk Overlap\r\n                      ")}<HelpButton id="chunk_overlap" activeId={openHelp} onToggle={toggleHelp} />
                       <RebuildBadge show={hasIndex && localConfig.chunk_overlap !== (ragConfig?.chunk_overlap ?? 64)} />
                     </label>
-                    <span className="text-xs text-muted-foreground font-mono">{localConfig.chunk_overlap} tokens</span>
+                    <span className="text-xs text-muted-foreground font-mono">{localConfig.chunk_overlap} {t("tokens")}</span>
                   </div>
                   {openHelp === "chunk_overlap" && <HelpPanel id="chunk_overlap" />}
                   <input
@@ -894,7 +876,7 @@ export function ContextStrategySettings() {
                     className="w-full accent-primary mt-1.5"
                   />
                   <div className="flex justify-between text-meta text-muted-foreground/60">
-                    <span>0 — no overlap</span><span>512 — max continuity</span>
+                    <span>{t("0 — no overlap")}</span><span>{t("512 — max continuity")}</span>
                   </div>
                 </div>
 
@@ -902,12 +884,9 @@ export function ContextStrategySettings() {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="text-xs font-medium text-foreground flex items-center gap-1.5">
-                      Similarity Threshold
-                      <HelpButton id="similarity_threshold" activeId={openHelp} onToggle={toggleHelp} />
+                      {t("Similarity Threshold\r\n                      ")}<HelpButton id="similarity_threshold" activeId={openHelp} onToggle={toggleHelp} />
                       {localConfig.search_mode !== "semantic" && (
-                        <span className="rounded-full bg-muted/60 px-1.5 py-0.5 text-meta text-muted-foreground/60">
-                          semantic only
-                        </span>
+                        <span className="rounded-full bg-muted/60 px-1.5 py-0.5 text-meta text-muted-foreground/60">{t("semantic only")}</span>
                       )}
                     </label>
                     <span className="text-xs text-muted-foreground font-mono">{localConfig.similarity_threshold.toFixed(2)}</span>
@@ -921,7 +900,7 @@ export function ContextStrategySettings() {
                     className="w-full accent-primary mt-1.5"
                   />
                   <div className="flex justify-between text-meta text-muted-foreground/60">
-                    <span>0.0 — include all</span><span>0.9 — strict</span>
+                    <span>{t("0.0 — include all")}</span><span>{t("0.9 — strict")}</span>
                   </div>
                 </div>
 
@@ -929,17 +908,13 @@ export function ContextStrategySettings() {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="text-xs font-medium text-foreground flex items-center gap-1.5">
-                      Semantic Weight
-                      <HelpButton id="semantic_weight" activeId={openHelp} onToggle={toggleHelp} />
+                      {t("Semantic Weight\r\n                      ")}<HelpButton id="semantic_weight" activeId={openHelp} onToggle={toggleHelp} />
                       {localConfig.search_mode !== "hybrid" && (
-                        <span className="rounded-full bg-muted/60 px-1.5 py-0.5 text-meta text-muted-foreground/60">
-                          hybrid only
-                        </span>
+                        <span className="rounded-full bg-muted/60 px-1.5 py-0.5 text-meta text-muted-foreground/60">{t("hybrid only")}</span>
                       )}
                     </label>
                     <span className="text-xs text-muted-foreground font-mono">
-                      {Math.round(localConfig.semantic_weight * 100)}% semantic / {Math.round((1 - localConfig.semantic_weight) * 100)}% keyword
-                    </span>
+                      {Math.round(localConfig.semantic_weight * 100)}{t("% semantic / ")}{Math.round((1 - localConfig.semantic_weight) * 100)}{t("% keyword\r\n                    ")}</span>
                   </div>
                   {openHelp === "semantic_weight" && <HelpPanel id="semantic_weight" />}
                   <input
@@ -950,15 +925,13 @@ export function ContextStrategySettings() {
                     className="w-full accent-primary mt-1.5"
                   />
                   <div className="flex justify-between text-meta text-muted-foreground/60">
-                    <span>0.0 — keyword</span><span>1.0 — semantic</span>
+                    <span>{t("0.0 — keyword")}</span><span>{t("1.0 — semantic")}</span>
                   </div>
                 </div>
 
                 {/* Ollama URL */}
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-foreground">
-                    Ollama URL
-                  </label>
+                  <label className="mb-1.5 block text-xs font-medium text-foreground">{t("Ollama URL")}</label>
                   <input
                     type="text"
                     value={localConfig.ollama_url}
@@ -972,7 +945,7 @@ export function ContextStrategySettings() {
                 {/* Batch Size */}
                 <div>
                   <div className="flex items-center gap-1.5 mb-1.5">
-                    <label className="text-xs font-medium text-foreground">Batch Size</label>
+                    <label className="text-xs font-medium text-foreground">{t("Batch Size")}</label>
                     <HelpButton id="batch_size" activeId={openHelp} onToggle={toggleHelp} />
                   </div>
                   {openHelp === "batch_size" && <HelpPanel id="batch_size" />}
@@ -982,7 +955,7 @@ export function ContextStrategySettings() {
                     className="w-full rounded-lg border border-border/50 bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 mt-1"
                   >
                     {[8, 16, 32, 64].map((v) => (
-                      <option key={v} value={v}>{v} chunks/request</option>
+                      <option key={v} value={v}>{v} {t("chunks/request")}</option>
                     ))}
                   </select>
                 </div>
@@ -992,9 +965,7 @@ export function ContextStrategySettings() {
                   onClick={handleResetDefaults}
                   className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
                 >
-                  <RotateCcw className="h-3.5 w-3.5" />
-                  Reset to Defaults
-                </button>
+                  <RotateCcw className="h-3.5 w-3.5" />{t("Reset to Defaults")}</button>
               </div>
             )}
           </div>
@@ -1002,11 +973,8 @@ export function ContextStrategySettings() {
           {/* ── How it works during meetings ── */}
           <div className="rounded-xl border border-border/20 bg-accent/10 px-4 py-3">
             <p className="text-xs text-muted-foreground/70 leading-relaxed">
-              <span className="font-semibold text-foreground/70">During meetings: </span>
-              The live transcript is sent as a rolling context window (configured in General settings),
-              not stored in the RAG index. RAG retrieves the top-{localConfig.top_k} relevant chunks
-              from your pre-indexed documents. Both are injected into the LLM prompt together.
-            </p>
+              <span className="font-semibold text-foreground/70">{t("During meetings:")}</span>
+              {t("The live transcript is sent as a rolling context window (configured in General settings),\r\n              not stored in the RAG index. RAG retrieves the top-")}{localConfig.top_k} {t("relevant chunks\r\n              from your pre-indexed documents. Both are injected into the LLM prompt together.\r\n            ")}</p>
           </div>
         </>
       )}
@@ -1036,7 +1004,7 @@ function GeminiCachePanel() {
     try {
       const info = await createGeminiContextCache(model, ttl);
       setCache(info);
-      showToast(`Cache created — ${info.total_token_count.toLocaleString()} tokens cached`, "success");
+      showToast(t("Cache created — {count} tokens cached", { count: info.total_token_count.toLocaleString() }), "success");
     } catch (e: any) {
       showToast(String(e), "error");
     } finally {
@@ -1049,7 +1017,7 @@ function GeminiCachePanel() {
     try {
       await deleteGeminiContextCache();
       setCache(null);
-      showToast("Gemini cache cleared", "success");
+      showToast(t("Gemini cache cleared"), "success");
     } catch (e: any) {
       showToast(String(e), "error");
     } finally {
@@ -1065,46 +1033,43 @@ function GeminiCachePanel() {
     <div className="rounded-xl border border-border/30 bg-card/50 p-5 space-y-4">
       <div className="flex items-center gap-2">
         <FlameKindling className="h-4 w-4 text-orange-400" />
-        <h3 className="text-sm font-semibold text-foreground">Gemini Context Cache</h3>
+        <h3 className="text-sm font-semibold text-foreground">{t("Gemini Context Cache")}</h3>
         {cache && (
           <span className="ml-auto flex items-center gap-1 rounded-full bg-green-500/15 px-2 py-0.5 text-xs font-medium text-green-400">
-            <CheckCircle2 className="h-3 w-3" /> Active · expires {expireLabel}
+            <CheckCircle2 className="h-3 w-3" /> {t("Active · expires ")}{expireLabel}
           </span>
         )}
       </div>
 
       <p className="text-xs text-muted-foreground leading-relaxed">
-        Upload your context documents to Gemini's servers once. Each query skips local
-        embedding entirely — <span className="text-foreground/80 font-medium">~3-5s faster per response</span> on
-        CPU-only machines.
-      </p>
+        {t("Upload your context documents to Gemini's servers once. Each query skips local\r\n        embedding entirely — ")}<span className="text-foreground/80 font-medium">{t("~3-5s faster per response")}</span> {t("on\r\n        CPU-only machines.\r\n      ")}</p>
 
       {!cache ? (
         <div className="flex flex-col gap-3">
           <div className="flex gap-2">
             <div className="flex-1">
-              <label className="mb-1 block text-xs text-muted-foreground">Model</label>
+              <label className="mb-1 block text-xs text-muted-foreground">{t("Model")}</label>
               <select
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
                 className="w-full rounded-lg border border-border/50 bg-background px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
               >
-                <option value="gemini-2.0-flash-001">gemini-2.0-flash-001</option>
-                <option value="gemini-1.5-flash-001">gemini-1.5-flash-001</option>
-                <option value="gemini-1.5-pro-001">gemini-1.5-pro-001</option>
+                <option value="gemini-2.0-flash-001">{t("gemini-2.0-flash-001")}</option>
+                <option value="gemini-1.5-flash-001">{t("gemini-1.5-flash-001")}</option>
+                <option value="gemini-1.5-pro-001">{t("gemini-1.5-pro-001")}</option>
               </select>
             </div>
             <div className="w-28">
-              <label className="mb-1 block text-xs text-muted-foreground">TTL</label>
+              <label className="mb-1 block text-xs text-muted-foreground">{t("TTL")}</label>
               <select
                 value={ttl}
                 onChange={(e) => setTtl(Number(e.target.value))}
                 className="w-full rounded-lg border border-border/50 bg-background px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
               >
-                <option value={1800}>30 min</option>
-                <option value={3600}>1 hour</option>
-                <option value={7200}>2 hours</option>
-                <option value={86400}>24 hours</option>
+                <option value={1800}>{t("30 min")}</option>
+                <option value={3600}>{t("1 hour")}</option>
+                <option value={7200}>{t("2 hours")}</option>
+                <option value={86400}>{t("24 hours")}</option>
               </select>
             </div>
           </div>
@@ -1114,14 +1079,13 @@ function GeminiCachePanel() {
             className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Cloud className="h-3.5 w-3.5" />}
-            Create Cache from Context Docs
-          </button>
+            {t("Create Cache from Context Docs\r\n          ")}</button>
         </div>
       ) : (
         <div className="flex items-center justify-between rounded-lg border border-border/30 bg-background/50 px-4 py-3">
           <div className="text-xs text-muted-foreground space-y-0.5">
-            <p><span className="text-foreground/70 font-medium">Model:</span> {cache.model.replace("models/", "")}</p>
-            <p><span className="text-foreground/70 font-medium">Tokens cached:</span> {cache.total_token_count.toLocaleString()}</p>
+            <p><span className="text-foreground/70 font-medium">{t("Model:")}</span> {cache.model.replace("models/", "")}</p>
+            <p><span className="text-foreground/70 font-medium">{t("Tokens cached:")}</span> {cache.total_token_count.toLocaleString()}</p>
           </div>
           <button
             onClick={handleDelete}
@@ -1129,8 +1093,7 @@ function GeminiCachePanel() {
             className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-red-500/50 hover:text-red-400 disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Trash2 className="h-3 w-3" />}
-            Clear
-          </button>
+            {t("Clear\r\n          ")}</button>
         </div>
       )}
     </div>

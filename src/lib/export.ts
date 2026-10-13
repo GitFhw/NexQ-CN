@@ -3,6 +3,7 @@
 // ============================================================================
 
 import type { Meeting, TranscriptSegment, AIScenario, SpeakerIdentity } from "./types";
+import { t } from "./i18n";
 import { formatTimestamp, formatDurationLong, getSpeakerLabel, getModeLabel } from "./utils";
 import { showToast } from "../stores/toastStore";
 
@@ -302,11 +303,11 @@ export async function saveExportFile({ defaultName, extension, filterLabel, cont
     if (!filePath) return false;
     const { writeTextFile } = await import("@tauri-apps/plugin-fs");
     await writeTextFile(filePath, content);
-    showToast("Exported successfully", "success");
+    showToast(t("Exported successfully"), "success");
     return true;
   } catch (err) {
     console.error("[Export] Failed:", err);
-    showToast("Export failed — check disk space", "error");
+    showToast(t("Export failed — check disk space"), "error");
     return false;
   }
 }

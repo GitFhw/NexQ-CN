@@ -380,7 +380,7 @@ pub fn run() {
                     *state.tray_manager.lock().unwrap() = Some(manager);
 
                     // Build initial idle menu (best-effort)
-                    if let Ok(menu) = tray::menu::build_idle_menu(app.handle()) {
+                    if let Ok(menu) = tray::menu::build_idle_menu(app.handle(), "zh-CN") {
                         if let Some(tray_icon) = app.tray_by_id("main") {
                             let _ = tray_icon.set_menu(Some(menu));
                         }

@@ -36,6 +36,7 @@ export function useTraySync() {
   const isRecording = useMeetingStore((s) => s.isRecording);
   const overlayHidden = useMeetingStore((s) => s.overlayHidden);
   const mutedYou = useConfigStore((s) => s.mutedYou);
+  const uiLocale = useConfigStore((s) => s.uiLocale);
   const isStreaming = useStreamStore((s) => s.isStreaming);
   const isIndexing = useRagStore((s) => s.isIndexing);
 
@@ -76,11 +77,11 @@ export function useTraySync() {
   useEffect(() => {
     const delay = initialized.current ? 0 : 1000;
     const timer = setTimeout(() => {
-      rebuildTrayMenu(isRecording).catch((e) =>
+      rebuildTrayMenu(isRecording, uiLocale).catch((e) =>
         console.warn("[useTraySync] Failed to rebuild tray menu:", e)
       );
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [isRecording]);
+  }, [isRecording, uiLocale]);
 }

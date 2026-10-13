@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import { useState, useCallback } from "react";
 import { useConfigStore } from "../../stores/configStore";
 import { useMeetingStore } from "../../stores/meetingStore";
@@ -120,9 +121,7 @@ export function FirstRunWizard() {
           <span className="text-base font-bold tracking-tight text-foreground">
             NexQ
           </span>
-          <span className="text-sm text-muted-foreground/60 font-medium">
-            Setup
-          </span>
+          <span className="text-sm text-muted-foreground/60 font-medium">{t("Setup")}</span>
         </div>
 
         {/* Step indicator dots */}
@@ -155,7 +154,7 @@ export function FirstRunWizard() {
 
         {/* Step label */}
         <span className="text-xs font-medium text-muted-foreground/70">
-          Step {currentStep + 1} of {STEP_COUNT}
+          {t("Step ")}{currentStep + 1} {t("of ")}{STEP_COUNT}
         </span>
       </header>
 
@@ -203,9 +202,7 @@ export function FirstRunWizard() {
               onClick={handleBack}
               className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
-              <ChevronLeft className="h-4 w-4" />
-              Back
-            </button>
+              <ChevronLeft className="h-4 w-4" />{t("Back")}</button>
           )}
         </div>
 
@@ -216,9 +213,7 @@ export function FirstRunWizard() {
               onClick={handleSkip}
               className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
-              <SkipForward className="h-3.5 w-3.5" />
-              Skip
-            </button>
+              <SkipForward className="h-3.5 w-3.5" />{t("Skip")}</button>
           )}
 
           {/* Next button — not shown on last step (it has its own actions) */}
@@ -228,8 +223,7 @@ export function FirstRunWizard() {
               disabled={!canNext}
               className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Next
-              <ChevronRight className="h-4 w-4" />
+              {t("Next\r\n              ")}<ChevronRight className="h-4 w-4" />
             </button>
           )}
         </div>

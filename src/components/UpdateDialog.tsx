@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useMemo } from "react";
 import { Download, ArrowRight, X } from "lucide-react";
 
@@ -77,7 +78,7 @@ export function UpdateDialog({
           <button
             onClick={onLater}
             className="rounded-lg p-1 text-muted-foreground/40 transition-colors hover:bg-accent hover:text-muted-foreground"
-            aria-label="Close"
+            aria-label={t("Close")}
           >
             <X className="h-4 w-4" />
           </button>
@@ -89,9 +90,7 @@ export function UpdateDialog({
             <Download className="h-6 w-6 text-primary" />
           </div>
 
-          <h2 className="mt-4 text-base font-semibold text-foreground">
-            A new version is available
-          </h2>
+          <h2 className="mt-4 text-base font-semibold text-foreground">{t("A new version is available")}</h2>
 
           {/* Version badge */}
           <div className="mt-3 flex items-center gap-2 rounded-lg border border-border/20 bg-muted/30 px-3 py-1.5">
@@ -138,23 +137,17 @@ export function UpdateDialog({
           <button
             onClick={onSkip}
             className="text-xs font-medium text-muted-foreground/60 transition-colors hover:text-muted-foreground"
-          >
-            Skip this version
-          </button>
+          >{t("Skip this version")}</button>
 
           <div className="flex items-center gap-2">
             <button
               onClick={onLater}
               className="rounded-lg border border-border/30 bg-secondary/30 px-4 py-2 text-xs font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-foreground"
-            >
-              Later
-            </button>
+            >{t("Later")}</button>
             <button
               onClick={onUpdate}
               className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Update & Restart
-            </button>
+            >{t("Update & Restart")}</button>
           </div>
         </div>
       </div>

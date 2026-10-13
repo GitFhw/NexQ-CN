@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import { useState, useEffect, useCallback } from "react";
 import { useConfigStore } from "../../stores/configStore";
 import {
@@ -193,10 +194,8 @@ export function LLMSetupStep({
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 shadow-md shadow-primary/10">
           <Brain className="h-7 w-7 text-primary" />
         </div>
-        <h2 className="text-2xl font-bold text-foreground">LLM Configuration</h2>
-        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-          Choose an AI model to power your meeting assistant.
-        </p>
+        <h2 className="text-2xl font-bold text-foreground">{t("LLM Configuration")}</h2>
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{t("Choose an AI model to power your meeting assistant.")}</p>
       </div>
 
       <div className="w-full max-w-lg space-y-6">
@@ -205,26 +204,21 @@ export function LLMSetupStep({
           <div className="rounded-xl border border-success/20 bg-success/5 px-5 py-4">
             <div className="flex items-center gap-2">
               <Server className="h-4 w-4 text-success" />
-              <p className="text-sm font-medium text-success">
-                Local LLM Detected
-              </p>
+              <p className="text-sm font-medium text-success">{t("Local LLM Detected")}</p>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
               {ollamaRunning &&
                 `Ollama is running with ${ollamaModels.length} model${ollamaModels.length !== 1 ? "s" : ""}. `}
               {lmStudioRunning &&
                 `LM Studio is running with ${lmStudioModels.length} model${lmStudioModels.length !== 1 ? "s" : ""}. `}
-              Your data stays on your machine.
-            </p>
+              {t("Your data stays on your machine.\r\n            ")}</p>
           </div>
         )}
 
         {/* Local Provider Cards */}
         {hasLocalLLM && (
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Local Providers
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("Local Providers")}</p>
             <div className="grid gap-2">
               {ollamaRunning && (
                 <ProviderButton
@@ -251,15 +245,13 @@ export function LLMSetupStep({
 
         {/* Cloud Provider Cards */}
         <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Cloud Providers
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("Cloud Providers")}</p>
           <div className="grid gap-2">
             {CLOUD_PROVIDERS.map((p) => (
               <ProviderButton
                 key={p.type}
-                label={p.label}
-                description={p.description}
+                label={t(p.label)}
+                description={t(p.description)}
                 icon={p.icon}
                 selected={selectedProvider === p.type}
                 recommended={!hasLocalLLM && p.recommended}
@@ -272,22 +264,20 @@ export function LLMSetupStep({
         {/* API Key Input */}
         {requiresApiKey && (
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">
-              API Key
-            </label>
+            <label className="text-sm font-medium text-foreground">{t("API Key")}</label>
             <div className="relative">
               <input
                 type={showApiKey ? "text" : "password"}
                 value={apiKey}
                 onChange={(e) => setApiKeyValue(e.target.value)}
                 onBlur={handleSaveApiKey}
-                placeholder={`Enter your ${selectedProvider === "anthropic" ? "Anthropic" : selectedProvider === "openai" ? "OpenAI" : "Groq"} API key`}
-                aria-label="API key"
+                placeholder={t("Enter your {provider} API key", { provider: selectedProvider === "anthropic" ? "Anthropic" : selectedProvider === "openai" ? "OpenAI" : "Groq" })}
+                aria-label={t("API key")}
                 className="w-full rounded-xl border border-border/40 bg-background px-4 py-3 pr-11 text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
               />
               <button
                 onClick={() => setShowApiKey(!showApiKey)}
-                aria-label={showApiKey ? "Hide API key" : "Show API key"}
+                aria-label={t(showApiKey ? "Hide API key" : "Show API key")}
                 aria-pressed={showApiKey}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground"
               >
@@ -298,9 +288,7 @@ export function LLMSetupStep({
                 )}
               </button>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Stored securely in your system keychain
-            </p>
+            <p className="text-xs text-muted-foreground">{t("Stored securely in your system keychain")}</p>
           </div>
         )}
 
@@ -319,8 +307,7 @@ export function LLMSetupStep({
             ) : (
               <CheckCircle className="h-3.5 w-3.5" />
             )}
-            Test Connection
-          </button>
+            {t("Test Connection\r\n          ")}</button>
           <button
             onClick={handleLoadModels}
             disabled={modelsLoading || (requiresApiKey && !apiKey)}
@@ -331,8 +318,7 @@ export function LLMSetupStep({
             ) : (
               <RefreshCw className="h-3 w-3" />
             )}
-            Load Models
-          </button>
+            {t("Load Models\r\n          ")}</button>
           {connectionStatus === "success" && (
             <span className="flex items-center gap-1 text-xs text-success">
               <CheckCircle className="h-3 w-3" />
@@ -350,18 +336,16 @@ export function LLMSetupStep({
         {/* Model Selection */}
         {models.length > 0 && (
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">
-              Select Model
-            </label>
+            <label className="text-sm font-medium text-foreground">{t("Select Model")}</label>
             <select
               value={selectedModel}
               onChange={(e) => handleModelSelect(e.target.value)}
               className="w-full rounded-xl border border-border/40 bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
             >
-              <option value="">Choose a model...</option>
+              <option value="">{t("Choose a model...")}</option>
               {models.map((m) => (
                 <option key={m.id} value={m.id}>
-                  {m.name}
+                  {t(m.name)}
                   {m.context_window
                     ? ` (${Math.round(m.context_window / 1000)}K ctx)`
                     : ""}
@@ -374,10 +358,10 @@ export function LLMSetupStep({
         {/* Recommendation */}
         <div className="rounded-xl border border-border/20 bg-secondary/20 px-5 py-4">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            <span className="font-medium text-foreground">Tip: </span>
+            <span className="font-medium text-foreground">{t("Tip:")}</span>
             {hasLocalLLM
-              ? "For privacy and speed, we recommend using Ollama with llama3.2. Your conversations never leave your machine."
-              : "For the best experience, we recommend Anthropic Claude. For local privacy, install Ollama and run it before starting NexQ."}
+              ? t("For privacy and speed, we recommend using Ollama with llama3.2. Your conversations never leave your machine.")
+              : t("For the best experience, we recommend Anthropic Claude. For local privacy, install Ollama and run it before starting NexQ.")}
           </p>
         </div>
       </div>
@@ -423,9 +407,7 @@ function ProviderButton({
         <p className="text-xs text-muted-foreground">{description}</p>
       </div>
       {recommended && (
-        <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-meta font-medium text-primary">
-          Recommended
-        </span>
+        <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-meta font-medium text-primary">{t("Recommended")}</span>
       )}
       {selected && (
         <CheckCircle className="h-4 w-4 shrink-0 text-primary" />

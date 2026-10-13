@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useEffect, useRef } from "react";
 import { Bookmark, BookmarkX, MessageSquarePlus, Copy } from "lucide-react";
 
@@ -77,7 +78,7 @@ export function TranscriptContextMenu({
           className="flex w-full items-center gap-2 px-3 py-1.5 text-xs text-foreground/70 hover:bg-secondary/30 hover:text-foreground cursor-pointer"
         >
           <span className="text-muted-foreground/50">{item.icon}</span>
-          {item.label}
+          {t(item.label)}
         </button>
       ))}
     </div>

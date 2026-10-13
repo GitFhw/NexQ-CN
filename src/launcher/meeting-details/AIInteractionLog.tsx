@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import type { AIInteraction } from "../../lib/types";
 import { formatRelativeTime, getModeLabel } from "../../lib/utils";
 import { MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
@@ -13,7 +14,7 @@ export function AIInteractionLog({ interactions, expandedId, onToggle }: AIInter
     return (
       <div className="flex flex-col items-center justify-center py-16">
         <MessageSquare className="mb-3 h-8 w-8 text-primary/20" />
-        <p className="text-sm font-medium text-muted-foreground/40">No AI interactions</p>
+        <p className="text-sm font-medium text-muted-foreground/40">{t("No AI interactions")}</p>
       </div>
     );
   }
@@ -38,7 +39,7 @@ export function AIInteractionLog({ interactions, expandedId, onToggle }: AIInter
                 </span>
               </div>
               <div className="flex items-center gap-2.5">
-                <span className="text-xs tabular-nums text-muted-foreground/50">{interaction.latency_ms}ms</span>
+                <span className="text-xs tabular-nums text-muted-foreground/50">{interaction.latency_ms}{t("ms")}</span>
                 {isExpanded
                   ? <ChevronUp className="h-4 w-4 text-muted-foreground/40" />
                   : <ChevronDown className="h-4 w-4 text-muted-foreground/40" />}

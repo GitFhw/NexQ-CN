@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useCallLogStore } from "../stores/callLogStore";
 import { useMeetingStore } from "../stores/meetingStore";
@@ -121,7 +122,7 @@ export function CallLogPanel() {
       const content = await exportTranslatedTranscript(meetingId, targetLang, format);
       if (format === "clipboard") {
         await navigator.clipboard.writeText(content);
-        showToast("Copied to clipboard", "success");
+        showToast(t("Copied to clipboard"), "success");
       } else {
         const blob = new Blob([content], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
@@ -130,10 +131,10 @@ export function CallLogPanel() {
         a.download = `transcript-${format.replace("_", "-")}.${format.includes("md") ? "md" : "txt"}`;
         a.click();
         URL.revokeObjectURL(url);
-        showToast("Export downloaded", "success");
+        showToast(t("Export downloaded"), "success");
       }
     } catch (err) {
-      showToast(`Export failed: ${err}`, "error");
+      showToast(t("Export failed: {error}", { error: String(err) }), "error");
     }
     setShowExportMenu(false);
   }, [meetingId, targetLang]);
@@ -153,9 +154,7 @@ export function CallLogPanel() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Activity className="h-3.5 w-3.5 text-primary" />
-                <span className="text-xs font-semibold text-foreground">
-                  AI Call Log
-                </span>
+                <span className="text-xs font-semibold text-foreground">{t("AI Call Log")}</span>
                 {entries.length > 0 && (
                   <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-meta font-medium text-primary">
                     {entries.length}
@@ -169,11 +168,10 @@ export function CallLogPanel() {
                     <button
                       onClick={() => setShowExportMenu((v) => !v)}
                       className="flex items-center gap-1 rounded-lg border border-border/30 bg-secondary/30 px-2 py-1 text-meta font-medium text-muted-foreground hover:bg-secondary/60 hover:text-foreground transition-colors"
-                      title="Export transcript"
+                      title={t("Export transcript")}
                     >
                       <Download className="h-3 w-3" />
-                      Export
-                      <ChevronDown className="h-2.5 w-2.5" />
+                      {t("Export\r\n                      ")}<ChevronDown className="h-2.5 w-2.5" />
                     </button>
 
                     {showExportMenu && (
@@ -183,27 +181,22 @@ export function CallLogPanel() {
                             onClick={() => handleExport("translated_txt")}
                             className="flex w-full items-center gap-2 px-3 py-1.5 text-xs text-foreground/80 hover:bg-accent/40 transition-colors"
                           >
-                            Translated transcript (.txt)
-                          </button>
+                            {t("Translated transcript (.txt)\r\n                          ")}</button>
                           <button
                             onClick={() => handleExport("bilingual_txt")}
                             className="flex w-full items-center gap-2 px-3 py-1.5 text-xs text-foreground/80 hover:bg-accent/40 transition-colors"
                           >
-                            Bilingual transcript (.txt)
-                          </button>
+                            {t("Bilingual transcript (.txt)\r\n                          ")}</button>
                           <button
                             onClick={() => handleExport("bilingual_md")}
                             className="flex w-full items-center gap-2 px-3 py-1.5 text-xs text-foreground/80 hover:bg-accent/40 transition-colors"
                           >
-                            Bilingual transcript (.md)
-                          </button>
+                            {t("Bilingual transcript (.md)\r\n                          ")}</button>
                           <div className="my-1 border-t border-border/20" />
                           <button
                             onClick={() => handleExport("clipboard")}
                             className="flex w-full items-center gap-2 px-3 py-1.5 text-xs text-foreground/80 hover:bg-accent/40 transition-colors"
-                          >
-                            Copy to clipboard
-                          </button>
+                          >{t("Copy to clipboard")}</button>
                         </div>
                       </div>
                     )}
@@ -214,7 +207,7 @@ export function CallLogPanel() {
                   <button
                     onClick={clearAll}
                     className="rounded p-1 text-muted-foreground/50 transition-colors hover:bg-accent hover:text-destructive"
-                    title="Clear all"
+                    title={t("Clear all")}
                   >
                     <Trash2 className="h-3 w-3" />
                   </button>
@@ -222,7 +215,7 @@ export function CallLogPanel() {
                 <button
                   onClick={handleClose}
                   className="rounded p-1 text-muted-foreground/50 transition-colors hover:bg-accent hover:text-foreground"
-                  title="Close (Esc)"
+                  title={t("Close (Esc)")}
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -244,7 +237,7 @@ export function CallLogPanel() {
                         : "bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                   >
-                    {label}
+                    {t(label)}
                     {count > 0 && (
                       <span
                         className={
@@ -265,10 +258,10 @@ export function CallLogPanel() {
           {/* ── Stats mini-dashboard ── */}
           {stats.total > 0 && (
             <div className="flex items-center justify-between border-b border-border/20 bg-secondary/20 px-3 py-1.5 shrink-0">
-              <StatTile label="Calls" value={`${stats.total}`} />
-              <StatTile label="Avg" value={`${stats.avgLatency}ms`} />
+              <StatTile label={t("Calls")} value={`${stats.total}`} />
+              <StatTile label={t("Avg")} value={`${stats.avgLatency}ms`} />
               <StatTile
-                label="Tokens"
+                label={t("Tokens")}
                 value={
                   stats.totalTokens > 999
                     ? `${(stats.totalTokens / 1000).toFixed(1)}k`
@@ -277,7 +270,7 @@ export function CallLogPanel() {
               />
               {stats.errorCount > 0 && (
                 <StatTile
-                  label="Errors"
+                  label={t("Errors")}
                   value={`${stats.errorCount}`}
                   valueClass="text-red-400"
                 />
@@ -289,7 +282,7 @@ export function CallLogPanel() {
           {batchProgress && (
             <div className="flex items-center gap-2 px-4 py-2 bg-primary/5 border-b border-primary/10 shrink-0">
               <span className="text-meta text-primary/60 font-medium whitespace-nowrap">
-                Translating to {targetLang.toUpperCase()}...
+                {t("Translating to ")}{targetLang.toUpperCase()}...
               </span>
               <div className="flex-1 h-1 rounded-full bg-border/20 overflow-hidden">
                 <div
@@ -316,8 +309,8 @@ export function CallLogPanel() {
                   <FileSearch className="h-6 w-6" />
                   <span className="text-xs">
                     {entries.length === 0
-                      ? "No AI calls yet"
-                      : "No calls match filter"}
+                      ? t("No AI calls yet")
+                      : t("No calls match filter")}
                   </span>
                 </div>
               ) : (
@@ -341,9 +334,7 @@ export function CallLogPanel() {
             ) : (
               filteredEntries.length > 0 && (
                 <div className="flex-1 flex items-center justify-center text-muted-foreground/60">
-                  <span className="text-xs">
-                    Click an entry to view prompt details
-                  </span>
+                  <span className="text-xs">{t("Click an entry to view prompt details")}</span>
                 </div>
               )
             )}

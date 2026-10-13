@@ -1,4 +1,5 @@
 import type { OpenRouterModel } from "../../lib/types";
+import { t } from "../../lib/i18n";
 import { ModelCard } from "./ModelCard";
 
 interface FavoritesSectionProps {
@@ -25,8 +26,7 @@ export function FavoritesSection({
   return (
     <div>
       <h4 className="text-[11px] uppercase tracking-wider text-muted-foreground/40 mb-2 pl-0.5">
-        ★ Favorites
-      </h4>
+        {t("★ Favorites\r\n      ")}</h4>
       <div className="flex flex-col gap-1.5">
         {favoriteModels.map((m) => (
           <ModelCard

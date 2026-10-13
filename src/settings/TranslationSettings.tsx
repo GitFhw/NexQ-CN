@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 // Translation Settings — provider selector with API key management, language config, and behavior toggles.
 // Follows the STT/LLM settings pattern: provider grid, API key input, test connection, make active.
 
@@ -513,18 +514,16 @@ export function TranslationSettings() {
         <Globe className="h-4 w-4 text-primary shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-foreground">
-            Active: {ALL_PROVIDERS.find((p) => p.value === provider)?.label || provider}
+            {t("Active: ")}{ALL_PROVIDERS.find((p) => p.value === provider)?.label || provider}
             {" · "}
             {DEFAULT_TARGET_LANGUAGES.find((l) => l.code === targetLang)?.name || targetLang}
           </p>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            This provider will be used for transcript translation
-          </p>
+          <p className="mt-0.5 text-xs text-muted-foreground">{t("This provider will be used for transcript translation")}</p>
         </div>
         {connectionStatus === "success" && selectedProvider === provider && (
           <div className="flex items-center gap-1 text-success shrink-0">
             <CheckCircle className="h-3.5 w-3.5" />
-            <span className="text-xs">Connected</span>
+            <span className="text-xs">{t("Connected")}</span>
           </div>
         )}
       </div>
@@ -541,10 +540,8 @@ export function TranslationSettings() {
                 <div className="flex h-5 w-5 items-center justify-center rounded bg-success/10">
                   <Server className="h-3 w-3 text-success" />
                 </div>
-                <span className="text-xs font-semibold text-foreground">Local & Offline</span>
-                <span className="ml-auto text-meta text-muted-foreground/60 font-medium uppercase tracking-wider">
-                  Free · No API Key · Private
-                </span>
+                <span className="text-xs font-semibold text-foreground">{t("Local & Offline")}</span>
+                <span className="ml-auto text-meta text-muted-foreground/60 font-medium uppercase tracking-wider">{t("Free · No API Key · Private")}</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {LOCAL_PROVIDERS.map((p) => (
@@ -566,10 +563,8 @@ export function TranslationSettings() {
                 <div className="flex h-5 w-5 items-center justify-center rounded bg-info/10">
                   <Cloud className="h-3 w-3 text-info" />
                 </div>
-                <span className="text-xs font-semibold text-foreground">Cloud Providers</span>
-                <span className="ml-auto text-meta text-muted-foreground/60 font-medium uppercase tracking-wider">
-                  Requires API Key
-                </span>
+                <span className="text-xs font-semibold text-foreground">{t("Cloud Providers")}</span>
+                <span className="ml-auto text-meta text-muted-foreground/60 font-medium uppercase tracking-wider">{t("Requires API Key")}</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {CLOUD_PROVIDERS.map((p) => (
@@ -589,7 +584,7 @@ export function TranslationSettings() {
           {/* ── API Key Configuration (cloud providers only) ── */}
           {isCloud && (
             <div className="rounded-xl border border-border/30 bg-card/50 p-4">
-              <h3 className="mb-3 text-sm font-semibold text-primary/80">API Key</h3>
+              <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("API Key")}</h3>
 
               <div className="flex gap-2">
                 <div className="relative flex-1">
@@ -604,7 +599,7 @@ export function TranslationSettings() {
                     }}
                     placeholder={
                       hasStoredKey && !keyDirty
-                        ? "Key stored — type to replace"
+                        ? t("Key stored — type to replace")
                         : `Enter ${currentProviderOption?.label || selectedProvider} API key`
                     }
                     maxLength={256}
@@ -614,7 +609,7 @@ export function TranslationSettings() {
                     onClick={() => setShowApiKey(!showApiKey)}
                     className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground cursor-pointer"
                     type="button"
-                    aria-label={showApiKey ? "Hide API key" : "Show API key"}
+                    aria-label={showApiKey ? t("Hide API key") : t("Show API key")}
                     aria-pressed={showApiKey}
                   >
                     {showApiKey ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
@@ -633,7 +628,7 @@ export function TranslationSettings() {
                     ) : (
                       <Wifi className="h-3.5 w-3.5" />
                     )}
-                    Save & Test
+                    {t("Save & Test")}
                   </button>
                 )}
 
@@ -649,8 +644,7 @@ export function TranslationSettings() {
                     ) : (
                       <Wifi className="h-3.5 w-3.5" />
                     )}
-                    Test Connection
-                  </button>
+                    {t("Test Connection\r\n                  ")}</button>
                 )}
 
                 {/* Clear stored key */}
@@ -674,11 +668,9 @@ export function TranslationSettings() {
                       } catch { /* ignore */ }
                     }}
                     className="flex items-center gap-1.5 rounded-lg border border-destructive/30 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
-                    title="Remove stored API key"
+                    title={t("Remove stored API key")}
                   >
-                    <XCircle className="h-3.5 w-3.5" />
-                    Clear
-                  </button>
+                    <XCircle className="h-3.5 w-3.5" />{t("Clear")}</button>
                 )}
               </div>
 
@@ -691,7 +683,7 @@ export function TranslationSettings() {
                     rel="noopener noreferrer"
                     className="text-primary/70 hover:text-primary underline-offset-2 hover:underline"
                   >
-                    {currentProviderOption.helpLabel || "Get a free API key"} &rarr;
+                    {currentProviderOption.helpLabel || t("Get a free API key")} &rarr;
                   </a>
                 </p>
               )}
@@ -699,7 +691,7 @@ export function TranslationSettings() {
               {/* Azure Region dropdown (Microsoft only) */}
               {currentProviderOption?.needsRegion && (
                 <div className="mt-3">
-                  <label className="mb-1.5 block text-xs font-medium text-foreground">Azure Region</label>
+                  <label className="mb-1.5 block text-xs font-medium text-foreground">{t("Azure Region")}</label>
                   <select
                     value={azureRegion}
                     onChange={(e) => setAzureRegion(e.target.value)}
@@ -709,9 +701,7 @@ export function TranslationSettings() {
                       <option key={r} value={r}>{r}</option>
                     ))}
                   </select>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Region for your Azure Translator resource
-                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">{t("Region for your Azure Translator resource")}</p>
                 </div>
               )}
 
@@ -730,14 +720,10 @@ export function TranslationSettings() {
                   </div>
                 )}
                 {connectionStatus === "idle" && hasStoredKey && !keyDirty && (
-                  <p className="text-xs text-success/70">
-                    API key stored securely
-                  </p>
+                  <p className="text-xs text-success/70">{t("API key stored securely")}</p>
                 )}
                 {connectionStatus === "idle" && !hasStoredKey && (
-                  <p className="text-xs text-muted-foreground">
-                    Enter your key and click Save & Test
-                  </p>
+                  <p className="text-xs text-muted-foreground">{t("Enter your key and click Save & Test")}</p>
                 )}
               </div>
             </div>
@@ -749,7 +735,7 @@ export function TranslationSettings() {
           {/* ── LLM local provider — Test Connection ── */}
           {isLlm && (
             <div className="rounded-xl border border-border/30 bg-card/50 p-4">
-              <h3 className="mb-3 text-sm font-semibold text-primary/80">Connection</h3>
+              <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("Connection")}</h3>
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleTestLocal}
@@ -761,17 +747,14 @@ export function TranslationSettings() {
                   ) : (
                     <Wifi className="h-3.5 w-3.5" />
                   )}
-                  Test Connection
-                </button>
+                  {t("Test Connection\r\n                ")}</button>
 
                 {canMakeActive && (
                   <button
                     onClick={handleMakeActive}
                     className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90 cursor-pointer"
                   >
-                    <Zap className="h-3.5 w-3.5" />
-                    Make Active
-                  </button>
+                    <Zap className="h-3.5 w-3.5" />{t("Make Active")}</button>
                 )}
 
                 {connectionStatus === "success" && (
@@ -796,8 +779,7 @@ export function TranslationSettings() {
               onClick={handleMakeActive}
               className="w-full rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm font-medium text-primary transition-all duration-150 hover:bg-primary/10 hover:-translate-y-px active:translate-y-px active:scale-[0.99] cursor-pointer"
             >
-              Set {currentProviderOption?.label || selectedProvider} as Active Translation Provider
-            </button>
+              {t("Set ")}{currentProviderOption?.label || selectedProvider} {t("as Active Translation Provider\r\n            ")}</button>
           )}
         </div>
 
@@ -805,21 +787,21 @@ export function TranslationSettings() {
         <div className="space-y-5">
           {/* ── Language Settings ── */}
           <div className="rounded-xl border border-border/30 bg-card/50 p-4">
-            <h3 className="mb-3 text-sm font-semibold text-primary/80">Language</h3>
+            <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("Language")}</h3>
 
             {/* Banner: activate provider to see its languages */}
             {selectedProvider !== provider && (
               <div className="mb-3 flex items-center gap-2 rounded-lg border border-info/20 bg-info/5 px-3 py-2">
                 <Info className="h-3.5 w-3.5 text-info shrink-0" />
                 <p className="text-xs text-muted-foreground">
-                  Activate <span className="font-medium text-foreground">{currentProviderOption?.label}</span> to see its supported languages
+                  {t("Activate")} <span className="font-medium text-foreground">{t(currentProviderOption?.label ?? "")}</span> {t("to see its supported languages")}
                 </p>
               </div>
             )}
 
             <div className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-foreground">Target Language</label>
+                <label className="mb-1.5 block text-xs font-medium text-foreground">{t("Target Language")}</label>
                 <select
                   value={targetLang}
                   onChange={(e) => setTargetLang(e.target.value)}
@@ -827,59 +809,55 @@ export function TranslationSettings() {
                 >
                   {languageOptions.map((lang) => (
                     <option key={lang.code} value={lang.code}>
-                      {lang.name}
+                      {t(lang.name)}
                     </option>
                   ))}
                 </select>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Translate transcripts into this language
-                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{t("Translate transcripts into this language")}</p>
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-foreground">Source Language</label>
+                <label className="mb-1.5 block text-xs font-medium text-foreground">{t("Source Language")}</label>
                 <select
                   value={sourceLang}
                   onChange={(e) => setSourceLang(e.target.value)}
                   className="w-full rounded-lg border border-border/50 bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 cursor-pointer"
                 >
-                  <option value="auto">Auto-detect (recommended)</option>
+                  <option value="auto">{t("Auto-detect (recommended)")}</option>
                   {languageOptions.map((lang) => (
                     <option key={lang.code} value={lang.code}>
-                      {lang.name}
+                      {t(lang.name)}
                     </option>
                   ))}
                 </select>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Detect source language automatically or set explicitly
-                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{t("Detect source language automatically or set explicitly")}</p>
               </div>
             </div>
           </div>
 
           {/* ── Behavior Toggles ── */}
           <div className="rounded-xl border border-border/30 bg-card/50 p-4">
-            <h3 className="mb-3 text-sm font-semibold text-primary/80">Behavior</h3>
+            <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("Behavior")}</h3>
             <div className="space-y-4">
               {/* Select-to-translate toolbar */}
               <ToggleRow
-                label="Select-to-translate toolbar"
-                description="Show a translate button when selecting text in the transcript"
+                label={t("Select-to-translate toolbar")}
+                description={t("Show a translate button when selecting text in the transcript")}
                 checked={selectionToolbarEnabled}
                 onChange={setSelectionToolbarEnabled}
               />
 
               {/* Show translations in post-meeting */}
               <ToggleRow
-                label="Show translations in post-meeting review"
-                description="Display translation toolbar and cached translations when reviewing past meetings"
+                label={t("Show translations in post-meeting review")}
+                description={t("Display translation toolbar and cached translations when reviewing past meetings")}
                 checked={showPostMeetingTranslation}
                 onChange={setShowPostMeetingTranslation}
               />
 
               {/* Cache translations */}
               <ToggleRow
-                label="Cache translations"
-                description="Store translated text locally to avoid re-translating the same content"
+                label={t("Cache translations")}
+                description={t("Store translated text locally to avoid re-translating the same content")}
                 checked={cacheEnabled}
                 onChange={setCacheEnabled}
               />
@@ -929,7 +907,7 @@ function ProviderCard({
       <div className="flex w-full items-center gap-1.5 mb-1">
         <ProviderIcon value={provider.value} isSelected={isSelected} />
         <span className={`text-xs font-medium ${isSelected ? "text-primary" : "text-foreground"}`}>
-          {provider.label}
+          {t(provider.label)}
         </span>
         <span
           className={`ml-auto inline-flex shrink-0 items-center rounded-full border px-1.5 py-0.5 text-[8px] font-semibold tracking-wide ${BADGE_STYLES[badge.variant]}`}
@@ -938,7 +916,7 @@ function ProviderCard({
         </span>
       </div>
       <span className="text-meta text-muted-foreground/70 leading-tight">
-        {provider.description}
+        {t(provider.description)}
       </span>
     </button>
   );

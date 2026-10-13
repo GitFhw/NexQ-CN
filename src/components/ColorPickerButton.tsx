@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
@@ -54,7 +55,7 @@ export function ColorPickerButton({ value, onChange, label }: ColorPickerButtonP
         ref={btnRef}
         onClick={handleOpen}
         className="flex items-center gap-1 rounded-md px-1.5 py-1 hover:bg-white/5 transition-colors cursor-pointer"
-        title={label || "Pick color"}
+        title={label || t("Pick color")}
       >
         <div
           className="h-3.5 w-3.5 rounded border border-white/15"
@@ -110,7 +111,7 @@ export function ColorPickerButton({ value, onChange, label }: ColorPickerButtonP
               }}
               className="w-14 bg-transparent text-[0.6rem] text-foreground/60 outline-none font-mono tracking-wider"
               maxLength={6}
-              placeholder="custom"
+              placeholder={t("custom" )}
             />
           </div>
         </div>,

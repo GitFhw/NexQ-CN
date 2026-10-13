@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useEffect, useCallback, useRef, useState } from "react";
 import { X } from "lucide-react";
 import type { ActionConfig } from "../lib/types";
@@ -129,7 +130,7 @@ export function PromptPreviewDialog({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Prompt preview"
+        aria-label={t("Prompt preview")}
         className={`w-full max-w-[600px] max-h-[80vh] flex flex-col rounded-xl border border-border/50 bg-card shadow-2xl transition-all duration-150 ${
           isVisible
             ? "opacity-100 scale-100 translate-y-0"
@@ -139,19 +140,16 @@ export function PromptPreviewDialog({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border/30 px-5 py-3.5">
           <div>
-            <h2 className="text-base font-semibold text-foreground">
-              Prompt Preview
-            </h2>
+            <h2 className="text-base font-semibold text-foreground">{t("Prompt Preview")}</h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {actionConfig.name} &mdash; {actionConfig.mode} mode
-            </p>
+              {actionConfig.name} &mdash; {actionConfig.mode} {t("mode\r\n            ")}</p>
           </div>
           <button
             autoFocus
             onClick={handleClose}
             className="rounded-lg p-1.5 text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
-            title="Close (Esc)"
-            aria-label="Close prompt preview"
+            title={t("Close (Esc)")}
+            aria-label={t("Close prompt preview")}
           >
             <X className="h-4 w-4" />
           </button>
@@ -161,47 +159,37 @@ export function PromptPreviewDialog({
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {/* System Prompt Section */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">
-              System Prompt
-            </h3>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">{t("System Prompt")}</h3>
             <div className="rounded-lg border border-blue-500/20 bg-blue-500/10 p-3">
               <pre className="font-mono text-xs text-foreground whitespace-pre-wrap break-words">
                 {systemPrompt || "(empty)"}
               </pre>
             </div>
             <p className="text-meta text-muted-foreground mt-1.5">
-              ~{systemTokens.toLocaleString()} tokens
-              {actionConfig.isDefaultPrompt && (
-                <span className="ml-2 text-muted-foreground/70">
-                  (default prompt)
-                </span>
+              ~{systemTokens.toLocaleString()} {t("tokens\r\n              ")}{actionConfig.isDefaultPrompt && (
+                <span className="ml-2 text-muted-foreground/70">{t("(default prompt)")}</span>
               )}
             </p>
           </div>
 
           {/* User Message Section */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">
-              User Message
-            </h3>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">{t("User Message")}</h3>
             <div className="rounded-lg border border-border/30 bg-muted/30 p-3">
               <pre className="font-mono text-xs text-foreground whitespace-pre-wrap break-words">
                 {userMessage}
               </pre>
             </div>
             <p className="text-meta text-muted-foreground mt-1.5">
-              ~{userTokens.toLocaleString()} tokens
-            </p>
+              ~{userTokens.toLocaleString()} {t("tokens\r\n            ")}</p>
           </div>
 
           {/* Included Sections Summary */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">
-              Included Sections
-            </h3>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">{t("Included Sections")}</h3>
             <div className="grid grid-cols-2 gap-1.5">
               <SectionBadge
-                label="Transcript"
+                label={t("Transcript")}
                 active={actionConfig.includeTranscript}
                 detail={
                   actionConfig.includeTranscript
@@ -212,7 +200,7 @@ export function PromptPreviewDialog({
                 }
               />
               <SectionBadge
-                label="RAG Chunks"
+                label={t("RAG Chunks")}
                 active={actionConfig.includeRagChunks}
                 detail={
                   actionConfig.includeRagChunks
@@ -221,11 +209,11 @@ export function PromptPreviewDialog({
                 }
               />
               <SectionBadge
-                label="Custom Instructions"
+                label={t("Custom Instructions")}
                 active={actionConfig.includeCustomInstructions}
               />
               <SectionBadge
-                label="Detected Question"
+                label={t("Detected Question")}
                 active={actionConfig.includeDetectedQuestion}
               />
             </div>
@@ -233,9 +221,7 @@ export function PromptPreviewDialog({
 
           {/* Token Estimate */}
           <div className="rounded-lg border border-border/30 bg-muted/20 px-4 py-3 flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">
-              Estimated total tokens
-            </span>
+            <span className="text-xs font-medium text-muted-foreground">{t("Estimated total tokens")}</span>
             <span className="text-sm font-semibold text-foreground tabular-nums">
               ~{totalTokens.toLocaleString()}
             </span>
@@ -244,14 +230,10 @@ export function PromptPreviewDialog({
           {/* Parameters */}
           {actionConfig.temperature !== null && (
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">
-                Parameters
-              </h3>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">{t("Parameters")}</h3>
               <div className="flex gap-3">
                 <div className="rounded-md border border-border/30 bg-muted/20 px-3 py-1.5">
-                  <span className="text-meta text-muted-foreground">
-                    Temperature
-                  </span>
+                  <span className="text-meta text-muted-foreground">{t("Temperature")}</span>
                   <p className="text-xs font-medium text-foreground">
                     {actionConfig.temperature}
                   </p>

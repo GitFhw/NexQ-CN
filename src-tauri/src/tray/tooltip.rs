@@ -19,15 +19,17 @@ pub fn build_tooltip(
     meeting_start: Option<Instant>,
     is_muted: bool,
     custom_text: Option<&str>,
+    locale: &str,
 ) -> String {
     use super::TrayState;
+    let zh = locale == "zh-CN";
 
     match state {
         TrayState::Idle => {
             if let Some(text) = custom_text {
-                format!("NexQ — Idle · {}", text)
+                format!("NexQ — {} · {}", if zh { "空闲" } else { "Idle" }, text)
             } else {
-                "NexQ — Idle".to_string()
+                if zh { "NexQ — 空闲" } else { "NexQ — Idle" }.to_string()
             }
         }
         TrayState::Recording => {
@@ -35,29 +37,29 @@ pub fn build_tooltip(
                 .map(|s| format_elapsed(s))
                 .unwrap_or_else(|| "00:00".to_string());
             if is_muted {
-                format!("NexQ — Recording (Mic Muted) · {} elapsed", elapsed)
+                format!("NexQ — {} · {} {}", if zh { "录音中（麦克风已静音）" } else { "Recording (Mic Muted)" }, elapsed, if zh { "已用时" } else { "elapsed" })
             } else {
-                format!("NexQ — Recording · {} elapsed", elapsed)
+                format!("NexQ — {} · {} {}", if zh { "录音中" } else { "Recording" }, elapsed, if zh { "已用时" } else { "elapsed" })
             }
         }
         TrayState::Muted => {
             let elapsed = meeting_start
                 .map(|s| format_elapsed(s))
                 .unwrap_or_else(|| "00:00".to_string());
-            format!("NexQ — Recording (Mic Muted) · {} elapsed", elapsed)
+            format!("NexQ — {} · {} {}", if zh { "录音中（麦克风已静音）" } else { "Recording (Mic Muted)" }, elapsed, if zh { "已用时" } else { "elapsed" })
         }
         TrayState::Stealth => {
             let elapsed = meeting_start
                 .map(|s| format_elapsed(s))
                 .unwrap_or_else(|| "00:00".to_string());
-            format!("NexQ — Stealth · {} elapsed", elapsed)
+            format!("NexQ — {} · {} {}", if zh { "隐身模式" } else { "Stealth" }, elapsed, if zh { "已用时" } else { "elapsed" })
         }
-        TrayState::AiProcessing => "NexQ — AI Processing...".to_string(),
+        TrayState::AiProcessing => if zh { "NexQ — AI 正在处理…" } else { "NexQ — AI Processing..." }.to_string(),
         TrayState::Indexing => {
             if let Some(text) = custom_text {
                 format!("NexQ — {}", text)
             } else {
-                "NexQ — Indexing files...".to_string()
+                if zh { "NexQ — 正在索引文件…" } else { "NexQ — Indexing files..." }.to_string()
             }
         }
     }

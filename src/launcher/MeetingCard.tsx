@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useCallback, useRef, useEffect } from "react";
 import type { MeetingSummary } from "../lib/types";
 import { formatRelativeTime, formatDurationLong } from "../lib/utils";
@@ -154,7 +155,7 @@ export function MeetingCard({
               ? "text-warning"
               : "text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-warning/70"
           }`}
-          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          aria-label={t(isFavorite ? "Remove from favorites" : "Add to favorites")}
           aria-pressed={isFavorite}
         >
           <Star
@@ -189,7 +190,7 @@ export function MeetingCard({
                 }}
                 disabled={isSaving}
                 className="rounded-md p-1 text-success hover:bg-success/10 disabled:opacity-50"
-                aria-label="Save title"
+                aria-label={t("Save title" )}
               >
                 <Check className="h-3 w-3" aria-hidden="true" />
               </button>
@@ -199,7 +200,7 @@ export function MeetingCard({
                   handleCancelEdit();
                 }}
                 className="rounded-md p-1 text-muted-foreground hover:bg-secondary"
-                aria-label="Cancel editing"
+                aria-label={t("Cancel editing")}
               >
                 <X className="h-3 w-3" aria-hidden="true" />
               </button>
@@ -217,9 +218,7 @@ export function MeetingCard({
             </span>
 
             {isLive ? (
-              <span className="live-ring-pulse rounded-full bg-success/10 px-2 py-0.5 text-meta font-semibold text-success">
-                LIVE
-              </span>
+              <span className="live-ring-pulse rounded-full bg-success/10 px-2 py-0.5 text-meta font-semibold text-success">{t("LIVE")}</span>
             ) : (
               <span className="flex items-center gap-0.5 text-meta tabular-nums text-muted-foreground/60">
                 <Clock className="h-2.5 w-2.5" />
@@ -271,18 +270,18 @@ export function MeetingCard({
         <div className="flex items-center gap-0.5 opacity-0 transition-opacity duration-150 group-hover:opacity-100">
           {showDeleteConfirm ? (
             <div className="flex items-center gap-1 rounded-lg bg-destructive/10 px-2 py-1">
-              <span className="text-meta text-destructive">Delete?</span>
+              <span className="text-meta text-destructive">{t("Delete?")}</span>
               <button
                 onClick={handleConfirmDelete}
                 className="rounded p-0.5 text-destructive hover:bg-destructive/20"
-                aria-label="Confirm delete"
+                aria-label={t("Confirm delete")}
               >
                 <Check className="h-3 w-3" aria-hidden="true" />
               </button>
               <button
                 onClick={handleCancelDelete}
                 className="rounded p-0.5 text-muted-foreground hover:bg-secondary"
-                aria-label="Cancel delete"
+                aria-label={t("Cancel delete")}
               >
                 <X className="h-3 w-3" aria-hidden="true" />
               </button>
@@ -292,14 +291,14 @@ export function MeetingCard({
               <button
                 onClick={handleStartEdit}
                 className="rounded-md p-1 text-muted-foreground/60 hover:bg-secondary hover:text-foreground"
-                aria-label="Rename meeting"
+                aria-label={t("Rename meeting")}
               >
                 <Pencil className="h-3 w-3" aria-hidden="true" />
               </button>
               <button
                 onClick={handleDeleteClick}
                 className="rounded-md p-1 text-muted-foreground/60 hover:bg-destructive/10 hover:text-destructive"
-                aria-label="Delete meeting"
+                aria-label={t("Delete meeting")}
               >
                 <Trash2 className="h-3 w-3" aria-hidden="true" />
               </button>

@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
+import { t } from "../lib/i18n";
 import { invoke } from "@tauri-apps/api/core";
 import {
   onStreamStart,
@@ -303,7 +304,7 @@ export function useBookmarkSuggestions(
           try {
             const items = parseSuggestionsJSON(contentRef.current, allSegments);
             if (items.length === 0) {
-              setError("info:No notable moments found in this meeting. You can add bookmarks manually from the Transcript tab.");
+              setError(`info:${t("No notable moments found in this meeting. You can add bookmarks manually from the Transcript tab.")}`);
             } else {
               setSuggestions(items);
             }
@@ -312,9 +313,9 @@ export function useBookmarkSuggestions(
             const msg = err instanceof Error ? err.message : String(err);
             if (msg.includes("No JSON array found")) {
               // LLM returned prose instead of JSON — meeting too short or nothing to bookmark
-              setError("info:This meeting doesn't have enough content to suggest bookmarks. You can add bookmarks manually from the Transcript tab.");
+              setError(`info:${t("This meeting doesn't have enough content to suggest bookmarks. You can add bookmarks manually from the Transcript tab.")}`);
             } else {
-              setError("Couldn't parse bookmark suggestions. Try again.");
+              setError(t("Couldn't parse bookmark suggestions. Try again."));
             }
           }
         }

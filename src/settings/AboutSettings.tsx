@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import {
   Github,
   FileText,
@@ -59,19 +60,11 @@ export function AboutSettings() {
             <p className="text-xs text-muted-foreground">
               v{NEXQ_VERSION}
             </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              AI Meeting Assistant &amp; Real-Time Interview Copilot
-            </p>
+            <p className="mt-2 text-sm text-muted-foreground">{t("AI Meeting Assistant &amp; Real-Time Interview Copilot")}</p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center rounded-full bg-secondary/50 px-3 py-1 text-meta font-medium text-muted-foreground">
-                Tauri 2
-              </span>
-              <span className="inline-flex items-center rounded-full bg-secondary/50 px-3 py-1 text-meta font-medium text-muted-foreground">
-                React + Rust
-              </span>
-              <span className="inline-flex items-center rounded-full bg-secondary/50 px-3 py-1 text-meta font-medium text-muted-foreground">
-                Windows x64
-              </span>
+              <span className="inline-flex items-center rounded-full bg-secondary/50 px-3 py-1 text-meta font-medium text-muted-foreground">{t("Tauri 2")}</span>
+              <span className="inline-flex items-center rounded-full bg-secondary/50 px-3 py-1 text-meta font-medium text-muted-foreground">{t("React + Rust")}</span>
+              <span className="inline-flex items-center rounded-full bg-secondary/50 px-3 py-1 text-meta font-medium text-muted-foreground">{t("Windows x64")}</span>
             </div>
           </div>
         </div>
@@ -80,23 +73,23 @@ export function AboutSettings() {
       {/* Meta Grid (2x2) */}
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-xl border border-border/30 bg-card/50 p-4">
-          <p className="text-meta text-muted-foreground/60">Build Date</p>
+          <p className="text-meta text-muted-foreground/60">{t("Build Date")}</p>
           <p className="mt-1 text-sm font-medium text-foreground">
             {formatBuildDate(NEXQ_BUILD_DATE)}
           </p>
         </div>
         <div className="rounded-xl border border-border/30 bg-card/50 p-4">
-          <p className="text-meta text-muted-foreground/60">Developer</p>
+          <p className="text-meta text-muted-foreground/60">{t("Developer")}</p>
           <p className="mt-1 text-sm font-medium text-foreground">
             {NEXQ_DEVELOPER}
           </p>
         </div>
         <div className="rounded-xl border border-border/30 bg-card/50 p-4">
-          <p className="text-meta text-muted-foreground/60">Architecture</p>
+          <p className="text-meta text-muted-foreground/60">{t("Architecture")}</p>
           <p className="mt-1 text-sm font-medium text-foreground">x86_64</p>
         </div>
         <div className="rounded-xl border border-border/30 bg-card/50 p-4">
-          <p className="text-meta text-muted-foreground/60">License</p>
+          <p className="text-meta text-muted-foreground/60">{t("License")}</p>
           <p className="mt-1 text-sm font-medium text-foreground">MIT</p>
         </div>
       </div>
@@ -120,23 +113,23 @@ export function AboutSettings() {
             <div>
               <p className="text-sm font-medium text-foreground">
                 {isChecking
-                  ? "Checking for updates..."
+                  ? t("Checking for updates...")
                   : isAvailable
                     ? `v${availableUpdate.version} available`
                     : isError
-                      ? "Update check failed"
-                      : "You're up to date"}
+                      ? t("Update check failed")
+                      : t("You're up to date")}
               </p>
               <p className="text-meta text-muted-foreground/60">
                 {isChecking
-                  ? "Connecting to GitHub"
+                  ? t("Connecting to GitHub")
                   : isError && checkError
                     ? checkError
                     : isAvailable && availableUpdate.date
                       ? `Released ${timeSince(new Date(availableUpdate.date).getTime())}`
                       : lastChecked
                         ? `Last checked ${timeSince(lastChecked)}`
-                        : "Not checked yet"}
+                        : t("Not checked yet")}
               </p>
             </div>
           </div>
@@ -149,8 +142,8 @@ export function AboutSettings() {
               className="rounded-lg bg-primary px-4 py-2 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
               {downloadStatus === "downloading"
-                ? "Downloading..."
-                : "Update Now"}
+                ? t("Downloading...")
+                : t("Update Now")}
             </button>
           ) : (
             <button
@@ -158,8 +151,7 @@ export function AboutSettings() {
               disabled={isChecking}
               className="rounded-lg border border-border/40 bg-secondary/50 px-4 py-2 text-xs font-medium text-foreground/80 transition-colors hover:bg-secondary disabled:opacity-50"
             >
-              Check for Updates
-            </button>
+              {t("Check for Updates\r\n            ")}</button>
           )}
         </div>
       </div>
@@ -171,45 +163,34 @@ export function AboutSettings() {
           className="flex flex-col items-center gap-2 rounded-xl border border-border/30 bg-card/50 p-4 transition-colors hover:bg-secondary/30"
         >
           <Github className="h-4 w-4 text-muted-foreground" />
-          <span className="text-meta font-medium text-muted-foreground">
-            GitHub
-          </span>
+          <span className="text-meta font-medium text-muted-foreground">{t("GitHub")}</span>
         </button>
         <button
           onClick={() => open(`${GITHUB_URL}/blob/main/CHANGELOG.md`)}
           className="flex flex-col items-center gap-2 rounded-xl border border-border/30 bg-card/50 p-4 transition-colors hover:bg-secondary/30"
         >
           <FileText className="h-4 w-4 text-muted-foreground" />
-          <span className="text-meta font-medium text-muted-foreground">
-            Changelog
-          </span>
+          <span className="text-meta font-medium text-muted-foreground">{t("Changelog")}</span>
         </button>
         <button
           onClick={() => open(`${GITHUB_URL}/issues/new/choose`)}
           className="flex flex-col items-center gap-2 rounded-xl border border-border/30 bg-card/50 p-4 transition-colors hover:bg-secondary/30"
         >
           <AlertCircle className="h-4 w-4 text-muted-foreground" />
-          <span className="text-meta font-medium text-muted-foreground">
-            Report Issue
-          </span>
+          <span className="text-meta font-medium text-muted-foreground">{t("Report Issue")}</span>
         </button>
         <button
           onClick={() => open(`${GITHUB_URL}/wiki`)}
           className="flex flex-col items-center gap-2 rounded-xl border border-border/30 bg-card/50 p-4 transition-colors hover:bg-secondary/30"
         >
           <HelpCircle className="h-4 w-4 text-muted-foreground" />
-          <span className="text-meta font-medium text-muted-foreground">
-            Documentation
-          </span>
+          <span className="text-meta font-medium text-muted-foreground">{t("Documentation")}</span>
         </button>
       </div>
 
       {/* Footer */}
       <div className="rounded-xl border border-border/30 bg-card/50 p-5">
-        <p className="text-xs text-muted-foreground/60 leading-relaxed">
-          NexQ is an open desktop application. All processing can run locally
-          with Ollama or LM Studio, or optionally connect to cloud AI providers.
-        </p>
+        <p className="text-xs text-muted-foreground/60 leading-relaxed">{t("NexQ is an open desktop application. All processing can run locally\n          with Ollama or LM Studio, or optionally connect to cloud AI providers.")}</p>
       </div>
     </div>
   );

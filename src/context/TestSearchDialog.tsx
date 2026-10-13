@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRagStore } from "../stores/ragStore";
 import { useConfigStore } from "../stores/configStore";
@@ -227,16 +228,14 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
               <FlaskConical className="h-4 w-4 text-primary" />
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-foreground">Test Knowledge Base</h2>
-              <p className="text-meta text-muted-foreground">
-                Search documents + get AI answer using your knowledge base
-              </p>
+              <h2 className="text-sm font-semibold text-foreground">{t("Test Knowledge Base")}</h2>
+              <p className="text-meta text-muted-foreground">{t("Search documents + get AI answer using your knowledge base")}</p>
             </div>
           </div>
           <button
             onClick={onClose}
             className="rounded-lg p-1.5 text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
-            title="Close (Esc)"
+            title={t("Close (Esc)")}
           >
             <X className="h-4 w-4" />
           </button>
@@ -244,39 +243,38 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
 
         {/* Config summary bar */}
         <div className="flex items-center gap-4 border-b border-border/20 bg-accent/10 px-6 py-2 text-meta text-muted-foreground">
-          <span className="flex items-center gap-1" title="Search model">
+          <span className="flex items-center gap-1" title={t("Search model")}>
             <Sparkles className="h-3 w-3" />
             {ragConfig?.embedding_model ?? "nomic-embed-text"}
           </span>
           <span className="flex items-center gap-1">
             <Hash className="h-3 w-3" />
-            top-{ragConfig?.top_k ?? 5}
+            {t("top-")}{ragConfig?.top_k ?? 5}
           </span>
           <span className="flex items-center gap-1">
             <BarChart3 className="h-3 w-3" />
-            {ragConfig?.search_mode ?? "hybrid"}
+            {ragConfig?.search_mode ?? t("hybrid")}
           </span>
-          <span className="flex items-center gap-1" title="LLM model">
+          <span className="flex items-center gap-1" title={t("LLM model")}>
             <Bot className="h-3 w-3" />
-            {llmModel || "no model"}
+            {llmModel || t("no model")}
           </span>
           <span className="ml-auto flex items-center gap-1">
             <FileText className="h-3 w-3" />
-            {indexStatus?.total_chunks ?? 0} chunks
-          </span>
+            {indexStatus?.total_chunks ?? 0} {t("chunks\r\n          ")}</span>
         </div>
 
         {/* Quick templates */}
         <div className="flex items-center gap-1.5 border-b border-border/20 px-6 py-2.5">
-          <span className="text-meta font-medium text-muted-foreground/60 mr-1">Try:</span>
-          {QUERY_TEMPLATES.map((t) => (
+          <span className="text-meta font-medium text-muted-foreground/60 mr-1">{t("Try:")}</span>
+          {QUERY_TEMPLATES.map((template) => (
             <button
-              key={t.label}
-              onClick={() => handleTemplate(t.query)}
+              key={template.label}
+              onClick={() => handleTemplate(template.query)}
               disabled={isBusy}
               className="rounded-full border border-border/30 bg-background px-2.5 py-1 text-meta font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground disabled:opacity-50"
             >
-              {t.label}
+              {t(template.label)}
             </button>
           ))}
         </div>
@@ -289,7 +287,7 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask a question about your documents..."
+            placeholder={t("Ask a question about your documents...")}
             className="flex-1 rounded-lg border border-border/50 bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
           />
           <button
@@ -302,7 +300,7 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
             ) : (
               <Zap className="h-3.5 w-3.5" />
             )}
-            {isSearching ? "Searching..." : isGenerating ? "Generating..." : "Ask"}
+            {isSearching ? t("Searching...") : isGenerating ? t("Generating...") : t("Ask")}
           </button>
         </div>
 
@@ -313,7 +311,7 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
             <div className="mx-6 mt-4 rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3">
               <div className="flex items-center gap-2 mb-1">
                 <AlertCircle className="h-3.5 w-3.5 text-red-400" />
-                <p className="text-xs font-medium text-red-400">Error</p>
+                <p className="text-xs font-medium text-red-400">{t("Error")}</p>
               </div>
               <p className="text-xs text-red-400/70">{aiError || error}</p>
             </div>
@@ -323,9 +321,7 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
           {testSearchResults.length === 0 && !isBusy && !hasSearched && !error && !aiError && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <MessageSquare className="h-8 w-8 text-muted-foreground/50 mb-3" />
-              <p className="text-xs text-muted-foreground/60">
-                Ask a question to search your documents and get an AI answer
-              </p>
+              <p className="text-xs text-muted-foreground/60">{t("Ask a question to search your documents and get an AI answer")}</p>
             </div>
           )}
 
@@ -333,7 +329,7 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
           {isSearching && (
             <div className="flex items-center justify-center gap-2 py-8">
               <Loader2 className="h-4 w-4 animate-spin text-primary/60" />
-              <span className="text-xs text-muted-foreground">Searching knowledge base...</span>
+              <span className="text-xs text-muted-foreground">{t("Searching knowledge base...")}</span>
             </div>
           )}
 
@@ -344,7 +340,7 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <Bot className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-semibold text-foreground">AI Answer</span>
+                    <span className="text-xs font-semibold text-foreground">{t("AI Answer")}</span>
                     {isGenerating && (
                       <Loader2 className="h-3 w-3 animate-spin text-primary/60" />
                     )}
@@ -359,17 +355,16 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
                     {aiLatencyMs != null && (
                       <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        {aiLatencyMs}ms
-                      </span>
+                        {aiLatencyMs}{t("ms\r\n                      ")}</span>
                     )}
                     {aiTotalTokens != null && (
-                      <span>{aiTotalTokens} tokens</span>
+                      <span>{aiTotalTokens} {t("tokens")}</span>
                     )}
                     {aiResponse && (
                       <button
                         onClick={handleCopyResponse}
                         className="rounded p-0.5 text-muted-foreground/60 hover:text-foreground"
-                        title="Copy response"
+                        title={t("Copy response" )}
                       >
                         {copiedId === "ai-response" ? (
                           <Check className="h-3 w-3 text-success" />
@@ -381,7 +376,7 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
                   </div>
                 </div>
                 <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap">
-                  {aiResponse || "Thinking..."}
+                  {aiResponse || t("Thinking...")}
                   {isGenerating && <span className="animate-pulse">|</span>}
                 </p>
               </div>
@@ -392,12 +387,8 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
           {testSearchResults.length === 0 && !isBusy && hasSearched && !error && !aiError && !aiResponse && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Search className="h-8 w-8 text-muted-foreground/50 mb-3" />
-              <p className="text-xs font-medium text-muted-foreground mb-1">
-                No results found
-              </p>
-              <p className="text-xs text-muted-foreground/50">
-                Try a different query or check that your documents are indexed
-              </p>
+              <p className="text-xs font-medium text-muted-foreground mb-1">{t("No results found")}</p>
+              <p className="text-xs text-muted-foreground/50">{t("Try a different query or check that your documents are indexed")}</p>
             </div>
           )}
 
@@ -408,17 +399,15 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
               <div className="flex items-center gap-4 rounded-lg bg-accent/20 px-3 py-2 text-meta text-muted-foreground">
                 <span className="flex items-center gap-1 font-medium text-foreground">
                   <Search className="h-3 w-3" />
-                  {testSearchResults.length} chunk{testSearchResults.length !== 1 ? "s" : ""} retrieved
-                </span>
+                  {testSearchResults.length} {t("chunk")}{testSearchResults.length !== 1 ? "s" : ""} {t("retrieved\r\n                ")}</span>
                 {searchLatencyMs != null && (
                   <span className="flex items-center gap-1">
                     <Clock className="h-3 w-3" />
-                    {searchLatencyMs}ms
-                  </span>
+                    {searchLatencyMs}{t("ms\r\n                  ")}</span>
                 )}
-                <span>~{Math.round(totalResultTokens)} tokens</span>
+                <span>~{Math.round(totalResultTokens)} {t("tokens")}</span>
                 <span className="ml-auto">
-                  {ragConfig?.search_mode ?? "hybrid"}
+                  {ragConfig?.search_mode ?? t("hybrid")}
                 </span>
               </div>
 
@@ -463,7 +452,7 @@ export function TestSearchDialog({ isOpen, onClose }: TestSearchDialogProps) {
                           handleCopyChunk(result.chunk_id, result.text);
                         }}
                         className="rounded-lg p-1 text-muted-foreground/60 transition-colors hover:bg-accent hover:text-foreground"
-                        title="Copy chunk"
+                        title={t("Copy chunk" )}
                       >
                         {copiedId === result.chunk_id ? (
                           <Check className="h-3 w-3 text-success" />

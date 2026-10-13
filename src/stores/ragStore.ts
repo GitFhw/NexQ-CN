@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { t } from "../lib/i18n";
 import type {
   RagConfig,
   RagIndexStatus,
@@ -161,12 +162,9 @@ export const useRagStore = create<RagState>((set) => ({
       const status = await testOllamaEmbeddingConnection();
       set({ ollamaStatus: status, error: null, isCheckingConnection: false });
       if (status.connected) {
-        showToast(
-          `Ollama connected — ${status.models.length} model${status.models.length !== 1 ? "s" : ""} available`,
-          "success"
-        );
+        showToast(t("Ollama connected — {count} models available", { count: status.models.length }), "success");
       } else {
-        showToast("Ollama is not reachable", "error");
+        showToast(t("Ollama is not reachable"), "error");
       }
     } catch (e) {
       set({
@@ -174,7 +172,7 @@ export const useRagStore = create<RagState>((set) => ({
         error: e instanceof Error ? e.message : String(e),
         isCheckingConnection: false,
       });
-      showToast("Failed to connect to Ollama", "error");
+      showToast(t("Failed to connect to Ollama"), "error");
     }
   },
 
@@ -182,7 +180,7 @@ export const useRagStore = create<RagState>((set) => ({
     try {
       set({ isIndexing: true, error: null });
       await ipcRebuildRagIndex();
-      showToast("Index rebuilt successfully", "success");
+      showToast(t("Index rebuilt successfully"), "success");
       set({ indexStale: false, sourcesChangedSinceBuild: false });
     } catch (e) {
       console.error("[ragStore] Failed to rebuild index:", e);
@@ -200,7 +198,7 @@ export const useRagStore = create<RagState>((set) => ({
       set({ error: null });
       await ipcClearRagIndex();
       set({ indexStatus: null, indexStale: false, sourcesChangedSinceBuild: false });
-      showToast("Index cleared", "info");
+      showToast(t("Index cleared"), "info");
       useRagStore.getState().refreshIndexStatus();
     } catch (e) {
       console.error("[ragStore] Failed to clear index:", e);
@@ -213,18 +211,18 @@ export const useRagStore = create<RagState>((set) => ({
   pullModel: async (model: string) => {
     try {
       set({ isPullingModel: true, error: null });
-      showToast(`Pulling model "${model}"...`, "info");
+      showToast(t('Pulling model "{model}"...', { model }), "info");
       await ipcPullEmbeddingModel(model);
       // Success: isPullingModel will be set false by the event listener on "complete"
       // But if the IPC resolves before the event fires, set it here too
-      showToast(`Model "${model}" pulled successfully`, "success");
+      showToast(t('Model "{model}" pulled successfully', { model }), "success");
       set({ isPullingModel: false, pullProgress: null });
       // Refresh connection status to reflect newly available model
       useRagStore.getState().checkOllamaStatus();
     } catch (e) {
       console.error("[ragStore] Failed to pull model:", e);
       const msg = e instanceof Error ? e.message : String(e);
-      showToast(`Failed to pull model: ${msg}`, "error");
+      showToast(t("Failed to pull model: {error}", { error: msg }), "error");
       set({
         isPullingModel: false,
         pullProgress: null,

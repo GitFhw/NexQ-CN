@@ -1,9 +1,16 @@
 ---
 import comparison from '../data/comparison.json';
+import { t, type WebsiteLocale } from '../i18n';
+
+interface Props {
+  locale: WebsiteLocale;
+}
+
+const { locale } = Astro.props;
 
 // Parse a value string into display content
-function renderValue(value: string, isPrice: boolean): string {
-  if (isPrice) return value;
+function renderValue(value: string, isPrice: boolean, locale: WebsiteLocale): string {
+  if (isPrice) return t(value, locale);
 
   // Parse patterns: "full", "none:web", "partial:piggyback", "full:10"
   const match = value.match(/^(full|partial|none)(?::(.+))?$/);
@@ -15,16 +22,21 @@ function renderValue(value: string, isPrice: boolean): string {
   // For "partial:piggyback", just show the icon (no extra text)
   if (extra === 'piggyback') return icon;
 
-  return extra ? `${icon} ${extra}` : icon;
+  if (!extra) return icon;
+  const suffix = locale === 'zh-CN'
+    ? ({ web: '网页', Mac: 'Mac', Chrome: 'Chrome' } as Record<string, string>)[extra] ?? extra
+    : extra;
+  const localizedSuffix = locale === 'zh-CN' && /^\d+$/.test(suffix) ? `${suffix} 种` : suffix;
+  return `${icon} ${localizedSuffix}`;
 }
 ---
 
 <section class="section-container">
   <!-- Part 1: Pain point callout cards -->
   <div class="mb-20 text-center">
-    <h2 class="section-title">Stop paying for what should be yours</h2>
+    <h2 class="section-title">{t('Stop paying for what should be yours', locale)}</h2>
     <p class="section-subtitle mx-auto text-center">
-      Your conversations. Your data. Your device. No exceptions.
+      {t('Your conversations. Your data. Your device. No exceptions.', locale)}
     </p>
   </div>
 
@@ -35,10 +47,10 @@ function renderValue(value: string, isPrice: boolean): string {
     >
       <div class="mb-3 text-center text-3xl" aria-hidden="true">🤖</div>
       <h3 class="text-center text-lg font-bold text-text-primary">
-        Bots join your calls
+        {t('Bots join your calls', locale)}
       </h3>
       <p class="mt-2 text-center text-sm text-text-secondary">
-        Otter, Fireflies, and MeetGeek send visible bots that announce themselves to every participant in the meeting.
+        {t('Otter, Fireflies, and MeetGeek send visible bots that announce themselves to every participant in the meeting.', locale)}
       </p>
     </div>
 
@@ -48,10 +60,10 @@ function renderValue(value: string, isPrice: boolean): string {
     >
       <div class="mb-3 text-center text-3xl" aria-hidden="true">☁️</div>
       <h3 class="text-center text-lg font-bold text-text-primary">
-        Audio sent to cloud
+        {t('Audio sent to cloud', locale)}
       </h3>
       <p class="mt-2 text-center text-sm text-text-secondary">
-        Even Granola &mdash; marketed as private &mdash; uploads your audio to cloud servers for transcription.
+        {t('Even Granola — marketed as private — uploads your audio to cloud servers for transcription.', locale)}
       </p>
     </div>
 
@@ -61,10 +73,10 @@ function renderValue(value: string, isPrice: boolean): string {
     >
       <div class="mb-3 text-center text-3xl" aria-hidden="true">💸</div>
       <h3 class="text-center text-lg font-bold text-text-primary">
-        $8&ndash;20+/mo per user
+        {t('$8–20+/mo per user', locale)}
       </h3>
       <p class="mt-2 text-center text-sm text-text-secondary">
-        Subscriptions add up fast. Basic features are free, but anything useful requires a monthly payment.
+        {t('Subscriptions add up fast. Basic features are free, but anything useful requires a monthly payment.', locale)}
       </p>
     </div>
   </div>
@@ -92,7 +104,7 @@ function renderValue(value: string, isPrice: boolean): string {
           {comparison.dimensions.map((dim, rowIdx) => (
             <tr>
               <td class="sticky left-0 z-10 border-t border-white/[0.04] bg-surface-raised px-3 py-2.5 text-left text-sm text-text-secondary">
-                {dim}
+                {t(dim, locale)}
               </td>
               {comparison.competitors.map((comp) => (
                 <td
@@ -101,7 +113,7 @@ function renderValue(value: string, isPrice: boolean): string {
                     comp.highlight ? 'bg-accent-purple/5' : '',
                   ]}
                 >
-                  {renderValue(comp.values[rowIdx], rowIdx === 0)}
+                  {renderValue(comp.values[rowIdx], rowIdx === 0, locale)}
                 </td>
               ))}
             </tr>

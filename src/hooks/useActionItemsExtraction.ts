@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
+import { t } from "../lib/i18n";
 import { invoke } from "@tauri-apps/api/core";
 import {
   onStreamStart,
@@ -146,7 +147,7 @@ export function useActionItemsExtraction(
             const items = parseActionItemsJSON(contentRef.current);
 
             if (items.length === 0) {
-              showToast("No action items found in this meeting", "info");
+              showToast(t("No action items found in this meeting"), "info");
             } else {
               // Persist to DB — Rust struct requires meeting_id on each item
               const itemsWithMeetingId = items.map((item) => ({
@@ -159,7 +160,7 @@ export function useActionItemsExtraction(
               );
 
               onItemsExtracted(items);
-              showToast(`Found ${items.length} action item${items.length !== 1 ? "s" : ""}`, "success");
+              showToast(t("Found {count} action items", { count: items.length }), "success");
 
               // Refresh sidebar so counts update
               useMeetingStore.getState().loadRecentMeetings();
@@ -170,7 +171,7 @@ export function useActionItemsExtraction(
               err
             );
             setError(
-              "Couldn't parse action items from AI response. Try again."
+              t("Couldn't parse action items from AI response. Try again.")
             );
           }
         }

@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { X } from 'lucide-react';
 import { useDemoStore } from './demoStore';
@@ -76,7 +77,7 @@ export function DemoPicker() {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Demo Mode"
+        aria-label={t("Demo Mode")}
         className={`w-[520px] max-h-[600px] flex flex-col rounded-2xl border border-border/20 bg-card shadow-2xl shadow-black/20 transition-all duration-200 ${
           isVisible
             ? 'opacity-100 scale-100 translate-y-0'
@@ -87,16 +88,14 @@ export function DemoPicker() {
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4">
           <div>
-            <h2 className="text-lg font-bold text-foreground">Demo Mode</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              Select a scenario for screenshots or recordings
-            </p>
+            <h2 className="text-lg font-bold text-foreground">{t("Demo Mode")}</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">{t("Select a scenario for screenshots or recordings")}</p>
           </div>
           <button
             onClick={handleClose}
             className="rounded-lg p-1.5 text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground cursor-pointer"
-            title="Close (Esc)"
-            aria-label="Close demo picker"
+            title={t("Close (Esc)")}
+            aria-label={t("Close demo picker")}
           >
             <X className="h-4 w-4" />
           </button>
@@ -121,18 +120,18 @@ export function DemoPicker() {
             {selectedScenario?.supportsPlay ? (
               <>
                 <ModeButton
-                  label="Screenshot"
+                  label={t("Screenshot")}
                   active={selectedMode === 'screenshot'}
                   onClick={() => setSelectedMode('screenshot')}
                 />
                 <ModeButton
-                  label="Play"
+                  label={t("Play")}
                   active={selectedMode === 'play'}
                   onClick={() => setSelectedMode('play')}
                 />
               </>
             ) : (
-              <span className="text-xs text-muted-foreground">Screenshot only</span>
+              <span className="text-xs text-muted-foreground">{t("Screenshot only")}</span>
             )}
           </div>
 
@@ -140,9 +139,7 @@ export function DemoPicker() {
             onClick={handleStart}
             disabled={!selectedScenario}
             className="rounded-lg bg-primary px-6 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            Start Demo
-          </button>
+          >{t("Start Demo")}</button>
         </div>
       </div>
     </div>
@@ -174,13 +171,13 @@ function ScenarioCard({
       </span>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-foreground">{scenario.name}</span>
+          <span className="text-sm font-semibold text-foreground">{t(scenario.name)}</span>
           <span className="rounded-full bg-muted/50 px-2 py-0.5 text-[10px] font-medium text-muted-foreground capitalize">
-            {scenario.window === 'overlay' ? 'Overlay' : 'Launcher'}
+            {scenario.window === 'overlay' ? t("Overlay") : t("Launcher")}
           </span>
         </div>
         <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-          {scenario.description}
+          {t(scenario.description)}
         </p>
       </div>
     </button>
@@ -207,7 +204,7 @@ function ModeButton({
           : 'text-muted-foreground border-border/20 hover:bg-accent/50'
       }`}
     >
-      {label}
+      {t(label)}
     </button>
   );
 }

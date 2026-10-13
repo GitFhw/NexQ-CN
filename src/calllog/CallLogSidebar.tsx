@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useCallLogStore } from "../stores/callLogStore";
 import { useMeetingStore } from "../stores/meetingStore";
@@ -128,9 +129,7 @@ export function CallLogSidebar() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Activity className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-semibold text-foreground">
-                AI Call Log
-              </span>
+              <span className="text-xs font-semibold text-foreground">{t("AI Call Log")}</span>
               {entries.length > 0 && (
                 <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-meta font-medium text-primary">
                   {entries.length}
@@ -142,7 +141,7 @@ export function CallLogSidebar() {
                 <button
                   onClick={clearAll}
                   className="rounded p-1 text-muted-foreground/70 transition-colors hover:bg-accent hover:text-destructive"
-                  title="Clear all"
+                  title={t("Clear all")}
                 >
                   <Trash2 className="h-3 w-3" />
                 </button>
@@ -151,7 +150,7 @@ export function CallLogSidebar() {
                 ref={closeButtonRef}
                 onClick={handleClose}
                 className="rounded p-1 text-muted-foreground/70 transition-colors hover:bg-accent hover:text-foreground"
-                title="Close (Esc)"
+                title={t("Close (Esc)")}
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -173,7 +172,7 @@ export function CallLogSidebar() {
                       : "bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground"
                   }`}
                 >
-                  {label}
+                  {t(label)}
                   {count > 0 && (
                     <span
                       className={
@@ -194,10 +193,10 @@ export function CallLogSidebar() {
         {/* Performance mini-dashboard */}
         {stats.total > 0 && (
           <div className="flex items-center justify-between border-b border-border/20 bg-secondary/20 px-3 py-1.5">
-            <StatTile label="Calls" value={`${stats.total}`} />
-            <StatTile label="Avg" value={`${stats.avgLatency}ms`} />
+            <StatTile label={t("Calls")} value={`${stats.total}`} />
+            <StatTile label={t("Avg")} value={`${stats.avgLatency}ms`} />
             <StatTile
-              label="Tokens"
+              label={t("Tokens")}
               value={
                 stats.totalTokens > 999
                   ? `${(stats.totalTokens / 1000).toFixed(1)}k`
@@ -206,7 +205,7 @@ export function CallLogSidebar() {
             />
             {stats.errorCount > 0 && (
               <StatTile
-                label="Errors"
+                label={t("Errors")}
                 value={`${stats.errorCount}`}
                 valueClass="text-destructive"
               />
@@ -221,8 +220,8 @@ export function CallLogSidebar() {
               <FileSearch className="h-6 w-6" />
               <span className="text-xs">
                 {entries.length === 0
-                  ? "No AI calls yet"
-                  : "No calls match filter"}
+                  ? t("No AI calls yet")
+                  : t("No calls match filter")}
               </span>
             </div>
           ) : (

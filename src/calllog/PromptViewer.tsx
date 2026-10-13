@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useCallback, useMemo } from "react";
 import { showToast } from "../stores/toastStore";
 import type { LogEntry } from "../lib/types";
@@ -47,8 +48,7 @@ export function PromptViewer({ entry }: PromptViewerProps) {
               : "text-muted-foreground/50 hover:bg-accent/50 hover:text-foreground"
           }`}
         >
-          Structured
-        </button>
+          {t("Structured\r\n        ")}</button>
         <button
           onClick={() => setViewMode("raw")}
           className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
@@ -57,8 +57,7 @@ export function PromptViewer({ entry }: PromptViewerProps) {
               : "text-muted-foreground/50 hover:bg-accent/50 hover:text-foreground"
           }`}
         >
-          Raw
-        </button>
+          {t("Raw\r\n        ")}</button>
       </div>
 
       {/* Content */}
@@ -90,11 +89,11 @@ function TokenBudget({ entry }: { entry: LogEntry }) {
 
   return (
     <div className="flex items-center flex-wrap gap-x-1.5 gap-y-0.5 px-3 py-1.5 border-b border-border/20 text-meta text-muted-foreground/60">
-      <span className="font-medium">Tokens:</span>
+      <span className="font-medium">{t("Tokens:")}</span>
       {items.map((item, i) => (
         <span key={item.label}>
           {i > 0 && <span className="mx-0.5">&middot;</span>}
-          <span className={item.color}>{item.label}</span>{" "}
+          <span className={item.color}>{t(item.label)}</span>{" "}
           <span className="tabular-nums">{item.tokens.toLocaleString()}</span>
         </span>
       ))}
@@ -143,11 +142,9 @@ function RagChunksSection({ entry }: { entry: LogEntry }) {
         )}
         <span className="flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-meta font-medium bg-info/10 text-info border-info/20">
           <Database className="h-2.5 w-2.5" />
-          {hasChunks ? `${chunks.length} chunks` : "0 relevant"}
+          {hasChunks ? `${chunks.length} chunks` : t("0 relevant")}
         </span>
-        <span className="flex-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
-          RAG CHUNKS
-        </span>
+        <span className="flex-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">{t("RAG CHUNKS")}</span>
         <SectionCopyButton text={allText} />
       </button>
 
@@ -157,7 +154,7 @@ function RagChunksSection({ entry }: { entry: LogEntry }) {
             <div className="flex items-start gap-1.5 rounded-md bg-secondary/20 px-2.5 py-1.5 mb-2">
               <Search className="h-3 w-3 shrink-0 mt-0.5 text-muted-foreground/50" />
               <p className="text-meta text-muted-foreground/60 break-words">
-                <span className="font-medium">Query:</span> {query.length > 200 ? query.slice(0, 200) + "..." : query}
+                <span className="font-medium">{t("Query:")}</span> {query.length > 200 ? query.slice(0, 200) + "..." : query}
               </p>
             </div>
           )}
@@ -178,7 +175,7 @@ function RagChunksSection({ entry }: { entry: LogEntry }) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-meta font-semibold text-info/80">#{idx + 1}</span>
-                      <span className="text-meta text-muted-foreground truncate">{chunk.source} (chunk {chunk.chunk_index})</span>
+                      <span className="text-meta text-muted-foreground truncate">{chunk.source} {t("(chunk ")}{chunk.chunk_index})</span>
                       <span className="text-meta font-mono tabular-nums text-info/70">{chunk.normalized_score.toFixed(2)}</span>
                     </div>
                     {expandedChunks.has(idx) ? (
@@ -195,14 +192,12 @@ function RagChunksSection({ entry }: { entry: LogEntry }) {
               ))}
               {filtered > 0 && (
                 <p className="text-meta text-muted-foreground/50 px-2.5 py-1">
-                  {filtered} chunk{filtered !== 1 ? "s" : ""} filtered (below threshold)
-                </p>
+                  {filtered} {t("chunk")}{filtered !== 1 ? "s" : ""} {t("filtered (below threshold)\r\n                ")}</p>
               )}
             </>
           ) : (
             <div className="rounded-md bg-secondary/20 px-2.5 py-2 text-meta text-muted-foreground/50">
-              No relevant chunks found
-              {filtered > 0 && <span> &mdash; {filtered} candidates below threshold</span>}
+              {t("No relevant chunks found\r\n              ")}{filtered > 0 && <span> &mdash; {filtered} {t("candidates below threshold")}</span>}
             </div>
           )}
         </div>
@@ -230,17 +225,17 @@ function StructuredView({ entry }: { entry: LogEntry }) {
 
       {entry.actualSystemPrompt && (
         <CollapsibleSection
-          title="SYSTEM PROMPT"
+          title={t("SYSTEM PROMPT")}
           content={entry.actualSystemPrompt}
           defaultExpanded={false}
-          badge={{ label: "System", color: "gray", icon: Sparkles }}
+          badge={{ label: t("System"), color: "gray", icon: Sparkles }}
         />
       )}
 
       {nonRagSections.map((section, i) => (
         <CollapsibleSection
           key={i}
-          title={section.title || "USER MESSAGE"}
+          title={t(section.title || "USER MESSAGE")}
           content={section.content}
           defaultExpanded={true}
           badge={section.badge}
@@ -252,7 +247,7 @@ function StructuredView({ entry }: { entry: LogEntry }) {
       {(entry.responseContentClean || entry.status === "streaming") && (
         <CollapsibleSection
           title={
-            entry.status === "streaming" ? "RESPONSE (streaming...)" : "RESPONSE"
+            t(entry.status === "streaming" ? "RESPONSE (streaming...)" : "RESPONSE")
           }
           content={entry.responseContentClean}
           defaultExpanded={true}
@@ -314,7 +309,7 @@ function CollapsibleSection({
             className={`flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-meta font-medium ${badgeClass}`}
           >
             <Icon className="h-2.5 w-2.5" />
-            {badge.label}
+            {t(badge.label)}
           </span>
         )}
 
@@ -337,8 +332,7 @@ function CollapsibleSection({
           >
             {content || (
               <span className="italic text-muted-foreground/60">
-                (empty)
-              </span>
+                {t("(empty)\r\n              ")}</span>
             )}
           </div>
         </div>
@@ -363,9 +357,7 @@ function RawView({ entry }: { entry: LogEntry }) {
       {/* System message */}
       <div>
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
-            System Message
-          </span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">{t("System Message")}</span>
           <SectionCopyButton text={entry.actualSystemPrompt} />
         </div>
         <pre className="max-h-60 overflow-y-auto rounded-md bg-secondary/20 p-2.5 font-mono text-xs leading-relaxed text-foreground/80 whitespace-pre-wrap break-words">
@@ -376,9 +368,7 @@ function RawView({ entry }: { entry: LogEntry }) {
       {/* User message */}
       <div>
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
-            User Message
-          </span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">{t("User Message")}</span>
           <SectionCopyButton text={entry.actualUserPrompt} />
         </div>
         <pre className="max-h-80 overflow-y-auto rounded-md bg-secondary/20 p-2.5 font-mono text-xs leading-relaxed text-foreground/80 whitespace-pre-wrap break-words">
@@ -391,11 +381,8 @@ function RawView({ entry }: { entry: LogEntry }) {
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
-              Response
-              {entry.status === "streaming" && (
-                <span className="ml-1.5 animate-pulse text-primary/60">
-                  streaming...
-                </span>
+              {t("Response\r\n              ")}{entry.status === "streaming" && (
+                <span className="ml-1.5 animate-pulse text-primary/60">{t("streaming...")}</span>
               )}
             </span>
             <SectionCopyButton text={entry.responseContentClean} />
@@ -573,7 +560,7 @@ function SectionCopyButton({ text }: { text: string }) {
       navigator.clipboard.writeText(text).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
-      }).catch(() => showToast("Couldn't copy — try selecting the text manually", "error"));
+      }).catch(() => showToast(t("Couldn't copy — try selecting the text manually"), "error"));
     },
     [text]
   );
@@ -587,7 +574,7 @@ function SectionCopyButton({ text }: { text: string }) {
       onClick={handleCopy}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleCopy(e as unknown as React.MouseEvent); }}
       className="rounded p-0.5 text-muted-foreground/60 transition-colors hover:text-foreground cursor-pointer"
-      aria-label="Copy section"
+      aria-label={t("Copy section" )}
     >
       {copied ? (
         <Check className="h-3 w-3 text-success" />

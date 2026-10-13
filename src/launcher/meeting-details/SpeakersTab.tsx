@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import type { Meeting, SpeakerIdentity } from "../../lib/types";
 import { Users, Mic, Volume2, Check, X, Pencil } from "lucide-react";
@@ -109,14 +110,14 @@ function SpeakerRow({ speaker, color, allSpeakers, onRename }: SpeakerRowProps) 
             <button
               onClick={handleSave}
               className="rounded p-0.5 text-success hover:bg-success/10 cursor-pointer"
-              aria-label="Save name"
+              aria-label={t("Save name" )}
             >
               <Check className="h-3 w-3" />
             </button>
             <button
               onClick={handleCancel}
               className="rounded p-0.5 text-muted-foreground hover:bg-secondary cursor-pointer"
-              aria-label="Cancel"
+              aria-label={t("Cancel")}
             >
               <X className="h-3 w-3" />
             </button>
@@ -144,7 +145,7 @@ function SpeakerRow({ speaker, color, allSpeakers, onRename }: SpeakerRowProps) 
         {/* Stats bar */}
         <div className="mt-2 space-y-1">
           <div className="flex items-center justify-between text-[10px] text-muted-foreground/50">
-            <span>{talkTime} talk time</span>
+            <span>{talkTime} {t("talk time")}</span>
             <span>{pct}%</span>
           </div>
           <div className="h-1 w-full overflow-hidden rounded-full bg-secondary/40">
@@ -155,10 +156,10 @@ function SpeakerRow({ speaker, color, allSpeakers, onRename }: SpeakerRowProps) 
           </div>
           <div className="flex items-center gap-2.5 text-[10px] text-muted-foreground/40">
             {speaker.stats?.segment_count !== undefined && (
-              <span>{speaker.stats.segment_count} segments</span>
+              <span>{speaker.stats.segment_count} {t("segments")}</span>
             )}
             {speaker.stats?.word_count !== undefined && (
-              <span>{speaker.stats.word_count.toLocaleString()} words</span>
+              <span>{speaker.stats.word_count.toLocaleString()} {t("words")}</span>
             )}
           </div>
         </div>
@@ -167,9 +168,9 @@ function SpeakerRow({ speaker, color, allSpeakers, onRename }: SpeakerRowProps) 
       {/* Source icon */}
       <div className="shrink-0 text-muted-foreground/30 mt-0.5">
         {speaker.id === "User" || speaker.id === "Interviewer" ? (
-          <Mic className="h-3.5 w-3.5" aria-label="Microphone" />
+          <Mic className="h-3.5 w-3.5" aria-label={t("Microphone")} />
         ) : (
-          <Volume2 className="h-3.5 w-3.5" aria-label="System audio" />
+          <Volume2 className="h-3.5 w-3.5" aria-label={t("System audio")} />
         )}
       </div>
     </div>
@@ -257,10 +258,8 @@ export function SpeakersTab({ meeting, onSegmentClick }: SpeakersTabProps) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-muted-foreground/50">
         <Users className="mb-3 h-6 w-6" />
-        <p className="text-xs font-medium">No speaker data</p>
-        <p className="mt-1 text-[11px] text-muted-foreground/40">
-          Speaker data appears after meetings with diarization
-        </p>
+        <p className="text-xs font-medium">{t("No speaker data")}</p>
+        <p className="mt-1 text-[11px] text-muted-foreground/40">{t("Speaker data appears after meetings with diarization")}</p>
       </div>
     );
   }
@@ -279,7 +278,7 @@ export function SpeakersTab({ meeting, onSegmentClick }: SpeakersTabProps) {
       )}
 
       <div className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/40">
-        {speakersState.length} Speaker{speakersState.length !== 1 ? "s" : ""}
+        {speakersState.length} {t("Speaker")}{speakersState.length !== 1 ? "s" : ""}
       </div>
       <div className="space-y-0.5">
         {speakersState.map((speaker, i) => (

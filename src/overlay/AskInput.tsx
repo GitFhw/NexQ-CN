@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useStreamStore } from "../stores/streamStore";
 import { generateAssist } from "../lib/ipc";
@@ -61,8 +62,8 @@ export function AskInput({ visible, onClose }: AskInputProps) {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Ask about the meeting..."
-        aria-label="Ask a question"
+        placeholder={t("Ask about the meeting...")}
+        aria-label={t("Ask a question")}
         disabled={isStreaming}
         maxLength={2000}
         className="flex-1 bg-transparent text-xs text-foreground/90 placeholder:text-muted-foreground/50 outline-none"
@@ -71,16 +72,16 @@ export function AskInput({ visible, onClose }: AskInputProps) {
         onClick={handleSubmit}
         disabled={!inputText.trim() || isStreaming}
         className="rounded-lg p-1.5 text-primary transition-colors duration-150 hover:bg-primary/10 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed"
-        title="Send (Enter)"
-        aria-label="Send question"
+        title={t("Send (Enter)")}
+        aria-label={t("Send question")}
       >
         <Send className="h-3.5 w-3.5" />
       </button>
       <button
         onClick={onClose}
         className="rounded-lg p-1.5 text-muted-foreground/60 transition-colors duration-150 hover:bg-accent hover:text-muted-foreground"
-        title="Close (Esc)"
-        aria-label="Close ask input"
+        title={t("Close (Esc)")}
+        aria-label={t("Close ask input")}
       >
         <X className="h-3.5 w-3.5" />
       </button>

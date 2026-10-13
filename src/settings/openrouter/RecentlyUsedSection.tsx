@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import type { OpenRouterModel } from "../../lib/types";
 import { X } from "lucide-react";
 
@@ -25,15 +26,11 @@ export function RecentlyUsedSection({
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
-        <h4 className="text-[11px] uppercase tracking-wider text-muted-foreground/40 pl-0.5">
-          Recently Used
-        </h4>
+        <h4 className="text-[11px] uppercase tracking-wider text-muted-foreground/40 pl-0.5">{t("Recently Used")}</h4>
         <button
           onClick={onClearAll}
           className="text-[10px] text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors cursor-pointer"
-        >
-          Clear all
-        </button>
+        >{t("Clear all")}</button>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {recentModels.map((m) => (
@@ -48,7 +45,7 @@ export function RecentlyUsedSection({
               {m.name}
               <span className={`text-[10px] ${m.is_free ? "text-green-500" : "text-muted-foreground/40"}`}>
                 {m.is_free
-                  ? "Free"
+                  ? t("Free")
                   : `$${m.pricing.prompt < 1 ? m.pricing.prompt.toFixed(2) : m.pricing.prompt.toFixed(0)}/$${m.pricing.completion < 1 ? m.pricing.completion.toFixed(2) : m.pricing.completion.toFixed(0)}`}
               </span>
             </button>

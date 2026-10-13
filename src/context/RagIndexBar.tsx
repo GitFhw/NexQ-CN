@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect } from "react";
 import { useRagStore } from "../stores/ragStore";
 import { Loader2, Search, RefreshCw } from "lucide-react";
@@ -28,32 +29,28 @@ export function RagIndexBar() {
       <div className="flex items-center gap-2 rounded-xl border border-border/40 bg-secondary/20 px-3 py-2">
         <div className="flex-1 flex items-center gap-3 text-xs text-muted-foreground">
           <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary font-medium">
-            {totalChunks} chunks
-          </span>
-          <span>~{Math.round(estimatedTokens / 1000)}k tokens/query</span>
+            {totalChunks} {t("chunks\r\n          ")}</span>
+          <span>~{Math.round(estimatedTokens / 1000)}{t("k tokens/query")}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => rebuildIndex()}
             disabled={isIndexing}
             className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
-            title="Rebuild All"
+            title={t("Rebuild All")}
           >
             {isIndexing ? (
               <Loader2 className="h-3 w-3 animate-spin" />
             ) : (
               <RefreshCw className="h-3 w-3" />
             )}
-            Rebuild
-          </button>
+            {t("Rebuild\r\n          ")}</button>
           <button
             onClick={() => setShowSearch(true)}
             className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-            title="Test Search"
+            title={t("Test Search")}
           >
-            <Search className="h-3 w-3" />
-            Test
-          </button>
+            <Search className="h-3 w-3" />{t("Test")}</button>
         </div>
       </div>
 

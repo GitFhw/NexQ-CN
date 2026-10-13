@@ -1,3 +1,4 @@
+import { t } from "../../lib/i18n";
 import { useEffect, useState } from "react";
 import { listAudioDevices } from "../../lib/ipc";
 import type { AudioDeviceList } from "../../lib/types";
@@ -146,13 +147,8 @@ export function WelcomeStep({ onDetectionComplete }: WelcomeStepProps) {
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
           <Sparkles className="h-8 w-8 text-primary" />
         </div>
-        <h2 className="text-2xl font-semibold text-foreground">
-          Welcome to NexQ
-        </h2>
-        <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-          Let's get your AI meeting assistant set up. This will only take a
-          minute.
-        </p>
+        <h2 className="text-2xl font-semibold text-foreground">{t("Welcome to NexQ")}</h2>
+        <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{t("Let's get your AI meeting assistant set up. This will only take a\n          minute.")}</p>
       </div>
 
       {/* Detection progress */}
@@ -160,7 +156,7 @@ export function WelcomeStep({ onDetectionComplete }: WelcomeStepProps) {
         {/* Audio detection */}
         <DetectionRow
           icon={<Mic className="h-4 w-4" />}
-          label="Audio Devices"
+          label={t("Audio Devices")}
           status={
             phaseIndex < 1
               ? "pending"
@@ -179,7 +175,7 @@ export function WelcomeStep({ onDetectionComplete }: WelcomeStepProps) {
         {/* Ollama detection */}
         <DetectionRow
           icon={<Server className="h-4 w-4" />}
-          label="Ollama (Local LLM)"
+          label={t("Ollama (Local LLM)")}
           status={
             phaseIndex < 2
               ? "pending"
@@ -200,7 +196,7 @@ export function WelcomeStep({ onDetectionComplete }: WelcomeStepProps) {
         {/* LM Studio detection */}
         <DetectionRow
           icon={<Server className="h-4 w-4" />}
-          label="LM Studio (Local LLM)"
+          label={t("LM Studio (Local LLM)")}
           status={
             phaseIndex < 3
               ? "pending"
@@ -225,15 +221,9 @@ export function WelcomeStep({ onDetectionComplete }: WelcomeStepProps) {
           <div className="rounded-xl border border-border/40 bg-secondary/20 px-5 py-4">
             <p className="text-sm text-muted-foreground leading-relaxed">
               {result.ollamaRunning || result.lmStudioRunning ? (
-                <span className="text-success">
-                  Local LLM detected! You can use AI features without an
-                  internet connection.
-                </span>
+                <span className="text-success">{t("Local LLM detected! You can use AI features without an\n                  internet connection.")}</span>
               ) : (
-                <span>
-                  No local LLM found. You can configure a cloud provider in the
-                  next steps, or install Ollama later.
-                </span>
+                <span>{t("No local LLM found. You can configure a cloud provider in the\n                  next steps, or install Ollama later.")}</span>
               )}
             </p>
           </div>

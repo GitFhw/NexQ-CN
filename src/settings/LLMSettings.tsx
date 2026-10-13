@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 import { useState, useEffect, useCallback } from "react";
 import { useConfigStore } from "../stores/configStore";
 import { showToast } from "../stores/toastStore";
@@ -200,7 +201,7 @@ export function LLMSettings() {
       await storeApiKey(selectedProvider, apiKey);
       setKeyStatusMap((prev) => ({ ...prev, [selectedProvider]: true }));
     } catch {
-      showToast("Failed to save API key", "error");
+      showToast(t("Failed to save API key"), "error");
     }
   };
 
@@ -249,7 +250,7 @@ export function LLMSettings() {
         const orModels = await listOpenRouterModels(true);
         setOpenRouterModels(orModels);
         if (orModels.length === 0) {
-          setModelsError("No text models found");
+          setModelsError(t("No text models found"));
         }
       } else {
         // Use generic model listing for other providers
@@ -262,13 +263,13 @@ export function LLMSettings() {
         if (chatModels.length === 0) {
           setModelsError(
             modelList.length > 0
-              ? "No chat models found (embedding-only models filtered)"
-              : "No models found"
+              ? t("No chat models found (embedding-only models filtered)")
+              : t("No models found")
           );
         }
       }
     } catch (err) {
-      setModelsError(err instanceof Error ? err.message : "Failed to load models");
+      setModelsError(err instanceof Error ? t(err.message) : t("Failed to load models"));
     } finally {
       setModelsLoading(false);
     }
@@ -292,20 +293,20 @@ export function LLMSettings() {
         <Zap className="h-4 w-4 text-primary shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-foreground">
-            Active: {PROVIDER_DISPLAY[llmProvider]?.label || llmProvider}
-            {llmModel ? ` / ${llmModel}` : " — no model selected"}
+            {t("Active: ")}{PROVIDER_DISPLAY[llmProvider]?.label || llmProvider}
+            {llmModel ? ` / ${llmModel}` : t(" — no model selected")}
           </p>
           <p className="mt-0.5 text-xs text-muted-foreground">
             {llmModel
-              ? "This provider and model will be used for AI responses"
-              : "Select a provider, test connection, and load models below"}
+              ? t("This provider and model will be used for AI responses")
+              : t("Select a provider, test connection, and load models below")}
           </p>
         </div>
       </div>
 
       {/* Provider Selection */}
       <div className="rounded-xl border border-border/30 bg-card/50 p-5">
-        <h3 className="mb-3 text-sm font-semibold text-primary/80">Provider</h3>
+        <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("Provider")}</h3>
         <div className="grid grid-cols-4 gap-2.5">
           {ALL_PROVIDERS.map((pType) => {
             const display = PROVIDER_DISPLAY[pType];
@@ -341,10 +342,10 @@ export function LLMSettings() {
                   ) : (
                     <Cloud className="h-3.5 w-3.5 text-muted-foreground" />
                   )}
-                  <span className="text-xs font-medium truncate">{display.label}</span>
+                  <span className="text-xs font-medium truncate">{t(display.label)}</span>
                 </div>
                 <span className="mt-0.5 text-meta text-muted-foreground line-clamp-1">
-                  {display.description}
+                  {t(display.description)}
                 </span>
                 {/* Badge label */}
                 <span className={`mt-1.5 inline-flex items-center rounded-full border px-1.5 py-0.5 text-meta font-medium ${BADGE_STYLES[badge.variant]}`}>
@@ -359,7 +360,7 @@ export function LLMSettings() {
       {/* API Key Input (for cloud providers) */}
       {requiresApiKey && (
         <div className="rounded-xl border border-border/30 bg-card/50 p-5">
-          <h3 className="mb-3 text-sm font-semibold text-primary/80">API Key</h3>
+          <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("API Key")}</h3>
           <div className="flex gap-2">
             <div className="relative flex-1">
               <input
@@ -374,26 +375,24 @@ export function LLMSettings() {
               <button
                 onClick={() => setShowApiKey(!showApiKey)}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground cursor-pointer"
-                title={showApiKey ? "Hide" : "Show"}
-                aria-label={showApiKey ? "Hide API key" : "Show API key"}
+                title={showApiKey ? t("Hide") : t("Show")}
+                aria-label={showApiKey ? t("Hide API key") : t("Show API key")}
                 aria-pressed={showApiKey}
               >
                 {showApiKey ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
               </button>
             </div>
           </div>
-          <p className="mt-1.5 text-xs text-muted-foreground">
-            Stored securely in your system keychain
-          </p>
+          <p className="mt-1.5 text-xs text-muted-foreground">{t("Stored securely in your system keychain")}</p>
         </div>
       )}
 
       {/* Custom Provider Config */}
       {isCustom && (
         <div className="space-y-4 rounded-xl border border-border/30 bg-card/50 p-5">
-          <h3 className="text-sm font-semibold text-primary/80">Custom Provider</h3>
+          <h3 className="text-sm font-semibold text-primary/80">{t("Custom Provider")}</h3>
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-foreground">Base URL</label>
+            <label className="mb-1.5 block text-xs font-medium text-foreground">{t("Base URL")}</label>
             <input
               type="text"
               value={customBaseUrl}
@@ -405,27 +404,27 @@ export function LLMSettings() {
           </div>
           <div className="flex gap-3">
             <div className="flex-1">
-              <label className="mb-1.5 block text-xs font-medium text-foreground">Auth Type</label>
+              <label className="mb-1.5 block text-xs font-medium text-foreground">{t("Auth Type")}</label>
               <select
                 value={customAuthType}
                 onChange={(e) => setCustomAuthType(e.target.value as "none" | "bearer" | "api_key")}
                 className="w-full rounded-lg border border-border/50 bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
               >
-                <option value="none">None</option>
-                <option value="bearer">Bearer Token</option>
-                <option value="api_key">API Key Header</option>
+                <option value="none">{t("None")}</option>
+                <option value="bearer">{t("Bearer Token")}</option>
+                <option value="api_key">{t("API Key Header")}</option>
               </select>
             </div>
             {customAuthType !== "none" && (
               <div className="flex-1">
                 <label className="mb-1.5 block text-xs font-medium text-foreground">
-                  {customAuthType === "bearer" ? "Token" : "API Key"}
+                  {customAuthType === "bearer" ? t("Token") : t("API Key")}
                 </label>
                 <input
                   type="password"
                   value={customAuthValue}
                   onChange={(e) => setCustomAuthValue(e.target.value)}
-                  placeholder={customAuthType === "bearer" ? "Bearer token..." : "API key..."}
+                  placeholder={customAuthType === "bearer" ? t("Bearer token...") : t("API key...")}
                   maxLength={256}
                   className="w-full rounded-lg border border-border/50 bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20"
                 />
@@ -441,15 +440,15 @@ export function LLMSettings() {
           <Server className="h-4 w-4 text-muted-foreground shrink-0" />
           <span className="text-xs text-muted-foreground">
             {selectedProvider === "ollama"
-              ? "Requires Ollama running on localhost:11434"
-              : "Requires LM Studio running on localhost:1234"}
+              ? t("Requires Ollama running on localhost:11434")
+              : t("Requires LM Studio running on localhost:1234")}
           </span>
         </div>
       )}
 
       {/* Connection Test & Model Loading */}
       <div className="rounded-xl border border-border/30 bg-card/50 p-5">
-        <h3 className="mb-3 text-sm font-semibold text-primary/80">Connection</h3>
+        <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("Connection")}</h3>
         <div className="flex items-center gap-2">
           <button
             onClick={handleTestConnection}
@@ -457,16 +456,14 @@ export function LLMSettings() {
             className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background px-4 py-2 text-sm font-medium text-foreground transition-all duration-150 hover:bg-accent hover:-translate-y-px active:translate-y-px active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:active:scale-100 cursor-pointer"
           >
             {connectionStatus === "testing" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Wifi className="h-3.5 w-3.5" />}
-            Test Connection
-          </button>
+            {t("Test Connection\r\n          ")}</button>
           <button
             onClick={handleLoadModels}
             disabled={modelsLoading || (requiresApiKey && !apiKey) || (isCustom && !customBaseUrl)}
             className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-background px-4 py-2 text-sm font-medium text-foreground transition-all duration-150 hover:bg-accent hover:-translate-y-px active:translate-y-px active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:active:scale-100 cursor-pointer"
           >
             {modelsLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
-            Load Models
-          </button>
+            {t("Load Models\r\n          ")}</button>
           {connectionStatus === "success" && (
             <div className="flex items-center gap-1 text-success">
               <CheckCircle className="h-3.5 w-3.5" />
@@ -484,7 +481,7 @@ export function LLMSettings() {
 
       {/* Model Selection */}
       <div className="rounded-xl border border-border/30 bg-card/50 p-5">
-        <h3 className="mb-3 text-sm font-semibold text-primary/80">Model</h3>
+        <h3 className="mb-3 text-sm font-semibold text-primary/80">{t("Model")}</h3>
         {selectedProvider === "openrouter" && openRouterModels.length > 0 ? (
           <OpenRouterModelCatalog models={openRouterModels} />
         ) : models.length > 0 ? (
@@ -493,7 +490,7 @@ export function LLMSettings() {
             onChange={(e) => handleModelSelect(e.target.value)}
             className="w-full rounded-lg border border-border/50 bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/20 cursor-pointer"
           >
-            <option value="">Select a model...</option>
+            <option value="">{t("Select a model...")}</option>
             {models.map((m) => (
               <option key={m.id} value={m.id}>
                 {m.name}{m.context_window ? ` (${Math.round(m.context_window / 1000)}K ctx)` : ""}
@@ -503,7 +500,7 @@ export function LLMSettings() {
         ) : (
           <div className="rounded-lg border border-border/30 bg-accent/20 px-4 py-3">
             <p className="text-xs text-muted-foreground">
-              {modelsError || (modelsLoading ? "Loading models..." : 'Click "Load Models" to fetch available models')}
+              {modelsError || (modelsLoading ? t("Loading models...") : t("Click \"Load Models\" to fetch available models"))}
             </p>
           </div>
         )}
@@ -529,8 +526,7 @@ export function LLMSettings() {
           }}
           className="w-full rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm font-medium text-primary transition-all duration-150 hover:bg-primary/10 hover:-translate-y-px active:translate-y-px active:scale-[0.99] cursor-pointer"
         >
-          Set {PROVIDER_DISPLAY[selectedProvider]?.label || selectedProvider} as Active Provider
-        </button>
+          {t("Set ")}{PROVIDER_DISPLAY[selectedProvider]?.label || selectedProvider} {t("as Active Provider\r\n        ")}</button>
       )}
     </div>
   );

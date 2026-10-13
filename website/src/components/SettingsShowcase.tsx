@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { t, type WebsiteLocale } from '../i18n';
 
 /* ─── Data ─── */
 
@@ -23,11 +24,13 @@ const baseUrl = '/NexQ/';
 
 function Lightbox({
   setting,
+  locale,
   onClose,
   onPrev,
   onNext,
 }: {
   setting: SettingPanel;
+  locale: WebsiteLocale;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
@@ -79,7 +82,7 @@ function Lightbox({
           onClick={onClose}
           className="absolute -top-10 right-0 flex h-8 w-8 items-center justify-center rounded-full transition-colors"
           style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#8888a0' }}
-          aria-label="Close"
+          aria-label={t('Close', locale)}
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -92,7 +95,7 @@ function Lightbox({
           onClick={(e) => { e.stopPropagation(); onPrev(); }}
           className="absolute left-0 top-1/2 -translate-x-12 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full transition-colors"
           style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: '#8888a0' }}
-          aria-label="Previous"
+          aria-label={t('Previous', locale)}
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -105,7 +108,7 @@ function Lightbox({
           onClick={(e) => { e.stopPropagation(); onNext(); }}
           className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 flex h-10 w-10 items-center justify-center rounded-full transition-colors"
           style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: '#8888a0' }}
-          aria-label="Next"
+          aria-label={t('Next', locale)}
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -117,7 +120,7 @@ function Lightbox({
           <motion.img
             key={setting.screenshot}
             src={`${baseUrl}screenshots/Setting/${setting.screenshot}`}
-            alt={`${setting.name} settings panel`}
+            alt={`${t(setting.name, locale)}${locale === 'zh-CN' ? '设置面板' : ' settings panel'}`}
             className="max-h-[80vh] w-auto rounded-lg object-contain"
             style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.5)' }}
             initial={{ opacity: 0 }}
@@ -129,7 +132,7 @@ function Lightbox({
 
         {/* Caption */}
         <p className="mt-4 text-sm font-medium" style={{ color: '#8888a0' }}>
-          {setting.name}
+          {t(setting.name, locale)}
         </p>
       </motion.div>
     </motion.div>
@@ -138,7 +141,7 @@ function Lightbox({
 
 /* ─── Main Component ─── */
 
-export default function SettingsShowcase() {
+export default function SettingsShowcase({ locale }: { locale: WebsiteLocale }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const openLightbox = (i: number) => setLightboxIndex(i);
@@ -155,9 +158,9 @@ export default function SettingsShowcase() {
   return (
     <section className="section-container">
       <div className="mb-12 text-center">
-        <h2 className="section-title">Highly customizable</h2>
+        <h2 className="section-title">{t('Highly customizable', locale)}</h2>
         <p className="section-subtitle mx-auto">
-          11 settings panels. Every provider, shortcut, and behavior tuned to your workflow.
+          {t('11 settings panels. Every provider, shortcut, and behavior tuned to your workflow.', locale)}
         </p>
       </div>
 
@@ -176,14 +179,14 @@ export default function SettingsShowcase() {
             <div className="overflow-hidden" style={{ aspectRatio: '16 / 10' }}>
               <img
                 src={`${baseUrl}screenshots/Setting/${setting.screenshot}`}
-                alt={`${setting.name} settings panel`}
+                alt={`${t(setting.name, locale)}${locale === 'zh-CN' ? '设置面板' : ' settings panel'}`}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                 loading="lazy"
               />
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <span className="text-sm font-medium" style={{ color: '#8888a0' }}>
-                {setting.name}
+                {t(setting.name, locale)}
               </span>
               {/* Expand icon hint */}
               <svg
@@ -206,6 +209,7 @@ export default function SettingsShowcase() {
         {lightboxIndex !== null && (
           <Lightbox
             setting={settings[lightboxIndex]}
+            locale={locale}
             onClose={closeLightbox}
             onPrev={goPrev}
             onNext={goNext}

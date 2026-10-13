@@ -1,5 +1,12 @@
 ---
 // FinalCTA.astro — full-width call-to-action before footer
+import { t, type WebsiteLocale } from '../i18n';
+
+interface Props {
+  locale: WebsiteLocale;
+}
+
+const { locale } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
@@ -9,17 +16,17 @@ const baseUrl = import.meta.env.BASE_URL;
 
   <div class="mx-auto max-w-3xl px-6 text-center">
     <h2 class="text-3xl font-extrabold text-text-primary md:text-4xl">
-      Ready to own your meetings?
+      {t('Ready to own your meetings?', locale)}
     </h2>
     <p class="mt-4 text-text-secondary">
-      Free. Private. Open source. Download NexQ and take control.
+      {t('Free. Private. Open source. Download NexQ and take control.', locale)}
     </p>
     <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
       <a
         href="https://github.com/VahidAlizadeh/NexQ/releases/latest"
         class="btn-primary"
       >
-        Download for Windows
+        {t('Download for Windows', locale)}
       </a>
       <a
         href="https://github.com/VahidAlizadeh/NexQ"
@@ -27,7 +34,7 @@ const baseUrl = import.meta.env.BASE_URL;
         rel="noopener noreferrer"
         class="btn-secondary"
       >
-        Star on GitHub
+        {t('Star on GitHub', locale)}
       </a>
     </div>
   </div>

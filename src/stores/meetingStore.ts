@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { t } from "../lib/i18n";
 import type { AppView, Meeting, MeetingSummary, AudioMode, AIScenario } from "../lib/types";
 import {
   startMeeting as ipcStartMeeting,
@@ -152,7 +153,7 @@ export const useMeetingStore = create<MeetingState>((set, get) => ({
           if (!hasDiarization) {
             const { showToast } = await import("../stores/toastStore");
             showToast(
-              "Local STT doesn't support speaker separation — all speech labeled as Room.",
+              t("Local STT doesn't support speaker separation — all speech labeled as Room."),
               "info"
             );
           }

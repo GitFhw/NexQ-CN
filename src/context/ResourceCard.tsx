@@ -3,6 +3,7 @@ import { FileText, X, RefreshCw } from "lucide-react";
 import type { ContextResource, RagIndexStatus } from "../lib/types";
 import { useConfigStore } from "../stores/configStore";
 import { useRagStore } from "../stores/ragStore";
+import { t } from "../lib/i18n";
 import { rebuildFileIndex } from "../lib/ipc";
 import { showToast } from "../stores/toastStore";
 
@@ -21,11 +22,11 @@ export function ResourceCard({ resource, onRemove }: ResourceCardProps) {
     setIsReindexing(true);
     try {
       await rebuildFileIndex(resource.id);
-      showToast(`Re-indexed "${resource.name}"`, "success");
+      showToast(t('Re-indexed "{name}"', { name: resource.name }), "success");
       useRagStore.getState().refreshIndexStatus();
     } catch (e) {
       console.error("Failed to re-index:", e);
-      showToast("Couldn't re-index file — try removing and re-adding it", "error");
+      showToast(t("Couldn't re-index file — try removing and re-adding it"), "error");
     } finally {
       setIsReindexing(false);
     }
@@ -78,7 +79,7 @@ export function ResourceCard({ resource, onRemove }: ResourceCardProps) {
             <span
               className={`flex-shrink-0 rounded-full px-2 py-0.5 text-meta font-medium ${fileIndexStatus.className}`}
             >
-              {fileIndexStatus.label}
+              {t(fileIndexStatus.label)}
             </span>
           )}
         </div>
@@ -87,12 +88,10 @@ export function ResourceCard({ resource, onRemove }: ResourceCardProps) {
         <div className="mt-1.5 flex items-center gap-3 text-xs text-muted-foreground">
           <span>{formatFileSize(resource.size_bytes)}</span>
           <span className="rounded-full bg-muted/40 px-2 py-0.5">
-            ~{formatTokenCount(resource.token_count)} tokens
-          </span>
+            ~{formatTokenCount(resource.token_count)} {t("tokens\r\n          ")}</span>
           {isRagActive && resource.chunk_count != null && resource.chunk_count > 0 && (
             <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary">
-              {resource.chunk_count} chunks
-            </span>
+              {resource.chunk_count} {t("chunks\r\n            ")}</span>
           )}
         </div>
 
@@ -110,7 +109,7 @@ export function ResourceCard({ resource, onRemove }: ResourceCardProps) {
           onClick={handleReindex}
           disabled={isReindexing}
           className="flex-shrink-0 rounded-lg p-1.5 text-muted-foreground/60 transition-colors hover:bg-primary/10 hover:text-primary opacity-0 group-hover:opacity-100"
-          title="Re-index file"
+          title={t("Re-index file")}
         >
           <RefreshCw className={`h-3.5 w-3.5 ${isReindexing ? "animate-spin" : ""}`} />
         </button>
@@ -124,7 +123,7 @@ export function ResourceCard({ resource, onRemove }: ResourceCardProps) {
             ? "bg-destructive/10 text-destructive hover:bg-destructive/20"
             : "text-muted-foreground/60 hover:bg-destructive/10 hover:text-destructive opacity-0 group-hover:opacity-100"
         }`}
-        title={confirmRemove ? "Click again to confirm removal" : "Remove file"}
+        title={confirmRemove ? t("Click again to confirm removal") : t("Remove file")}
       >
         <X className="h-4 w-4" />
       </button>

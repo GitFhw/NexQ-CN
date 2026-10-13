@@ -1,3 +1,4 @@
+import { t } from "../lib/i18n";
 // Sub-PRD 4: Rolling live transcript with auto-scroll and search
 // Displays transcript segments with auto-scroll behavior and search/filter.
 
@@ -150,14 +151,14 @@ export function TranscriptPanel() {
                   <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-primary opacity-40" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
                 </span>
-                <span className="text-xs font-medium text-primary">Capturing audio</span>
+                <span className="text-xs font-medium text-primary">{t("Capturing audio")}</span>
               </div>
-              <p className="text-meta text-muted-foreground/50">Speech will appear as it&apos;s detected</p>
+              <p className="text-meta text-muted-foreground/50">{t("Speech will appear as it's detected")}</p>
             </>
           ) : (
             <>
               <Mic className="h-5 w-5 text-muted-foreground/30" />
-              <p className="text-xs text-muted-foreground/50">Start a meeting to see the transcript</p>
+              <p className="text-xs text-muted-foreground/50">{t("Start a meeting to see the transcript")}</p>
             </>
           )}
         </div>
@@ -167,7 +168,7 @@ export function TranscriptPanel() {
               <AudioActivityBar
                 icon={<Radio className="h-3.5 w-3.5" />}
                 mutedIcon={<MicOff className="h-3.5 w-3.5" />}
-                label="Room"
+                label={t("Room")}
                 level={roomLevel}
                 colorClass="bg-purple-500"
                 trackClass="bg-purple-500/10"
@@ -180,7 +181,7 @@ export function TranscriptPanel() {
                 <AudioActivityBar
                   icon={<Mic className="h-3.5 w-3.5" />}
                   mutedIcon={<MicOff className="h-3.5 w-3.5" />}
-                  label="You"
+                  label={t("You")}
                   level={micLevel}
                   colorClass="bg-speaker-user"
                   trackClass="bg-speaker-user/10"
@@ -191,7 +192,7 @@ export function TranscriptPanel() {
                 <AudioActivityBar
                   icon={<Volume2 className="h-3.5 w-3.5" />}
                   mutedIcon={<VolumeX className="h-3.5 w-3.5" />}
-                  label="Them"
+                  label={t("Them")}
                   level={systemLevel}
                   colorClass="bg-speaker-interviewer"
                   trackClass="bg-speaker-interviewer/10"
@@ -217,20 +218,20 @@ export function TranscriptPanel() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search transcript..."
-          aria-label="Search transcript"
+          placeholder={t("Search transcript...")}
+          aria-label={t("Search transcript")}
           maxLength={200}
           className="flex-1 bg-transparent text-xs text-foreground/90 placeholder:text-muted-foreground/50 outline-none"
         />
         {searchQuery && (
           <>
             <span className="text-meta text-muted-foreground/60">
-              {matchCount} match{matchCount !== 1 ? "es" : ""}
+              {t(matchCount === 1 ? "{count} match" : "{count} matches", { count: matchCount })}
             </span>
             <button
               onClick={() => setSearchQuery("")}
               className="rounded-full p-0.5 text-muted-foreground/60 hover:text-foreground/70 hover:bg-accent/50"
-              aria-label="Clear search"
+              aria-label={t("Clear search")}
             >
               <X className="h-3 w-3" aria-hidden="true" />
             </button>
@@ -261,21 +262,21 @@ export function TranscriptPanel() {
 
       {/* Typeset controls */}
       <div className="flex items-center gap-2 mx-1 mb-1 px-2.5 py-1 border-t border-border/10">
-        <span className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/40 font-medium">Text</span>
+        <span className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/40 font-medium">{t("Text")}</span>
         <div className="flex items-center gap-0.5">
           <button onClick={() => setTranscriptFontSize(Math.max(10, transcriptFontSize - 1))} className="h-5 w-5 flex items-center justify-center rounded text-[0.6rem] text-muted-foreground/50 hover:bg-accent/40 transition-colors">A</button>
           <span className="text-[0.6rem] tabular-nums text-muted-foreground/50 w-5 text-center">{transcriptFontSize}</span>
           <button onClick={() => setTranscriptFontSize(Math.min(20, transcriptFontSize + 1))} className="h-5 w-5 flex items-center justify-center rounded text-[0.75rem] font-medium text-muted-foreground/50 hover:bg-accent/40 transition-colors">A</button>
         </div>
-        <ColorPickerButton value={transcriptTextColor} onChange={setTranscriptTextColor} label="Text color" />
+        <ColorPickerButton value={transcriptTextColor} onChange={setTranscriptTextColor} label={t("Text color")} />
         <div className="h-3 w-px bg-border/10" />
-        <span className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/40 font-medium">Translation</span>
+        <span className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/40 font-medium">{t("Translation")}</span>
         <div className="flex items-center gap-0.5">
           <button onClick={() => setTranslationFontSize(Math.max(9, translationFontSize - 1))} className="h-5 w-5 flex items-center justify-center rounded text-[0.6rem] text-muted-foreground/50 hover:bg-accent/40 transition-colors">A</button>
           <span className="text-[0.6rem] tabular-nums text-muted-foreground/50 w-5 text-center">{translationFontSize}</span>
           <button onClick={() => setTranslationFontSize(Math.min(18, translationFontSize + 1))} className="h-5 w-5 flex items-center justify-center rounded text-[0.75rem] font-medium text-muted-foreground/50 hover:bg-accent/40 transition-colors">A</button>
         </div>
-        <ColorPickerButton value={translationTextColor} onChange={setTranslationTextColor} label="Translation color" />
+        <ColorPickerButton value={translationTextColor} onChange={setTranslationTextColor} label={t("Translation color")} />
       </div>
 
       {/* Live audio activity indicators — mode-aware */}
@@ -285,7 +286,7 @@ export function TranscriptPanel() {
             <AudioActivityBar
               icon={<Radio className="h-3.5 w-3.5" />}
               mutedIcon={<MicOff className="h-3.5 w-3.5" />}
-              label="Room"
+              label={t("Room")}
               level={roomLevel}
               colorClass="bg-purple-500"
               trackClass="bg-purple-500/10"
@@ -298,7 +299,7 @@ export function TranscriptPanel() {
               <AudioActivityBar
                 icon={<Mic className="h-3.5 w-3.5" />}
                 mutedIcon={<MicOff className="h-3.5 w-3.5" />}
-                label="You"
+                label={t("You")}
                 level={micLevel}
                 colorClass="bg-speaker-user"
                 trackClass="bg-speaker-user/10"
@@ -309,7 +310,7 @@ export function TranscriptPanel() {
               <AudioActivityBar
                 icon={<Volume2 className="h-3.5 w-3.5" />}
                 mutedIcon={<VolumeX className="h-3.5 w-3.5" />}
-                label="Them"
+                label={t("Them")}
                 level={systemLevel}
                 colorClass="bg-speaker-interviewer"
                 trackClass="bg-speaker-interviewer/10"
@@ -334,8 +335,7 @@ export function TranscriptPanel() {
           }}
           className="mx-auto mb-1.5 rounded-full bg-primary/10 px-4 py-1 text-meta font-medium text-primary shadow-sm transition-colors hover:bg-primary/20 fade-in-up"
         >
-          Scroll to latest
-        </button>
+          {t("Scroll to latest\r\n        ")}</button>
       )}
     </div>
   );
@@ -383,7 +383,7 @@ function AudioActivityBar({
             ? "bg-destructive/10 text-destructive hover:bg-destructive/20"
             : `hover:bg-accent/50 ${isActive ? textClass : "text-muted-foreground/60"}`
         }`}
-        aria-label={muted ? `Unmute ${label}` : `Mute ${label}`}
+        aria-label={muted ? t("Unmute {label}", { label: t(label) }) : t("Mute {label}", { label: t(label) })}
         aria-pressed={muted}
       >
         {muted ? mutedIcon : icon}
@@ -398,7 +398,7 @@ function AudioActivityBar({
       <div
         className={`flex-1 h-2.5 rounded-full overflow-hidden ${muted ? "bg-muted/30" : trackClass}`}
         role="meter"
-        aria-label={`${label} audio level`}
+        aria-label={t("{label} audio level", { label: t(label) })}
         aria-valuenow={muted ? 0 : barWidth}
         aria-valuemin={0}
         aria-valuemax={100}
@@ -417,7 +417,7 @@ function AudioActivityBar({
       <span className={`shrink-0 w-10 text-right text-meta font-medium tabular-nums transition-colors duration-150 ${
         muted ? "text-destructive/40" : isActive ? textClass : "text-muted-foreground/60"
       }`}>
-        {muted ? "Muted" : `${barWidth}%`}
+        {muted ? t("Muted") : `${barWidth}%`}
       </span>
 
       {isActive && (
